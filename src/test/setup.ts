@@ -14,13 +14,13 @@ vi.mock('../lib/supabase', () => ({
       range: vi.fn().mockReturnThis(),
       order: vi.fn().mockReturnThis(),
       limit: vi.fn().mockReturnThis(),
-      single: vi.fn().resolves({ data: null, error: null }),
+      single: vi.fn().mockResolvedValue({ data: null, error: null }),
     })),
     auth: {
       signInWithPassword: vi.fn(),
       signOut: vi.fn(),
       onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: vi.fn() } } })),
-      getSession: vi.fn().resolves({ data: { session: null }, error: null }),
+      getSession: vi.fn().mockResolvedValue({ data: { session: null }, error: null }),
     },
   },
 }));

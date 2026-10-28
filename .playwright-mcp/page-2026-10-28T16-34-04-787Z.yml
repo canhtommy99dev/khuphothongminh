@@ -1,0 +1,184 @@
+- generic [ref=e3]:
+  - link "Bỏ qua đến nội dung chính" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - button "Về trang chủ Cổng Cư dân số" [ref=e7] [cursor=pointer]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: Khu phố 3 – Phường An Phú
+          - generic [ref=e15]: Cổng thông tin cộng đồng & tiện ích số
+      - navigation "Điều hướng chính" [ref=e16]:
+        - button "Trang chủ" [ref=e17] [cursor=pointer]
+        - button "Tiện ích" [ref=e18] [cursor=pointer]
+        - button "Phản ánh" [ref=e19] [cursor=pointer]
+        - button "Biểu mẫu" [active] [ref=e20] [cursor=pointer]
+        - button "Thông báo" [ref=e21] [cursor=pointer]
+        - button "Tin tức" [ref=e22] [cursor=pointer]
+        - button "Cán bộ" [ref=e23] [cursor=pointer]
+        - button "Lịch hoạt động" [ref=e24] [cursor=pointer]
+      - button "Cổng dành cho cán bộ" [ref=e26] [cursor=pointer]
+  - main [ref=e32]:
+    - generic [ref=e188]:
+      - navigation "Breadcrumb" [ref=e189]:
+        - button "Trang chủ" [ref=e190] [cursor=pointer]
+        - generic [ref=e196]: Biểu mẫu
+      - generic [ref=e197]:
+        - generic [ref=e198]:
+          - heading "Biểu mẫu" [level=1] [ref=e199]
+          - paragraph [ref=e200]: Kho biểu mẫu hành chính tải về
+        - button "← Về toàn bộ trang chủ" [ref=e201] [cursor=pointer]
+    - generic [ref=e204]:
+      - generic [ref=e205]:
+        - generic [ref=e206]:
+          - heading "Kho biểu mẫu" [level=2] [ref=e212]
+          - paragraph [ref=e213]: Biểu mẫu công khai trong hệ thống. Bấm “Hướng dẫn” để xem hồ sơ cần chuẩn bị.
+        - button "Mở trang biểu mẫu đầy đủ" [ref=e214] [cursor=pointer]
+      - generic [ref=e217]:
+        - generic [ref=e218]:
+          - generic [ref=e219]: Tìm biểu mẫu
+          - searchbox "Tìm biểu mẫu" [ref=e223]
+        - group "Lọc theo nhóm thủ tục" [ref=e224]:
+          - button "Tất cả" [pressed] [ref=e225] [cursor=pointer]
+          - button "Cư trú & Hộ khẩu" [ref=e226] [cursor=pointer]
+          - button "Địa chính & Nhà ở" [ref=e227] [cursor=pointer]
+          - button "Hộ kinh doanh" [ref=e228] [cursor=pointer]
+          - button "Hộ tịch & Tư pháp" [ref=e229] [cursor=pointer]
+          - button "An sinh xã hội" [ref=e230] [cursor=pointer]
+          - button "Tổ dân phố & Chi bộ" [ref=e231] [cursor=pointer]
+      - list [ref=e232]:
+        - listitem [ref=e233]:
+          - generic [ref=e234]:
+            - generic [ref=e235]:
+              - generic [ref=e236]: Mẫu CT01
+              - generic [ref=e237]: DOCX / PDF · 48 KB
+            - heading "Tờ khai thay đổi thông tin cư trú" [level=3] [ref=e238]
+            - paragraph [ref=e239]: Sử dụng khi công dân thực hiện các thủ tục đăng ký thường trú, tạm trú, tách hộ, khai báo tạm vắng, thay đổi chủ hộ hoặc điều chỉnh thông tin cư trú trên Cơ sở dữ liệu quốc gia về dân cư.
+            - paragraph [ref=e240]: "Nơi tiếp nhận: Bộ Công an (Thông tư số 56/2021/TT-BCA)"
+          - generic [ref=e241]:
+            - button "Hướng dẫn" [ref=e242] [cursor=pointer]
+            - button "Tải về" [ref=e246] [cursor=pointer]
+        - listitem [ref=e250]:
+          - generic [ref=e251]:
+            - generic [ref=e252]:
+              - generic [ref=e253]: Mẫu ĐN-SN01
+              - generic [ref=e254]: DOCX / PDF · 52 KB
+            - heading "Đơn xin cấp biển số nhà / Giấy chứng nhận số nhà" [level=3] [ref=e255]
+            - paragraph [ref=e256]: Áp dụng cho các hộ dân xây dựng nhà mới, cải tạo nhà ở, nhà trong hẻm chưa được gắn số hoặc có nhu cầu đổi, cấp lại biển số nhà để thuận tiện trong liên hệ thư tín, giao dịch hành chính và điện nước.
+            - paragraph [ref=e257]: "Nơi tiếp nhận: UBND Phường An Phú & UBND TP. Thủ Đức"
+          - generic [ref=e258]:
+            - button "Hướng dẫn" [ref=e259] [cursor=pointer]
+            - button "Tải về" [ref=e263] [cursor=pointer]
+        - listitem [ref=e267]:
+          - generic [ref=e268]:
+            - generic [ref=e269]:
+              - generic [ref=e270]: Mẫu Phụ lục III-1
+              - generic [ref=e271]: DOCX / PDF · 64 KB
+            - heading "Giấy đề nghị đăng ký hộ kinh doanh cá thể" [level=3] [ref=e272]
+            - paragraph [ref=e273]: Biểu mẫu bắt buộc cho các cá nhân, thành viên hộ gia đình mở cửa hàng ăn uống, tạp hóa, cà phê, giặt ủi, thời trang, sửa chữa xe trên địa bàn Khu phố 3 đăng ký thành lập Hộ kinh doanh cá thể.
+            - paragraph [ref=e274]: "Nơi tiếp nhận: Bộ Kế hoạch & Đầu tư (Nghị định 01/2021/NĐ-CP)"
+          - generic [ref=e275]:
+            - button "Hướng dẫn" [ref=e276] [cursor=pointer]
+            - button "Tải về" [ref=e280] [cursor=pointer]
+        - listitem [ref=e284]:
+          - generic [ref=e285]:
+            - generic [ref=e286]:
+              - generic [ref=e287]: Mẫu CT02
+              - generic [ref=e288]: DOCX / PDF · 42 KB
+            - heading "Tờ khai đề nghị xác nhận thông tin về cư trú" [level=3] [ref=e289]
+            - paragraph [ref=e290]: Được dùng khi công dân cần cấp Giấy xác nhận thông tin về cư trú (thay thế sổ hộ khẩu giấy) để phục vụ giải quyết thủ tục nhà đất, vay vốn ngân hàng, đăng ký kết hôn, chuyển trường học cho con em.
+            - paragraph [ref=e291]: "Nơi tiếp nhận: Bộ Công an (Thông tư số 56/2021/TT-BCA)"
+          - generic [ref=e292]:
+            - button "Hướng dẫn" [ref=e293] [cursor=pointer]
+            - button "Tải về" [ref=e297] [cursor=pointer]
+        - listitem [ref=e301]:
+          - generic [ref=e302]:
+            - generic [ref=e303]:
+              - generic [ref=e304]: Mẫu XN-KP03
+              - generic [ref=e305]: DOCX / PDF · 38 KB
+            - heading "Đơn xin xác nhận tình trạng cư trú thực tế tại Khu phố 3" [level=3] [ref=e306]
+            - paragraph [ref=e307]: Dành cho cư dân tạm trú, công nhân thuê trọ, sinh viên hoặc người lao động cần Tổ dân phố và Trưởng khu phố xác nhận tình trạng sinh sống thực tế trên địa bàn để nộp hồ sơ xin việc, bảo hiểm xã hội.
+            - paragraph [ref=e308]: "Nơi tiếp nhận: Ban Điều hành Khu phố 3, Phường An Phú"
+          - generic [ref=e309]:
+            - button "Hướng dẫn" [ref=e310] [cursor=pointer]
+            - button "Tải về" [ref=e314] [cursor=pointer]
+        - listitem [ref=e318]:
+          - generic [ref=e319]:
+            - generic [ref=e320]:
+              - generic [ref=e321]: Mẫu SC-01
+              - generic [ref=e322]: DOCX / PDF · 44 KB
+            - heading "Đơn thông báo cải tạo, sửa chữa nhà ở không thay đổi kết cấu" [level=3] [ref=e323]
+            - paragraph [ref=e324]: Thủ tục thông báo khi sửa chữa nhỏ như lợp lại mái tôn, thay gạch nền, sơn sửa tường, chống thấm dột nhà ở trong các tuyến hẻm Khu phố 3 nhằm tránh bị xử phạt trật tự xây dựng.
+            - paragraph [ref=e325]: "Nơi tiếp nhận: UBND Phường An Phú (Bộ phận Đô thị - Xây dựng)"
+          - generic [ref=e326]:
+            - button "Hướng dẫn" [ref=e327] [cursor=pointer]
+            - button "Tải về" [ref=e331] [cursor=pointer]
+        - listitem [ref=e335]:
+          - generic [ref=e336]:
+            - generic [ref=e337]:
+              - generic [ref=e338]: Mẫu TP-HN01
+              - generic [ref=e339]: DOCX / PDF · 46 KB
+            - heading "Tờ khai cấp Giấy xác nhận tình trạng hôn nhân" [level=3] [ref=e340]
+            - paragraph [ref=e341]: Dùng để xin cấp giấy xác nhận tình trạng độc thân hoặc chưa kết hôn của công dân thường trú tại Khu phố 3 để đăng ký kết hôn, chuyển nhượng nhà đất, vay vốn ngân hàng.
+            - paragraph [ref=e342]: "Nơi tiếp nhận: Bộ Tư pháp (Thông tư số 04/2020/TT-BTP)"
+          - generic [ref=e343]:
+            - button "Hướng dẫn" [ref=e344] [cursor=pointer]
+            - button "Tải về" [ref=e348] [cursor=pointer]
+        - listitem [ref=e352]:
+          - generic [ref=e353]:
+            - generic [ref=e354]:
+              - generic [ref=e355]: Mẫu PCCC-01
+              - generic [ref=e356]: DOCX / PDF · 40 KB
+            - heading "Bản cam kết an toàn PCCC & Trật tự đô thị cho hộ kinh doanh" [level=3] [ref=e357]
+            - paragraph [ref=e358]: Bản cam kết bắt buộc đối với các hộ kinh doanh nhà trọ, quán ăn, xưởng mộc, tiệm tạp hóa trong khu dân cư về việc trang bị bình chữa cháy, không lấn chiếm lối thoát nạn hẻm chung.
+            - paragraph [ref=e359]: "Nơi tiếp nhận: Công an Phường An Phú & Ban Điều hành Khu phố 3"
+          - generic [ref=e360]:
+            - button "Hướng dẫn" [ref=e361] [cursor=pointer]
+            - button "Tải về" [ref=e365] [cursor=pointer]
+        - listitem [ref=e369]:
+          - generic [ref=e370]:
+            - generic [ref=e371]:
+              - generic [ref=e372]: Mẫu NĐ20-01
+              - generic [ref=e373]: DOCX / PDF · 50 KB
+            - heading "Tờ khai đề nghị trợ cấp xã hội / Hỗ trợ người cao tuổi" [level=3] [ref=e374]
+            - paragraph [ref=e375]: Thủ tục xét duyệt nhận trợ cấp hằng tháng cho người cao tuổi từ 80 tuổi trở lên không có lương hưu, người khuyết tật nặng hoặc đối tượng có hoàn cảnh đặc biệt khó khăn.
+            - paragraph [ref=e376]: "Nơi tiếp nhận: Bộ Lao động - TB&XH (Nghị định 20/2021/NĐ-CP)"
+          - generic [ref=e377]:
+            - button "Hướng dẫn" [ref=e378] [cursor=pointer]
+            - button "Tải về" [ref=e382] [cursor=pointer]
+        - listitem [ref=e386]:
+          - generic [ref=e387]:
+            - generic [ref=e388]:
+              - generic [ref=e389]: Mẫu QĐ213-CB
+              - generic [ref=e390]: DOCX / PDF · 45 KB
+            - heading "Phiếu nhận xét đảng viên sinh hoạt nơi cư trú (Quy định 213)" [level=3] [ref=e391]
+            - paragraph [ref=e392]: Dành cho cán bộ, công chức, viên chức là đảng viên đang công tác gửi về Chi ủy Chi bộ Khu phố 3 xin nhận xét, đánh giá việc chấp hành chủ trương, nghĩa vụ công dân nơi cư trú cuối năm.
+            - paragraph [ref=e393]: "Nơi tiếp nhận: Ban Chấp hành Trung ương Đảng (Quy định 213-QĐ/TW)"
+          - generic [ref=e394]:
+            - button "Hướng dẫn" [ref=e395] [cursor=pointer]
+            - button "Tải về" [ref=e399] [cursor=pointer]
+        - listitem [ref=e403]:
+          - generic [ref=e404]:
+            - generic [ref=e405]:
+              - generic [ref=e406]: Mẫu NA17
+              - generic [ref=e407]: DOCX / PDF · 52 KB
+            - heading "Phiếu khai báo tạm trú cho người nước ngoài (Bilingual)" [level=3] [ref=e408]
+            - paragraph [ref=e409]: Áp dụng cho người nước ngoài tạm trú tại nhà trọ, nhà cho thuê, khách sạn, căn hộ hoặc cơ sở lưu trú trên địa bàn Khu phố 3, Phường An Phú khai báo tạm trú với cơ quan Công an phường theo Luật 47/2014/QH13.
+            - paragraph [ref=e410]: "Nơi tiếp nhận: Bộ Công an & Cục QLXNC (Thông tư 53/2016/TT-BCA)"
+          - generic [ref=e411]:
+            - button "Hướng dẫn" [ref=e412] [cursor=pointer]
+            - button "Tải về" [ref=e416] [cursor=pointer]
+  - contentinfo [ref=e166]:
+    - generic [ref=e167]:
+      - generic [ref=e168]:
+        - paragraph [ref=e169]: Khu phố 3 – Phường An Phú
+        - paragraph [ref=e170]: "Đơn vị phụ trách nội dung: Ban Điều hành Khu phố 3."
+        - link "bdhkhupho3.ap@gmail.com" [ref=e171] [cursor=pointer]:
+          - /url: mailto:bdhkhupho3.ap@gmail.com
+      - generic [ref=e175]:
+        - paragraph [ref=e176]: Nguồn tin & dữ liệu
+        - paragraph [ref=e177]: Thông báo, lịch hoạt động, biểu mẫu và phản ánh hiển thị từ hệ thống quản lý nội bộ của Khu phố 3. Số liệu quy mô địa bàn do Ban Điều hành cung cấp.
+      - generic [ref=e178]:
+        - paragraph [ref=e179]: Bảo vệ dữ liệu
+        - paragraph [ref=e180]: Thông tin cá nhân trong phản ánh chỉ dùng cho mục đích tiếp nhận và xử lý, chỉ cán bộ có thẩm quyền được truy cập.
+        - button "Cổng dành cho cán bộ" [ref=e181] [cursor=pointer]
+    - generic [ref=e186]: Cổng thông tin cộng đồng do Ban Điều hành Khu phố 3 vận hành · Không phải cổng thông tin điện tử chính thức của cơ quan nhà nước.

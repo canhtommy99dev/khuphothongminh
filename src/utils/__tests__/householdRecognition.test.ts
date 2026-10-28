@@ -12,49 +12,58 @@ import type { Resident } from '../../types';
 const mockResidentHousehold: Resident[] = [
   {
     id: 'r1',
-    name: 'Nguyễn Văn Hùng',
+    fullName: 'Nguyễn Văn Hùng',
     gender: 'Nam',
-    dateOfBirth: '1970-05-15',
+    birthDate: '1970-05-15',
     cccd: '079070001234',
-    residencyType: 'Thường trú',
+    status: 'Thường trú',
     householdId: 'HK-001',
+    relationToOwner: 'Chủ hộ',
+    occupation: 'Kinh doanh',
+    address: '15 Đường Lương Định Của, KP3',
     currentAddress: '15 Đường Lương Định Của, KP3',
     permanentAddress: '15 Đường Lương Định Của, KP3',
     fatherName: '',
     motherName: '',
     managementStatus: 'Đang quản lý',
     phone: '0912345678',
-  } as Resident,
+  },
   {
     id: 'r2',
-    name: 'Trần Thị Lan',
+    fullName: 'Trần Thị Lan',
     gender: 'Nữ',
-    dateOfBirth: '1975-03-20',
+    birthDate: '1975-03-20',
     cccd: '079075005678',
-    residencyType: 'Thường trú',
+    status: 'Thường trú',
     householdId: 'HK-001',
+    relationToOwner: 'Vợ',
+    occupation: 'Nội trợ',
+    address: '15 Đường Lương Định Của, KP3',
     currentAddress: '15 Đường Lương Định Của, KP3',
     permanentAddress: '15 Đường Lương Định Của, KP3',
     fatherName: '',
     motherName: '',
     managementStatus: 'Đang quản lý',
     phone: '0987654321',
-  } as Resident,
+  },
   {
     id: 'r3',
-    name: 'Nguyễn Thị Hoa',
+    fullName: 'Nguyễn Thị Hoa',
     gender: 'Nữ',
-    dateOfBirth: '2000-08-10',
+    birthDate: '2000-08-10',
     cccd: '079000009012',
-    residencyType: 'Thường trú',
+    status: 'Thường trú',
     householdId: 'HK-001',
+    relationToOwner: 'Con gái',
+    occupation: 'Sinh viên',
+    address: '15 Đường Lương Định Của, KP3',
     currentAddress: '15 Đường Lương Định Của, KP3',
     permanentAddress: '15 Đường Lương Định Của, KP3',
     fatherName: 'Nguyễn Văn Hùng',
     motherName: 'Trần Thị Lan',
     managementStatus: 'Đang quản lý',
     phone: '',
-  } as Resident,
+  },
 ];
 
 // ============================================================
@@ -78,9 +87,9 @@ describe('Nhận diện hộ gia đình KP3', () => {
       const members = mockResidentHousehold;
       const sorted = [...members].sort(
         (a, b) =>
-          new Date(a.dateOfBirth || '').getTime() - new Date(b.dateOfBirth || '').getTime()
+          new Date(a.birthDate || '').getTime() - new Date(b.birthDate || '').getTime()
       );
-      expect(sorted[0].name).toBe('Nguyễn Văn Hùng');
+      expect(sorted[0].fullName).toBe('Nguyễn Văn Hùng');
     });
   });
 
@@ -91,7 +100,7 @@ describe('Nhận diện hộ gia đình KP3', () => {
       const spouse = mockResidentHousehold[1];
 
       const isChildOf =
-        child.fatherName === head.name || child.motherName === spouse.name;
+        child.fatherName === head.fullName || child.motherName === spouse.fullName;
 
       expect(isChildOf).toBe(true);
     });
