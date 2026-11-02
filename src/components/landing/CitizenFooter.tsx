@@ -1,6 +1,6 @@
 import React from "react";
 import { LockKeyhole, Mail } from "lucide-react";
-import { PUBLIC_CONTACT_EMAIL } from "./landingConstants";
+import { PUBLIC_CONTACT_EMAIL, ROUTES, Link } from "./landingConstants";
 
 export interface CitizenFooterProps {
   onOpenStaff: () => void;
@@ -36,12 +36,14 @@ export default function CitizenFooter({ onOpenStaff }: CitizenFooterProps) {
           <p className="text-blue-100/90">
             Thông tin cá nhân trong phản ánh chỉ dùng cho mục đích tiếp nhận và xử lý, chỉ cán bộ có thẩm quyền được truy cập.
           </p>
-          <button
+          <Link
+            to={ROUTES.DASHBOARD}
             onClick={onOpenStaff}
             className="inline-flex items-center gap-2 min-h-11 px-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 font-semibold cursor-pointer"
+            title="Đến Bảng Điều Hành Cán Bộ (/dashboard)"
           >
             <LockKeyhole size={16} aria-hidden="true" /> Cổng dành cho cán bộ
-          </button>
+          </Link>
         </div>
       </div>
 

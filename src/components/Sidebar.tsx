@@ -9,19 +9,20 @@ import {
   MessageSquare, 
   ShieldAlert, 
   Menu, 
-  X,
-  User,
-  Settings,
-  Heart,
-  CalendarDays,
-  Coins,
-  FileText,
-  LogOut,
-  Building2,
-  Store,
-  CalendarCheck
+  X, 
+  User, 
+  Settings, 
+  Heart, 
+  CalendarDays, 
+  Coins, 
+  FileText, 
+  LogOut, 
+  Building2, 
+  Store, 
+  CalendarCheck 
 } from "lucide-react";
 import { ActiveTab } from "../types";
+import { Link, getDashboardExtensionPath, navigate } from "../routes";
 
 interface SidebarProps {
   activeTab: ActiveTab;
@@ -39,8 +40,8 @@ export default function Sidebar({
   activeTab, 
   setActiveTab, 
   currentUser, 
-  onLogout,
-  onSwitchRole,
+  onLogout, 
+  onSwitchRole, 
   residentPermissions 
 }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -159,18 +160,22 @@ export default function Sidebar({
           )}
         </div>
 
-        {/* Navigation Items */}
+        {/* Navigation Items — Using Link extension: /dashboard/("sidebar content") */}
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           {visibleMenuItems.map((item) => {
             const IconComponent = item.icon;
             const isActive = activeTab === item.id;
+            const itemPath = getDashboardExtensionPath(item.id);
+
             return (
-              <button
+              <Link
                 key={item.id}
                 id={`nav-${item.id}`}
+                to={itemPath}
                 aria-current={isActive ? "page" : undefined}
                 onClick={() => {
                   setActiveTab(item.id as ActiveTab);
+                  navigate(itemPath);
                   // Auto-close on mobile
                   if (window.innerWidth < 768) {
                     setIsOpen(false);
@@ -182,6 +187,7 @@ export default function Sidebar({
                     : "text-slate-400 hover:bg-slate-800 hover:text-slate-100"
                   }
                 `}
+                title={`${item.label} (${itemPath})`}
               >
                 <IconComponent 
                   size={20} 
@@ -195,10 +201,10 @@ export default function Sidebar({
                 {/* Tooltip on compact mode */}
                 {!isOpen && (
                   <span className="absolute left-16 bg-slate-950 text-white text-xs rounded px-2 py-1.5 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50 shadow-md">
-                    {item.label}
+                    {item.label} ({itemPath})
                   </span>
                 )}
-              </button>
+              </Link>
             );
           })}
         </nav>
@@ -244,23 +250,25 @@ export default function Sidebar({
           </div>
 
           {isOpen && onSwitchRole && (
-            <button
+            <Link
+              to={currentUser?.role === "canbo" ? "/" : "/dashboard"}
               onClick={onSwitchRole}
               className="w-full py-2 px-2.5 bg-slate-900 hover:bg-slate-800 text-[11px] font-semibold text-slate-300 hover:text-white rounded-xl border border-slate-800 flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-xs"
             >
               <User size={13} className="text-emerald-400" />
               <span>{currentUser?.role === "nguoidan" ? "Đăng nhập Cán bộ" : "Về Cổng Cư dân"}</span>
-            </button>
+            </Link>
           )}
           
           {!isOpen && (
-            <button
+            <Link
+              to={currentUser?.role === "canbo" ? "/" : "/dashboard"}
               onClick={onSwitchRole || onLogout}
               className="w-full py-2.5 flex items-center justify-center text-slate-400 hover:text-emerald-400 hover:bg-slate-800 rounded-lg transition-all cursor-pointer"
               title={currentUser?.role === "nguoidan" ? "Đăng nhập Cán bộ" : "Về Cổng Cư dân"}
             >
               <User size={18} />
-            </button>
+            </Link>
           )}
         </div>
       </div>

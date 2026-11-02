@@ -45,6 +45,13 @@ import SettingsAndPermissions, { PendingRegistration } from "./components/Settin
 import AdministrativeForms from "./components/AdministrativeForms";
 import { inferRelationToOwner, extractBirthYear, autoExtractHostelBusinesses } from "./utils/householdRecognitionUtils";
 import CitizenLandingPage from "./components/CitizenLandingPage";
+import { 
+  ROUTES, 
+  navigate, 
+  getDashboardExtensionPath, 
+  getTabFromDashboardPath, 
+  Link 
+} from "./routes";
 import { supabase, isSupabaseConfigured } from "./lib/supabase";
 import { 
   Bell, 
@@ -200,6 +207,29 @@ export default function App() {
   const [reports, setReports] = useState<FieldReport[]>(initialReports);
   const [partyMembers] = useState<PartyMember[]>(initialPartyMembers);
   const [isDataLoading, setIsDataLoading] = useState(false);
+
+  // Đồng bộ route từ URL pathname: /dashboard, /dashboard/("sidebar content"), /login
+  useEffect(() => {
+    const handleLocationSync = () => {
+      const pathname = window.location.pathname;
+      const tab = getTabFromDashboardPath(pathname);
+      if (tab) {
+        setCurrentUser(CANBO_USER);
+        setActiveTab(tab as ActiveTab);
+        setCitizenSubView(null);
+      } else if (pathname === "/login") {
+        setCurrentUser(null);
+      }
+    };
+
+    handleLocationSync();
+    window.addEventListener("popstate", handleLocationSync);
+    window.addEventListener("app:navigate", handleLocationSync);
+    return () => {
+      window.removeEventListener("popstate", handleLocationSync);
+      window.removeEventListener("app:navigate", handleLocationSync);
+    };
+  }, []);
 
   // Nạp toàn bộ Dữ liệu thật từ Supabase PostgreSQL (11.632 Cư dân & 488 Hộ)
   useEffect(() => {
@@ -847,6 +877,7 @@ export default function App() {
         onBackToLanding={() => {
           setCurrentUser(PUBLIC_CITIZEN_USER);
           setCitizenSubView(null);
+          navigate(ROUTES.HOME);
         }}
       />
     );
@@ -868,11 +899,13 @@ export default function App() {
           setCurrentUser(CANBO_USER);
           setActiveTab("dashboard");
           setCitizenSubView(null);
+          navigate(ROUTES.DASHBOARD);
         }}
         onSwitchToCanBo={() => {
           setCurrentUser(CANBO_USER);
           setActiveTab("dashboard");
           setCitizenSubView(null);
+          navigate(ROUTES.DASHBOARD);
         }}
         onNavigateToTab={(tab) => {
           setCitizenSubView(tab);
@@ -893,6 +926,7 @@ export default function App() {
               onClick={() => {
                 setCitizenSubView(null);
                 setActiveTab("dashboard");
+                navigate(ROUTES.HOME);
               }}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all cursor-pointer shadow-2xs hover:shadow-xs"
               title="Quay lại Cổng Thông Tin Cư Dân"
@@ -916,6 +950,7 @@ export default function App() {
                 setCurrentUser(CANBO_USER);
                 setActiveTab("dashboard");
                 setCitizenSubView(null);
+                navigate(ROUTES.DASHBOARD);
               }}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#073B72] hover:bg-[#005BAC] text-white text-xs font-bold transition-colors cursor-pointer shadow-xs"
               title="Vào Cổng dành cho cán bộ quản lý"
@@ -1011,17 +1046,23 @@ export default function App() {
       {/* Sidebar Navigation */}
       <Sidebar 
         activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
+        setActiveTab={(tab) => {
+          setActiveTab(tab);
+          navigate(getDashboardExtensionPath(tab));
+        }} 
         currentUser={currentUser}
         onLogout={() => {
           setCurrentUser(PUBLIC_CITIZEN_USER);
           setActiveTab("dashboard");
+          navigate(ROUTES.HOME);
         }}
         onSwitchRole={() => {
           if (currentUser.role === "nguoidan") {
             setCurrentUser(CANBO_USER);
+            navigate(ROUTES.DASHBOARD);
           } else {
             setCurrentUser(PUBLIC_CITIZEN_USER);
+            navigate(ROUTES.HOME);
           }
           setActiveTab("dashboard");
         }}
@@ -1047,22 +1088,26 @@ export default function App() {
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             
             {/* Info button for Plan & Database design */}
-            <button
+            <Link
+              to={getDashboardExtensionPath("plan")}
               id="header-info-plan"
-              onClick={() => setActiveTab("plan")}
+              onClick={() => {
+                setActiveTab("plan");
+                navigate(getDashboardExtensionPath("plan"));
+              }}
               className={`p-1.5 rounded-lg transition-all duration-200 cursor-pointer relative group ${
                 activeTab === "plan" 
                   ? "bg-emerald-100 text-emerald-800" 
                   : "text-slate-500 hover:text-slate-800 hover:bg-slate-100"
               }`}
-              title="Đề án & Thiết kế Kiến trúc Cơ sở dữ liệu"
+              title="Đề án & Thiết kế Kiến trúc Cơ sở dữ liệu (/dashboard/plan)"
             >
               <Info size={18} className="sm:w-5 sm:h-5" />
               {/* Tooltip */}
               <span className="absolute top-10 right-0 bg-slate-900 text-white text-[10px] rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50 shadow-md">
-                Đề án & Thiết kế Kiến trúc Cơ sở dữ liệu
+                Đề án & Thiết kế Kiến trúc Cơ sở dữ liệu (/dashboard/plan)
               </span>
-            </button>
+            </Link>
 
             {/* Notifications panel toggle button */}
             <div className="relative group">

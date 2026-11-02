@@ -11,7 +11,7 @@ import {
   Users
 } from "lucide-react";
 import { AdministrativeForm, CommunityEvent, LocalNews } from "../../types";
-import { VERIFIED_LEADERSHIP } from "./landingConstants";
+import { VERIFIED_LEADERSHIP, ROUTES, Link } from "./landingConstants";
 
 export interface CitizenHeroProps {
   portalSearch: string;
@@ -65,18 +65,18 @@ export default function CitizenHero({
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3">
-            <button
-              onClick={() => goTo("reflection")}
+            <Link
+              to={ROUTES.REFLECTION}
               className="inline-flex items-center justify-center gap-2 min-h-12 px-6 rounded-xl text-base font-bold bg-white text-gov-navy hover:bg-blue-50 shadow-lg transition-all cursor-pointer"
             >
               <MessageSquare size={18} aria-hidden="true" /> Phản ánh hiện trường
-            </button>
-            <button
-              onClick={() => goTo("forms")}
+            </Link>
+            <Link
+              to={ROUTES.FORMS}
               className="inline-flex items-center justify-center gap-2 min-h-12 px-6 rounded-xl text-base font-semibold bg-white/10 border border-white/30 hover:bg-white/20 transition-all cursor-pointer"
             >
               <FileText size={18} aria-hidden="true" /> Tra cứu biểu mẫu
-            </button>
+            </Link>
           </div>
 
           {/* Tìm kiếm toàn cổng */}
@@ -155,11 +155,11 @@ export default function CitizenHero({
                       </button>
                     ))}
                     {searchResults.leaders.map(l => (
-                      <button
+                      <Link
                         key={l.name}
+                        to={ROUTES.LEADERSHIP}
                         onClick={() => {
                           setPortalSearch("");
-                          goTo("leadership");
                         }}
                         className="w-full min-h-11 text-left px-3 py-2 rounded-xl hover:bg-gov-light flex items-center gap-2 text-sm cursor-pointer"
                       >
@@ -167,7 +167,7 @@ export default function CitizenHero({
                         <span className="truncate">
                           {l.name} — {l.role}
                         </span>
-                      </button>
+                      </Link>
                     ))}
                   </>
                 )}

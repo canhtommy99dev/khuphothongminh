@@ -11,11 +11,11 @@ import {
   MessageSquare,
   ShieldCheck
 } from "lucide-react";
-import { btnGhost } from "./landingConstants";
+import { btnGhost, Link, getPathFromRoute } from "./landingConstants";
 
 export interface CitizenQuickServicesProps {
   formsCount: number;
-  goTo: (id: string) => void;
+  goTo?: (id: string) => void;
   onNavigateToTab: (tab: any) => void;
 }
 
@@ -82,9 +82,9 @@ export default function CitizenQuickServices({
         </h2>
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {cards.map(card => (
-            <button
+            <Link
               key={card.id}
-              onClick={() => goTo(card.id)}
+              to={getPathFromRoute(card.id)}
               className="group text-left p-4 sm:p-5 rounded-2xl border border-slate-200 bg-white hover:border-gov-blue hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer flex flex-col sm:flex-row items-start gap-3 min-h-11"
             >
               <span
@@ -101,7 +101,7 @@ export default function CitizenQuickServices({
                   {card.desc}
                 </span>
               </span>
-            </button>
+            </Link>
           ))}
         </div>
         <div className="flex flex-wrap gap-2 pt-1">

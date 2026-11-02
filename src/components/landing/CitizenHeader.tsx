@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Building2, LockKeyhole, Menu, X } from "lucide-react";
-import { NAV_ITEMS } from "./landingConstants";
+import { NAV_ITEMS, ROUTES, Link } from "./landingConstants";
 
 export interface CitizenHeaderProps {
   activeRoute?: string;
   onOpenStaff: () => void;
-  goTo: (id: string) => void;
+  goTo?: (id: string) => void;
 }
 
 export default function CitizenHeader({
@@ -17,14 +17,15 @@ export default function CitizenHeader({
 
   const handleNavClick = (id: string) => {
     setMobileMenuOpen(false);
-    goTo(id);
+    if (goTo) goTo(id);
   };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white/95 backdrop-blur-md supports-[backdrop-filter]:bg-white/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        {/* Brand / Logo (Shadcn style: clean, modern, crisp) */}
-        <button
+        {/* Brand / Logo */}
+        <Link
+          to={ROUTES.HOME}
           onClick={() => handleNavClick("all")}
           className="flex items-center gap-2.5 text-left cursor-pointer group shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 rounded-lg p-1 -ml-1 transition-opacity hover:opacity-90"
           aria-label="Về trang chủ Cổng Cư dân số"
@@ -43,15 +44,16 @@ export default function CitizenHeader({
               Cổng thông tin cộng đồng & tiện ích số
             </span>
           </div>
-        </button>
+        </Link>
 
-        {/* Desktop Navigation (Shadcn/ui NavigationMenu style: flat-tone, single line, no wrap) */}
+        {/* Desktop Navigation */}
         <nav
           aria-label="Điều hướng chính"
           className="hidden lg:flex items-center gap-1 xl:gap-1.5"
         >
           {/* Nút Trang chủ */}
-          <button
+          <Link
+            to={ROUTES.HOME}
             onClick={() => handleNavClick("all")}
             className={`whitespace-nowrap px-3 py-1.5 rounded-md text-sm font-medium transition-colors cursor-pointer select-none ${
               activeRoute === "all"
@@ -60,14 +62,15 @@ export default function CitizenHeader({
             }`}
           >
             Trang chủ
-          </button>
+          </Link>
 
           {/* Các mục điều hướng */}
           {NAV_ITEMS.map(item => {
             const isActive = activeRoute === item.id;
             return (
-              <button
+              <Link
                 key={item.id}
+                to={item.path}
                 onClick={() => handleNavClick(item.id)}
                 className={`whitespace-nowrap px-3 py-1.5 rounded-md text-sm font-medium transition-colors cursor-pointer select-none ${
                   isActive
@@ -77,20 +80,24 @@ export default function CitizenHeader({
                 title={item.description}
               >
                 {item.label}
-              </button>
+              </Link>
             );
           })}
         </nav>
 
-        {/* Right action area: Shadcn Button Outline & Mobile Trigger */}
+        {/* Right action area: Link to /dashboard & Mobile Trigger */}
         <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={onOpenStaff}
-            className="hidden sm:inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-400 disabled:pointer-events-none disabled:opacity-50 border border-slate-200 bg-white shadow-2xs hover:bg-slate-100 hover:text-slate-900 h-9 px-3.5 cursor-pointer text-slate-700"
+          <Link
+            to={ROUTES.DASHBOARD}
+            onClick={() => {
+              onOpenStaff();
+            }}
+            className="hidden sm:inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-400 border border-slate-200 bg-white shadow-2xs hover:bg-slate-100 hover:text-slate-900 h-9 px-3.5 cursor-pointer text-slate-700"
+            title="Đến Bảng Điều Hành Cán Bộ (/dashboard)"
           >
             <LockKeyhole size={14} className="text-slate-500" aria-hidden="true" />
             <span>Cổng dành cho cán bộ</span>
-          </button>
+          </Link>
 
           {/* Mobile hamburger button */}
           <button
@@ -105,14 +112,15 @@ export default function CitizenHeader({
         </div>
       </div>
 
-      {/* Mobile Drawer (Shadcn/ui Sheet style) */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div
           id="mobile-nav"
           className="lg:hidden border-t border-slate-200 bg-white px-4 py-3 shadow-lg space-y-3"
         >
           <nav aria-label="Điều hướng di động" className="grid grid-cols-2 gap-1.5">
-            <button
+            <Link
+              to={ROUTES.HOME}
               onClick={() => handleNavClick("all")}
               className={`whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium text-left cursor-pointer transition-colors ${
                 activeRoute === "all"
@@ -121,12 +129,13 @@ export default function CitizenHeader({
               }`}
             >
               Trang chủ
-            </button>
+            </Link>
             {NAV_ITEMS.map(item => {
               const isActive = activeRoute === item.id;
               return (
-                <button
+                <Link
                   key={item.id}
+                  to={item.path}
                   onClick={() => handleNavClick(item.id)}
                   className={`whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium text-left cursor-pointer transition-colors ${
                     isActive
@@ -135,12 +144,13 @@ export default function CitizenHeader({
                   }`}
                 >
                   {item.label}
-                </button>
+                </Link>
               );
             })}
           </nav>
           <div className="pt-2 border-t border-slate-100">
-            <button
+            <Link
+              to={ROUTES.DASHBOARD}
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenStaff();
@@ -148,8 +158,8 @@ export default function CitizenHeader({
               className="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors bg-gov-navy text-white hover:bg-gov-navy/90 h-10 px-4 cursor-pointer"
             >
               <LockKeyhole size={15} aria-hidden="true" />
-              <span>Cổng dành cho cán bộ</span>
-            </button>
+              <span>Cổng dành cho cán bộ (/dashboard)</span>
+            </Link>
           </div>
         </div>
       )}

@@ -10,32 +10,37 @@ export const VERIFIED_LEADERSHIP = [
   { name: "Đại úy Trần Quốc Hải", role: "Công an khu vực", scope: "Công an Phường An Phú (phụ trách địa bàn KP3)" }
 ];
 
-export type LandingRoute =
-  | "all"
-  | "services"
-  | "reflection"
-  | "forms"
-  | "notices"
-  | "news"
-  | "leadership"
-  | "schedule";
+import {
+  ROUTES,
+  APP_ROUTES,
+  LandingRoute,
+  RouteConfig as NavItem,
+  getRouteFromPath,
+  getPathFromRoute,
+  getDashboardExtensionPath,
+  getTabFromDashboardPath,
+  navigate,
+  useCurrentPath,
+  useCurrentRoute,
+  Link,
+  NavLink
+} from "../../routes";
 
-export interface NavItem {
-  id: LandingRoute;
-  label: string;
-  path: string;
-  description: string;
-}
+export {
+  ROUTES,
+  getRouteFromPath,
+  getPathFromRoute,
+  getDashboardExtensionPath,
+  getTabFromDashboardPath,
+  navigate,
+  useCurrentPath,
+  useCurrentRoute,
+  Link,
+  NavLink
+};
+export type { LandingRoute, NavItem };
 
-export const NAV_ITEMS: NavItem[] = [
-  { id: "services", label: "Tiện ích", path: "/services", description: "Các dịch vụ công cộng & tiện ích số" },
-  { id: "reflection", label: "Phản ánh", path: "/reflection", description: "Gửi phản ánh hiện trường & tra cứu hồ sơ" },
-  { id: "forms", label: "Biểu mẫu", path: "/forms", description: "Kho biểu mẫu hành chính tải về" },
-  { id: "notices", label: "Thông báo", path: "/notices", description: "Thông báo chính thức & khẩn từ Ban Điều Hành" },
-  { id: "news", label: "Tin tức", path: "/news", description: "Bản tin đời sống, phong trào thi đua KP3" },
-  { id: "leadership", label: "Cán bộ", path: "/leadership", description: "Cơ cấu thường trực Chi bộ, BĐH, CSKV" },
-  { id: "schedule", label: "Lịch hoạt động", path: "/schedule", description: "Lịch sinh hoạt cộng đồng & tiếp dân" }
-];
+export const NAV_ITEMS: NavItem[] = APP_ROUTES;
 
 export const REPORT_CATEGORIES: { id: FieldReport["category"]; label: string }[] = [
   { id: "Rác thải", label: "Rác & môi trường" },

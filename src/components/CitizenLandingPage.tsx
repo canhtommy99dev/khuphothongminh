@@ -15,7 +15,13 @@ import CitizenScheduleSection from "./landing/CitizenScheduleSection";
 import {
   LandingRoute,
   NAV_ITEMS,
-  VERIFIED_LEADERSHIP
+  VERIFIED_LEADERSHIP,
+  ROUTES,
+  Link,
+  getRouteFromPath,
+  getPathFromRoute,
+  navigate,
+  useCurrentPath
 } from "./landing/landingConstants";
 
 /* ==========================================================================
@@ -65,25 +71,21 @@ export default function CitizenLandingPage({
 
   const [toast, setToast] = useState<{ msg: string; type: "success" | "error" } | null>(null);
 
-  // Active page route based on NAV_ITEMS: "all" or specific route id
-  const [activeRoute, setActiveRoute] = useState<LandingRoute>("all");
+  // Theo dõi route từ pathname thực tế (History API, không dùng hash #)
+  const currentPath = useCurrentPath();
+  const activeRoute = useMemo(() => getRouteFromPath(currentPath), [currentPath]);
 
-  // Sync activeRoute with URL hash (#reflection, #forms, etc.)
+  // Chuẩn hóa nếu người dùng vô tình truy cập qua anchor hash cũ (#reflection)
   useEffect(() => {
-    const handleHash = () => {
-      const hash = window.location.hash.replace("#", "").trim();
-      const valid = NAV_ITEMS.some(n => n.id === hash);
-      if (valid) {
-        setActiveRoute(hash as LandingRoute);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      } else if (!hash || hash === "all") {
-        setActiveRoute("all");
+    if (window.location.hash) {
+      const legacyHash = window.location.hash.replace("#", "").trim();
+      const matched = NAV_ITEMS.find(n => n.id === legacyHash);
+      if (matched) {
+        navigate(matched.path, { replace: true });
+      } else {
+        window.history.replaceState({}, "", window.location.pathname);
       }
-    };
-
-    handleHash();
-    window.addEventListener("hashchange", handleHash);
-    return () => window.removeEventListener("hashchange", handleHash);
+    }
   }, []);
 
   // Global search
@@ -99,19 +101,9 @@ export default function CitizenLandingPage({
     window.setTimeout(() => setToast(null), 4000);
   };
 
-  const goTo = (id: string) => {
-    const isValidRoute = NAV_ITEMS.some(n => n.id === id);
-    if (isValidRoute) {
-      setActiveRoute(id as LandingRoute);
-      window.location.hash = id;
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      setActiveRoute("all");
-      if (window.location.hash) {
-        window.history.pushState("", document.title, window.location.pathname + window.location.search);
-      }
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+  const goTo = (idOrPath: string) => {
+    const targetPath = idOrPath.startsWith("/") ? idOrPath : getPathFromRoute(idOrPath as LandingRoute);
+    navigate(targetPath);
   };
 
   const currentNavItem = useMemo(
@@ -202,12 +194,12 @@ export default function CitizenLandingPage({
           <div className="bg-gradient-to-r from-gov-navy via-[#0c407c] to-gov-blue text-white shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9">
               <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-semibold text-blue-200 mb-2">
-                <button
-                  onClick={() => goTo("all")}
+                <Link
+                  to={ROUTES.HOME}
                   className="hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <Home size={13} aria-hidden="true" /> Trang chủ
-                </button>
+                </Link>
                 <ChevronRight size={13} className="text-blue-300" aria-hidden="true" />
                 <span className="text-white font-bold">{currentNavItem.label}</span>
               </nav>
@@ -217,12 +209,12 @@ export default function CitizenLandingPage({
                   <h1 className="text-2xl sm:text-3xl font-black tracking-tight">{currentNavItem.label}</h1>
                   <p className="text-sm sm:text-base text-blue-100 mt-1 max-w-2xl">{currentNavItem.description}</p>
                 </div>
-                <button
-                  onClick={() => goTo("all")}
+                <Link
+                  to={ROUTES.HOME}
                   className="inline-flex items-center gap-1.5 self-start sm:self-auto px-4 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-xs font-bold transition-all cursor-pointer backdrop-blur-xs"
                 >
                   ← Về toàn bộ trang chủ
-                </button>
+                </Link>
               </div>
             </div>
           </div>

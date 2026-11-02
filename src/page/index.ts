@@ -1,0 +1,20 @@
+export { default as DashboardPage } from "./DashboardPage";
+export { default as ResidentsPage } from "./ResidentsPage";
+export { default as HouseholdsPage } from "./HouseholdsPage";
+export { default as EnterprisesPage } from "./EnterprisesPage";
+export { default as BusinessesPage } from "./BusinessesPage";
+export { default as GisPage } from "./GisPage";
+export { default as TasksPage } from "./TasksPage";
+export { default as AiPage } from "./AiPage";
+export { default as ReportsPage } from "./ReportsPage";
+export { default as FormsPage } from "./FormsPage";
+export { default as PartyPage } from "./PartyPage";
+export { default as WelfarePage } from "./WelfarePage";
+export { default as CulturalPage } from "./CulturalPage";
+export { default as FinancePage } from "./FinancePage";
+export { default as PlanPage } from "./PlanPage";
+export { default as SettingsPage } from "./SettingsPage";
+export { default as CitizenPage } from "./CitizenPage";
+export { default as SidebarPageContent } from "./SidebarPageContent";
+export { default as CitizenSubViewContent } from "./CitizenSubViewContent";
+

@@ -2,12 +2,12 @@ import React from "react";
 import { Bell, Clock } from "lucide-react";
 import { LocalNews } from "../../types";
 import { EmptyState, SectionHeader } from "./LandingCommon";
-import { btnGhost } from "./landingConstants";
+import { btnGhost, Link, ROUTES } from "./landingConstants";
 
 export interface CitizenNoticesSectionProps {
   displayNotices: LocalNews[];
   setNewsDetail: (news: LocalNews | null) => void;
-  goTo: (id: string) => void;
+  goTo?: (id: string) => void;
 }
 
 export default function CitizenNoticesSection({
@@ -29,9 +29,9 @@ export default function CitizenNoticesSection({
             title="Chưa có thông báo được công bố"
             description="Khi Ban Điều hành duyệt và công bố thông báo, nội dung sẽ hiển thị tại đây. Trong lúc chờ, bạn có thể xem các hoạt động cộng đồng."
             action={
-              <button onClick={() => goTo("schedule")} className={btnGhost}>
+              <Link to={ROUTES.SCHEDULE} className={btnGhost}>
                 Xem lịch hoạt động
-              </button>
+              </Link>
             }
           />
         ) : (
