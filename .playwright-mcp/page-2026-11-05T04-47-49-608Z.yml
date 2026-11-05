@@ -1,0 +1,96 @@
+- generic [ref=e3]:
+  - link "Bỏ qua đến nội dung chính" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - link "Về trang chủ Cổng Cư dân số" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e13]:
+          - generic [ref=e14]: Khu phố 3 – Phường An Phú
+          - generic [ref=e15]: Cổng thông tin cộng đồng & tiện ích số
+      - generic [ref=e16]:
+        - link "Cổng dành cho cán bộ" [ref=e17] [cursor=pointer]:
+          - /url: /dashboard
+        - button "Mở menu điều hướng" [ref=e23] [cursor=pointer]
+  - main [ref=e25]:
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - generic [ref=e30]: Khu phố 3 · Phường An Phú · TP. Hồ Chí Minh
+        - heading "Kết nối người dân – Xây dựng khu phố văn minh" [level=1] [ref=e31]
+        - paragraph [ref=e32]: Gửi phản ánh hiện trường, tra cứu biểu mẫu hành chính, theo dõi hoạt động cộng đồng và thông tin liên hệ Ban Điều hành Khu phố 3 — ngay trên điện thoại.
+        - generic [ref=e33]:
+          - link "Phản ánh hiện trường" [ref=e34] [cursor=pointer]:
+            - /url: /reflection
+          - link "Tra cứu biểu mẫu" [ref=e37] [cursor=pointer]:
+            - /url: /forms
+        - generic [ref=e41]:
+          - generic [ref=e42]: Tìm kiếm biểu mẫu, hoạt động, cán bộ
+          - searchbox "Tìm kiếm biểu mẫu, hoạt động, cán bộ" [ref=e46]
+      - generic [ref=e48]:
+        - generic [ref=e49]: Quy mô địa bàn Khu phố 3
+        - generic [ref=e53]:
+          - generic [ref=e54]:
+            - definition [ref=e59]: "488"
+            - term [ref=e60]: Hộ gia đình
+          - generic [ref=e61]:
+            - definition [ref=e68]: "11.632"
+            - term [ref=e69]: Nhân khẩu
+          - generic [ref=e70]:
+            - definition [ref=e75]: "118"
+            - term [ref=e76]: Cơ sở kinh doanh
+        - paragraph [ref=e77]: Địa bàn khép kín theo các trục đường Song Hành, Lương Định Của, Mai Chí Thọ.
+        - button "Xem bản đồ số địa bàn" [ref=e78] [cursor=pointer]
+    - region [ref=e82]:
+      - generic [ref=e83]:
+        - heading "Tiện ích nhanh" [level=2] [ref=e84]
+        - generic [ref=e85]:
+          - link "Phản ánh hiện trường Gửi phản ánh kèm ảnh, vị trí tới Ban Điều hành." [ref=e86] [cursor=pointer]:
+            - /url: /reflection
+            - generic [ref=e90]:
+              - generic [ref=e91]: Phản ánh hiện trường
+              - generic [ref=e94]: Gửi phản ánh kèm ảnh, vị trí tới Ban Điều hành.
+          - link "Biểu mẫu & hướng dẫn 11 biểu mẫu hành chính tải về." [ref=e95] [cursor=pointer]:
+            - /url: /forms
+            - generic [ref=e100]:
+              - generic [ref=e101]: Biểu mẫu & hướng dẫn
+              - generic [ref=e104]: 11 biểu mẫu hành chính tải về.
+          - link "Cơ cấu cán bộ Thường trực Chi bộ, Ban Điều hành, CSKV." [ref=e105] [cursor=pointer]:
+            - /url: /leadership
+            - generic [ref=e110]:
+              - generic [ref=e111]: Cơ cấu cán bộ
+              - generic [ref=e114]: Thường trực Chi bộ, Ban Điều hành, CSKV.
+          - link "Thông báo Thông báo đã duyệt, còn hiệu lực." [ref=e115] [cursor=pointer]:
+            - /url: /notices
+            - generic [ref=e120]:
+              - generic [ref=e121]: Thông báo
+              - generic [ref=e124]: Thông báo đã duyệt, còn hiệu lực.
+          - link "Tin tức địa phương Hoạt động cộng đồng đã diễn ra." [ref=e125] [cursor=pointer]:
+            - /url: /news
+            - generic [ref=e130]:
+              - generic [ref=e131]: Tin tức địa phương
+              - generic [ref=e134]: Hoạt động cộng đồng đã diễn ra.
+          - link "Lịch hoạt động Sự kiện sắp và đang diễn ra." [ref=e135] [cursor=pointer]:
+            - /url: /schedule
+            - generic [ref=e139]:
+              - generic [ref=e140]: Lịch hoạt động
+              - generic [ref=e143]: Sự kiện sắp và đang diễn ra.
+        - generic [ref=e144]:
+          - button "Trợ lý AI hỏi đáp thủ tục" [ref=e145] [cursor=pointer]
+          - button "Quỹ khu phố & VietQR" [ref=e149] [cursor=pointer]
+          - button "Bản đồ số GIS" [ref=e155] [cursor=pointer]
+  - contentinfo [ref=e159]:
+    - generic [ref=e160]:
+      - generic [ref=e161]:
+        - paragraph [ref=e162]: Khu phố 3 – Phường An Phú
+        - paragraph [ref=e163]: "Đơn vị phụ trách nội dung: Ban Điều hành Khu phố 3."
+        - link "bdhkhupho3.ap@gmail.com" [ref=e164] [cursor=pointer]:
+          - /url: mailto:bdhkhupho3.ap@gmail.com
+      - generic [ref=e168]:
+        - paragraph [ref=e169]: Nguồn tin & dữ liệu
+        - paragraph [ref=e170]: Thông báo, lịch hoạt động, biểu mẫu và phản ánh hiển thị từ hệ thống quản lý nội bộ của Khu phố 3. Số liệu quy mô địa bàn do Ban Điều hành cung cấp.
+      - generic [ref=e171]:
+        - paragraph [ref=e172]: Bảo vệ dữ liệu
+        - paragraph [ref=e173]: Thông tin cá nhân trong phản ánh chỉ dùng cho mục đích tiếp nhận và xử lý, chỉ cán bộ có thẩm quyền được truy cập.
+        - link "Cổng dành cho cán bộ" [ref=e174] [cursor=pointer]:
+          - /url: /dashboard
+    - generic [ref=e179]: Cổng thông tin cộng đồng do Ban Điều hành Khu phố 3 vận hành · Không phải cổng thông tin điện tử chính thức của cơ quan nhà nước.
