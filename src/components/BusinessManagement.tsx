@@ -1,28 +1,28 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { 
-  Search, 
-  Filter, 
-  Briefcase, 
-  ShieldCheck, 
+import {
+  Search,
+  Filter,
+  Briefcase,
+  ShieldCheck,
   ShieldAlert,
-  User, 
-  Phone, 
-  MapPin, 
-  FileText, 
-  Plus, 
-  AlertTriangle, 
-  X, 
-  LayoutGrid, 
-  List, 
-  Building, 
-  Bed, 
-  Download, 
-  Eye, 
-  Sparkles, 
-  RefreshCw, 
-  PieChart, 
-  TrendingUp, 
-  Store, 
+  User,
+  Phone,
+  MapPin,
+  FileText,
+  Plus,
+  AlertTriangle,
+  X,
+  LayoutGrid,
+  List,
+  Building,
+  Bed,
+  Download,
+  Eye,
+  Sparkles,
+  RefreshCw,
+  PieChart,
+  TrendingUp,
+  Store,
   Navigation,
   Pencil,
   Trash2,
@@ -31,43 +31,43 @@ import {
 import { Business, BusinessFile, InspectionLog, BusinessChangeLog, Resident, Household, TargetGisItem } from "../types";
 import Pagination from "./Pagination";
 import * as XLSX from "xlsx";
-import { 
-  isResidentInAccommodation, 
+import {
+  isResidentInAccommodation,
   getTemporaryResidenceExpiryStatus,
-  autoExtractHostelBusinesses 
+  autoExtractHostelBusinesses
 } from "../utils/householdRecognitionUtils";
 import { supabase } from "../lib/supabase";
 
 // shadcn/ui components
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "./ui/card";
 import { Input } from "./ui/input";
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "./ui/table";
 
 // Subcomponents
-import { 
-  INDUSTRY_SECTORS, 
-  getBusinessIndustryGroup, 
-  getSectorMeta, 
-  IndustrySectorDef 
+import {
+  INDUSTRY_SECTORS,
+  getBusinessIndustryGroup,
+  getSectorMeta,
+  IndustrySectorDef
 } from "./business/businessConstants";
-import BusinessDetailModal from "./business/BusinessDetailModal";
+import BusinessDetailPage from "../page/BusinessDetailPage";
 import BusinessAddModal from "./business/BusinessAddModal";
 import BusinessEditModal from "./business/BusinessEditModal";
 import BusinessDocumentModal, { ViewingDocState } from "./business/BusinessDocumentModal";
-import { 
-  AddInspectionModal, 
-  EditInspectionModal, 
-  AddChangeLogModal, 
-  DeleteConfirmationDialog 
+import {
+  AddInspectionModal,
+  EditInspectionModal,
+  AddChangeLogModal,
+  DeleteConfirmationDialog
 } from "./business/BusinessInspectionModal";
 
 // Re-export constants for external compatibility
-export { 
-  INDUSTRY_SECTORS, 
-  getBusinessIndustryGroup, 
-  getSectorMeta 
+export {
+  INDUSTRY_SECTORS,
+  getBusinessIndustryGroup,
+  getSectorMeta
 };
 export type { IndustrySectorDef };
 
@@ -81,12 +81,12 @@ export interface BusinessManagementProps {
   onNavigateToGis?: (item: TargetGisItem) => void;
 }
 
-export default function BusinessManagement({ 
-  businesses = [], 
-  residents = [], 
-  households = [], 
-  onToggleCertification, 
-  onUpdateStatus, 
+export default function BusinessManagement({
+  businesses = [],
+  residents = [],
+  households = [],
+  onToggleCertification,
+  onUpdateStatus,
   onUpdateBusinesses,
   onNavigateToGis
 }: BusinessManagementProps) {
@@ -197,7 +197,7 @@ export default function BusinessManagement({
     return businesses.filter((b) => {
       // 1. Search filter
       const term = searchTerm.toLowerCase().trim();
-      const matchSearch = 
+      const matchSearch =
         !term ||
         b.name.toLowerCase().includes(term) ||
         b.owner.toLowerCase().includes(term) ||
@@ -674,12 +674,18 @@ export default function BusinessManagement({
     setShowDetailModal(true);
   };
 
+  // Keep selectedBusiness in sync with businesses state
+  const currentSelectedBusiness = useMemo(() => {
+    if (!selectedBusiness || !showDetailModal) return null;
+    return businesses.find(b => b.id === selectedBusiness.id) || selectedBusiness;
+  }, [businesses, selectedBusiness, showDetailModal]);
+
   return (
     <div id="business-management-view" className="space-y-6 relative">
       {/* Toast hostel notification */}
       {hostelToast && (
         <div className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-xl shadow-lg flex items-center gap-2.5 text-xs font-semibold border transition-all animate-bounce ${
-          hostelToast.type === "success" 
+          hostelToast.type === "success"
             ? "bg-emerald-600 text-white border-emerald-500 shadow-emerald-600/20"
             : hostelToast.type === "info"
             ? "bg-primary text-primary-foreground border-primary/20 shadow-primary/20"
@@ -690,53 +696,107 @@ export default function BusinessManagement({
         </div>
       )}
 
-      {/* 1. Header Card (shadcn/ui layout) */}
+      {currentSelectedBusiness ? (
+        <BusinessDetailPage
+          business={currentSelectedBusiness}
+          onBack={() => {
+            setSelectedBusiness(null);
+            setShowDetailModal(false);
+          }}
+          onEdit={(b) => handleOpenEditModal(b)}
+          onDelete={(b) => setBusinessToDelete(b)}
+          onUpdateStatus={(id, status) => {
+            onUpdateStatus(id, status);
+            setSelectedBusiness((prev) => prev && prev.id === id ? { ...prev, status } : prev);
+          }}
+          onUpdateBusinesses={onUpdateBusinesses}
+          residents={residents}
+          households={households}
+          onViewDoc={(doc) => setViewingDoc(doc)}
+          onNavigateToGis={onNavigateToGis}
+          onOpenAddInspection={handleOpenAddInspection}
+          onOpenEditInspection={handleOpenEditInspection}
+          onDeleteInspection={(insp) => setInspectionToDelete(insp)}
+          onOpenAddChangeLog={handleOpenAddChangeLog}
+          onExportHostelResidents={handleExportHostelResidents}
+          showToast={showToast}
+          getBusinessInspections={getBusinessInspections}
+          isAccommodationBusiness={isAccommodationBusiness}
+        />
+      ) : (
+        <>
+          {/* 1. Header Card (shadcn/ui layout) */}
       <Card className="border-border shadow-xs bg-card">
         <CardContent className="p-5 sm:p-6 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="p-1.5 bg-primary/10 text-primary rounded-lg">
-                <Store size={20} />
+          <div className="space-y-1.5">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="p-2 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">
+                <Store size={22} className="stroke-[2.5]" />
               </span>
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
+              <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
                 Quản lý Cơ sở Kinh doanh KP3
               </h1>
+              <Badge className="font-mono text-xs font-bold px-2.5 py-0.5 bg-slate-900 text-white border-none shadow-2xs">
+                {businesses.length} cơ sở
+              </Badge>
+              <Badge variant="outline" className="text-[11px] font-bold border-amber-500/60 bg-amber-50 text-amber-950 gap-1.5 hidden sm:inline-flex shadow-2xs">
+                <Building size={12} className="text-amber-700 stroke-[2.5]" />
+                <span>108 cơ sở lưu trú</span>
+              </Badge>
             </div>
-            <p className="text-xs sm:text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-slate-700 font-medium max-w-2xl leading-relaxed">
               Quản lý mạng lưới cơ sở kinh doanh tại chỗ, hộ kinh doanh cá thể, cơ sở lưu trú / nhà trọ, an toàn PCCC và hồ sơ địa chính
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
-            <Button 
+          <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+            <Button
               type="button"
               variant="outline"
               size="sm"
               onClick={handleAutoDetectHostels}
               disabled={isDetectingHostels}
-              className="gap-1.5"
+              className="flex-1 sm:flex-none gap-2 border border-amber-500/60 hover:border-amber-600 bg-amber-50 hover:bg-amber-100 text-amber-950 cursor-pointer shadow-xs font-bold transition-all"
+              title="Quét đối chiếu 11.632 nhân khẩu tạm trú để tự động bóc tách và phân loại các cơ sở lưu trú, nhà trọ trên địa bàn"
             >
-              <Sparkles size={15} className={`text-amber-500 ${isDetectingHostels ? "animate-spin" : ""}`} />
-              <span>Tự động nhận diện Nhà trọ</span>
+              <Sparkles size={14} className={`text-amber-600 stroke-[2.5] ${isDetectingHostels ? "animate-spin" : ""}`} />
+              <span className="font-bold text-amber-950">{isDetectingHostels ? "Đang quét cư dân..." : "Tự nhận diện Nhà trọ"}</span>
             </Button>
-            <Button 
+
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleSyncHostelsToSupabase}
+              disabled={isSyncingHostels}
+              className="flex-1 sm:flex-none gap-2 border border-blue-500/60 hover:border-blue-600 bg-blue-50 hover:bg-blue-100 text-blue-950 cursor-pointer shadow-xs font-bold transition-all"
+              title="Đồng bộ danh sách cơ sở lưu trú & nhà trọ vào cơ sở dữ liệu Supabase PostgreSQL"
+            >
+              <Upload size={14} className={`text-blue-600 stroke-[2.5] ${isSyncingHostels ? "animate-spin" : ""}`} />
+              <span className="font-bold text-blue-950">{isSyncingHostels ? "Đang lưu..." : "Lưu vào Supabase"}</span>
+            </Button>
+
+            <Button
               type="button"
               variant="outline"
               size="sm"
               onClick={handleExportBusinessesCsv}
-              className="gap-1.5"
+              className="flex-1 sm:flex-none gap-2 border border-slate-300 hover:border-slate-400 bg-white hover:bg-slate-100 text-slate-900 cursor-pointer shadow-xs font-bold transition-all"
+              title="Xuất file báo cáo danh sách cơ sở kinh doanh định dạng CSV"
             >
-              <Download size={15} />
-              <span>Xuất File CSV</span>
+              <Download size={14} className="text-slate-700 stroke-[2.5]" />
+              <span className="font-bold text-slate-900">Xuất CSV ({businesses.length})</span>
             </Button>
-            <Button 
+
+            <Button
               type="button"
               size="sm"
               onClick={() => setShowAddModal(true)}
-              className="gap-1.5"
+              className="w-full sm:w-auto gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-sm hover:shadow-md border border-emerald-500 cursor-pointer transition-all active:scale-[0.98]"
+              title="Đăng ký cơ sở kinh doanh, hộ cá thể hoặc nhà trọ mới"
             >
-              <Plus size={16} />
-              <span>Đăng ký Cơ sở Mới</span>
+              <Plus size={15} className="text-white stroke-[3]" />
+              <span className="font-bold text-white tracking-wide">Đăng ký Cơ sở Mới</span>
             </Button>
           </div>
         </CardContent>
@@ -747,29 +807,29 @@ export default function BusinessManagement({
         <Card className="shadow-2xs">
           <CardContent className="p-4 flex items-center justify-between">
             <div className="space-y-0.5">
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider block">Tổng cơ sở KD</span>
+              <span className="text-xs font-bold text-slate-700 uppercase tracking-wider block">Tổng cơ sở KD</span>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl font-bold tracking-tight text-foreground">{businesses.length}</span>
-                <span className="text-xs text-muted-foreground">cơ sở</span>
+                <span className="text-2xl font-extrabold tracking-tight text-slate-950">{businesses.length}</span>
+                <span className="text-xs font-semibold text-slate-600">cơ sở</span>
               </div>
             </div>
             <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-              <Briefcase size={20} />
+              <Briefcase size={20} className="stroke-[2.5]" />
             </div>
           </CardContent>
         </Card>
 
-        <Card className="shadow-2xs border-amber-500/20 bg-amber-500/5">
+        <Card className="shadow-2xs border-amber-500/30 bg-amber-500/10">
           <CardContent className="p-4 flex items-center justify-between">
             <div className="space-y-0.5">
-              <span className="text-xs font-medium text-amber-800 dark:text-amber-300 uppercase tracking-wider block">Nhà trọ & Lưu trú</span>
+              <span className="text-xs font-bold text-amber-950 uppercase tracking-wider block">Nhà trọ & Lưu trú</span>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl font-bold tracking-tight text-amber-900 dark:text-amber-200">{totalAccomCount}</span>
-                <span className="text-xs text-amber-700 dark:text-amber-400 font-medium">({totalRooms} phòng)</span>
+                <span className="text-2xl font-extrabold tracking-tight text-amber-950">{totalAccomCount}</span>
+                <span className="text-xs text-amber-800 font-bold">({totalRooms} phòng)</span>
               </div>
             </div>
-            <div className="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
-              <Building size={20} />
+            <div className="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-700 flex items-center justify-center shrink-0">
+              <Building size={20} className="stroke-[2.5]" />
             </div>
           </CardContent>
         </Card>
@@ -777,29 +837,29 @@ export default function BusinessManagement({
         <Card className="shadow-2xs">
           <CardContent className="p-4 flex items-center justify-between">
             <div className="space-y-0.5">
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider block">Hồ sơ Sổ đỏ</span>
+              <span className="text-xs font-bold text-slate-700 uppercase tracking-wider block">Hồ sơ Sổ đỏ</span>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl font-bold tracking-tight text-foreground">{totalSoDoFiles}</span>
-                <span className="text-xs text-muted-foreground">/ {businesses.length}</span>
+                <span className="text-2xl font-extrabold tracking-tight text-slate-950">{totalSoDoFiles}</span>
+                <span className="text-xs font-semibold text-slate-600">/ {businesses.length}</span>
               </div>
             </div>
             <div className="w-10 h-10 rounded-lg bg-muted text-foreground flex items-center justify-center shrink-0">
-              <FileText size={20} />
+              <FileText size={20} className="stroke-[2.5]" />
             </div>
           </CardContent>
         </Card>
 
-        <Card className="shadow-2xs border-emerald-500/20 bg-emerald-500/5">
+        <Card className="shadow-2xs border-emerald-500/30 bg-emerald-500/10">
           <CardContent className="p-4 flex items-center justify-between">
             <div className="space-y-0.5">
-              <span className="text-xs font-medium text-emerald-800 dark:text-emerald-300 uppercase tracking-wider block">Đạt chuẩn PCCC</span>
+              <span className="text-xs font-bold text-emerald-950 uppercase tracking-wider block">Đạt chuẩn PCCC</span>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl font-bold tracking-tight text-emerald-900 dark:text-emerald-200">{totalCertifiedPccc}</span>
-                <span className="text-xs text-emerald-700 dark:text-emerald-400 font-medium">cơ sở</span>
+                <span className="text-2xl font-extrabold tracking-tight text-emerald-950">{totalCertifiedPccc}</span>
+                <span className="text-xs text-emerald-800 font-bold">cơ sở</span>
               </div>
             </div>
-            <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-              <ShieldCheck size={20} />
+            <div className="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-700 flex items-center justify-center shrink-0">
+              <ShieldCheck size={20} className="stroke-[2.5]" />
             </div>
           </CardContent>
         </Card>
@@ -810,18 +870,18 @@ export default function BusinessManagement({
         <div className="px-5 py-3.5 border-b border-border bg-card flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-              <PieChart size={16} />
+              <PieChart size={16} className="stroke-[2.5]" />
             </div>
             <div className="flex items-center flex-wrap gap-2">
-              <h2 className="text-sm font-semibold text-foreground tracking-tight">
+              <h2 className="text-sm font-bold text-slate-900 tracking-tight">
                 Phân loại & Thống kê Ngành nghề Kinh doanh KP3
               </h2>
-              <Badge variant="outline" className="text-[10px]">
+              <Badge variant="outline" className="text-[10px] font-bold text-slate-800 border-slate-300">
                 {sectorStats.filter(s => s.count > 0).length}/{INDUSTRY_SECTORS.length} nhóm ngành
               </Badge>
               {dominantSector && dominantSector.count > 0 && (
-                <span className="text-xs text-muted-foreground hidden md:inline">
-                  (Nhiều nhất: <strong className="text-foreground">{dominantSector.icon} {dominantSector.shortName}</strong> - {dominantSector.count} cơ sở)
+                <span className="text-xs text-slate-700 font-medium hidden md:inline">
+                  (Nhiều nhất: <strong className="text-slate-950 font-bold">{dominantSector.icon} {dominantSector.shortName}</strong> - {dominantSector.count} cơ sở)
                 </span>
               )}
             </div>
@@ -967,10 +1027,10 @@ export default function BusinessManagement({
         <CardContent className="p-3 sm:p-4 flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
-            <Input 
+            <Input
               id="business-search-input"
               name="businessSearchTerm"
-              type="text" 
+              type="text"
               placeholder="Tìm theo tên cơ sở, chủ hộ, số GPKD, địa chỉ, Tờ BĐ, số Thửa..."
               value={searchTerm}
               onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
@@ -980,7 +1040,7 @@ export default function BusinessManagement({
 
           <div className="flex flex-wrap items-center gap-2">
             {/* Category Filter */}
-            <select 
+            <select
               id="business-category-filter"
               value={categoryFilter}
               onChange={(e) => { setCategoryFilter(e.target.value); setCurrentPage(1); }}
@@ -995,7 +1055,7 @@ export default function BusinessManagement({
             </select>
 
             {/* PCCC Filter */}
-            <select 
+            <select
               id="business-pccc-filter"
               value={pcccFilter}
               onChange={(e) => { setPcccFilter(e.target.value); setCurrentPage(1); }}
@@ -1007,7 +1067,7 @@ export default function BusinessManagement({
             </select>
 
             {/* Street Filter */}
-            <select 
+            <select
               id="business-street-filter"
               value={streetFilter}
               onChange={(e) => { setStreetFilter(e.target.value); setCurrentPage(1); }}
@@ -1020,7 +1080,7 @@ export default function BusinessManagement({
             </select>
 
             {/* Status Filter */}
-            <select 
+            <select
               id="business-status-filter"
               value={statusFilter}
               onChange={(e) => { setStatusFilter(e.target.value); setCurrentPage(1); }}
@@ -1064,13 +1124,13 @@ export default function BusinessManagement({
         <Card className="border-amber-500/30 bg-amber-500/10 shadow-xs">
           <CardContent className="p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center shrink-0 border border-amber-500/30">
+              <div className="w-9 h-9 rounded-lg bg-amber-500/20 text-amber-700 flex items-center justify-center shrink-0 border border-amber-500/30">
                 <Sparkles size={18} />
               </div>
               <div>
                 <div className="font-semibold text-foreground text-sm flex items-center gap-2">
                   <span>Hệ thống đã tự động nhận diện {totalAccomCount} cơ sở nhà trọ & lưu trú từ 11.632 cư dân</span>
-                  <Badge variant="outline" className="border-amber-500/30 text-amber-800 dark:text-amber-300 text-[10px]">
+                  <Badge variant="outline" className="border-amber-500/30 text-amber-800 text-[10px]">
                     Đối soát CSDL thực tế
                   </Badge>
                 </div>
@@ -1122,44 +1182,76 @@ export default function BusinessManagement({
               const sectorMeta = getSectorMeta(sectorGroup);
               const isSelected = selectedBusiness?.id === b.id && showDetailModal;
 
-              const statusVariant: "success" | "warning" | "destructive" = 
-                b.status === "Đang hoạt động" ? "success" : 
+              const statusVariant: "success" | "warning" | "destructive" =
+                b.status === "Đang hoạt động" ? "success" :
                 b.status === "Tạm ngưng" ? "destructive" : "warning";
 
               const staying = residents.filter(r => isResidentInAccommodation(r, b));
               const actualGuestCount = staying.length > 0 ? staying.length : (b.soNguoiLuuTru || 0);
 
               return (
-                <Card 
+                <Card
                   key={b.id}
                   id={`business-card-${b.id}`}
                   onClick={() => handleOpenDetailModal(b)}
-                  className={`group p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between relative hover:border-primary/50 hover:shadow-md ${
-                    isSelected ? "border-primary ring-2 ring-primary/20 shadow-sm" : "border-border"
+                  className={`group transition-all duration-200 cursor-pointer flex flex-col justify-between hover:border-primary/50 hover:shadow-md overflow-hidden ${
+                    isSelected ? "border-primary ring-2 ring-primary/20 shadow-sm" : "border-border shadow-xs"
                   }`}
                 >
-                  <div className="space-y-3">
-                    {/* 1. Header Badges: Category & Status */}
-                    <div className="flex justify-between items-center gap-2">
+                  {/* 1. Header (shadcn/ui CardHeader) */}
+                  <CardHeader className="p-4 pb-3 space-y-2.5">
+                    {/* Top: Category & Type Eyebrows + Status */}
+                    <div className="flex items-start justify-between gap-2">
                       <div className="flex flex-wrap items-center gap-1.5 min-w-0">
-                        <Badge variant="secondary" className="gap-1 text-[11px] font-medium">
+                        <Badge
+                          variant="secondary"
+                          className="gap-1 text-[11px] font-medium hover:bg-secondary/80 transition-colors"
+                          title={`Nhóm ngành nghề: ${sectorMeta.shortName}`}
+                        >
                           <span>{sectorMeta.icon}</span>
-                          <span className="truncate">{sectorMeta.shortName}</span>
-                        </Badge>
-                        <Badge variant="outline" className="text-[10px] font-mono">
-                          {b.type}
+                          <span className="truncate max-w-[130px]">{sectorMeta.shortName}</span>
                         </Badge>
                       </div>
-                      <Badge variant={statusVariant} className="gap-1 text-[10.5px] font-medium shrink-0">
-                        <span className={`w-1.5 h-1.5 rounded-full ${b.status === "Đang hoạt động" ? "bg-emerald-500 animate-pulse" : "bg-current"}`} />
+
+                      <Badge
+                        variant={statusVariant}
+                        className="gap-1.5 text-[10.5px] font-medium shrink-0 shadow-2xs px-2 py-0.5 self-start"
+                        title={`Trạng thái hoạt động: ${b.status}`}
+                      >
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full ${
+                            b.status === "Đang hoạt động"
+                              ? "bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]"
+                              : "bg-current"
+                          }`}
+                        />
                         <span>{b.status}</span>
                       </Badge>
                     </div>
 
-                    {/* 2. Image Thumbnail */}
+                    {/* Facility Title & Address (Horizontal layout) */}
+                 <div className="items-center justify-between gap-2 pt-0.5 min-w-0">
+                      <CardTitle
+                        className="text-[15px] font-bold text-foreground leading-snug group-hover:text-primary transition-colors line-clamp-1 tracking-tight flex-1 min-w-0"
+                        title={b.name}
+                      >
+                        {b.name}
+                      </CardTitle>
+                      <CardDescription className="text-[11.5px] text-muted-foreground flex items-center gap-1 shrink-0 max-w-[80%] font-normal">
+                        <MapPin size={12} className="shrink-0 text-primary/70" />
+                        <span className="truncate" title={b.address}>
+                          {b.address}
+                        </span>
+                      </CardDescription>
+                    </div>
+                  </CardHeader>
+
+                  {/* 2. Main Body (shadcn/ui CardContent) */}
+                  <CardContent className="p-4 pt-0 space-y-3 flex-1">
+                    {/* Image Thumbnail */}
                     <div className="relative h-32 rounded-lg overflow-hidden bg-muted border border-border shadow-2xs">
-                      <img 
-                        src={b.image || "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=500"} 
+                      <img
+                        src={b.image || "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=500"}
                         alt={b.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         onError={(e) => {
@@ -1170,7 +1262,10 @@ export default function BusinessManagement({
 
                       {/* License number pill top-right */}
                       <div className="absolute top-2 right-2">
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-black/60 text-white backdrop-blur-xs border border-white/20">
+                        <span
+                          className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-black/60 text-white backdrop-blur-xs border border-white/20"
+                          title={`Số giấy phép / Mã nội bộ: ${b.licenseNumber || b.internalCode || "KP3-KD"}`}
+                        >
                           {b.licenseNumber || b.internalCode || "KP3-KD"}
                         </span>
                       </div>
@@ -1178,42 +1273,32 @@ export default function BusinessManagement({
                       {/* Accommodation badge bottom-left */}
                       {isAccom && (
                         <div className="absolute bottom-2 left-2">
-                          <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-amber-500/90 text-white backdrop-blur-xs flex items-center gap-1 shadow-2xs">
+                          <span
+                            className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-amber-500/90 text-white backdrop-blur-xs flex items-center gap-1 shadow-2xs"
+                            title="Cơ sở có dịch vụ lưu trú / nhà trọ"
+                          >
                             <Building size={11} /> Cơ sở lưu trú
                           </span>
                         </div>
                       )}
                     </div>
 
-                    {/* 3. Facility Name & Address */}
-                    <div>
-                      <h3 className="font-semibold text-foreground text-[14px] leading-snug group-hover:text-primary transition-colors line-clamp-1" title={b.name}>
-                        {b.name}
-                      </h3>
-                      <div className="text-[11px] text-muted-foreground flex items-center gap-1 mt-1">
-                        <MapPin size={12} className="shrink-0 text-muted-foreground" />
-                        <span className="line-clamp-1" title={b.address}>
-                          {b.address}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* 4. Accommodation details (if applicable) */}
+                    {/* Accommodation details (if applicable) */}
                     {isAccom && (
                       <div className="py-2 px-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-foreground flex items-center justify-between text-xs">
                         <div className="flex items-center gap-1.5 font-medium whitespace-nowrap">
-                          <Bed size={14} className="text-amber-600 dark:text-amber-400 shrink-0" />
+                          <Bed size={14} className="text-amber-600 shrink-0" />
                           <span>{b.soPhong || 0} phòng</span>
                           <span className="text-muted-foreground">•</span>
                           <span>{b.soTang || 0} tầng</span>
                         </div>
-                        <Badge variant="outline" className="border-amber-500/30 text-amber-800 dark:text-amber-300 font-semibold text-[10.5px]">
+                        <Badge variant="outline" className="border-amber-500/30 text-amber-800 font-semibold text-[10.5px]">
                           👥 {actualGuestCount} người
                         </Badge>
                       </div>
                     )}
 
-                    {/* 5. Cadastral (Địa chính) */}
+                    {/* Cadastral (Địa chính) */}
                     <div className="bg-muted/40 py-2 px-2.5 rounded-lg border border-border flex items-center justify-between text-[11px]">
                       <div className="flex items-center gap-1.5 font-mono text-foreground font-medium whitespace-nowrap">
                         <span className="text-muted-foreground font-sans text-[10px]">ĐC:</span>
@@ -1228,10 +1313,10 @@ export default function BusinessManagement({
                         </Badge>
                       </div>
                     </div>
-                  </div>
+                  </CardContent>
 
-                  {/* 6. Footer: Owner + Sổ đỏ + PCCC */}
-                  <div className="pt-2.5 mt-2 border-t border-border flex justify-between items-center text-xs">
+                  {/* 3. Footer Actions (shadcn/ui CardFooter) */}
+                  <CardFooter className="p-4 pt-2.5 border-t border-border flex justify-between items-center text-xs">
                     <div className="flex items-center gap-1.5 min-w-0 pr-1 flex-1">
                       <div className="w-5 h-5 rounded-full bg-muted border border-border text-foreground flex items-center justify-center shrink-0 text-[10px] font-bold">
                         {b.owner ? b.owner.charAt(0) : "U"}
@@ -1241,10 +1326,12 @@ export default function BusinessManagement({
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-1 shrink-0">
+                    <div className="flex items-center gap-1.5 shrink-0">
                       {b.soDoFile ? (
-                        <button
+                        <Button
                           type="button"
+                          variant="outline"
+                          size="xs"
                           onClick={(e) => {
                             e.stopPropagation();
                             setViewingDoc({
@@ -1254,14 +1341,14 @@ export default function BusinessManagement({
                               business: b
                             });
                           }}
-                          className="text-[9.5px] font-medium px-2 py-0.5 rounded-md flex items-center gap-1 border border-border hover:bg-muted transition-colors cursor-pointer"
+                          className="h-6 px-2 text-[10px] gap-1 font-medium hover:bg-muted cursor-pointer"
                           title="Nhấp để xem tệp Sổ đỏ"
                         >
-                          <FileText size={10} className="text-primary" />
+                          <FileText size={11} className="text-primary" />
                           <span>Sổ đỏ</span>
-                        </button>
+                        </Button>
                       ) : (
-                        <span className="text-[9.5px] text-muted-foreground italic">
+                        <span className="text-[9.5px] text-muted-foreground italic px-1">
                           Chưa sổ
                         </span>
                       )}
@@ -1273,8 +1360,10 @@ export default function BusinessManagement({
                       )}
 
                       {onNavigateToGis && b.coordinates && (
-                        <button
+                        <Button
                           type="button"
+                          variant="ghost"
+                          size="icon"
                           onClick={(e) => {
                             e.stopPropagation();
                             onNavigateToGis({
@@ -1285,14 +1374,14 @@ export default function BusinessManagement({
                               coordinates: b.coordinates
                             });
                           }}
-                          className="p-1 rounded text-muted-foreground hover:text-primary hover:bg-muted transition-colors cursor-pointer"
+                          className="h-6 w-6 text-muted-foreground hover:text-primary hover:bg-muted cursor-pointer"
                           title="Xem vị trí trên Bản đồ số GIS KP3"
                         >
                           <Navigation size={12} />
-                        </button>
+                        </Button>
                       )}
                     </div>
-                  </div>
+                  </CardFooter>
                 </Card>
               );
             })
@@ -1323,8 +1412,8 @@ export default function BusinessManagement({
                 const staying = residents.filter(r => isResidentInAccommodation(r, b));
                 const actualGuestCount = staying.length > 0 ? staying.length : (b.soNguoiLuuTru || 0);
 
-                const statusVariant: "success" | "warning" | "destructive" = 
-                  b.status === "Đang hoạt động" ? "success" : 
+                const statusVariant: "success" | "warning" | "destructive" =
+                  b.status === "Đang hoạt động" ? "success" :
                   b.status === "Tạm ngưng" ? "destructive" : "warning";
 
                 return (
@@ -1337,10 +1426,10 @@ export default function BusinessManagement({
                     <TableCell className="p-3.5">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted border border-border shrink-0 shadow-2xs">
-                          <img 
-                            src={b.image || "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=200"} 
-                            alt={b.name} 
-                            className="w-full h-full object-cover" 
+                          <img
+                            src={b.image || "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=200"}
+                            alt={b.name}
+                            className="w-full h-full object-cover"
                             onError={(e) => {
                               (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=200";
                             }}
@@ -1378,7 +1467,7 @@ export default function BusinessManagement({
                     <TableCell className="p-3.5 whitespace-nowrap">
                       {isAccom ? (
                         <div className="space-y-1">
-                          <Badge variant="outline" className="text-[10px] gap-1 font-medium border-amber-500/30 text-amber-800 dark:text-amber-300">
+                          <Badge variant="outline" className="text-[10px] gap-1 font-medium border-amber-500/30 text-amber-800">
                             <Building size={11} /> {b.soPhong || 0} phòng / {b.soTang || 0} tầng
                           </Badge>
                           <div className="text-[11px] font-medium text-foreground flex items-center gap-1.5">
@@ -1513,41 +1602,18 @@ export default function BusinessManagement({
       )}
 
       {/* Pagination */}
-      <Pagination 
+      <Pagination
         currentPage={currentPage}
         onPageChange={setCurrentPage}
         totalItems={filteredBusinesses.length}
         itemsPerPage={itemsPerPage}
       />
+        </>
+      )}
 
       {/* Modals & Dialogs */}
-      {/* 1. Detail Modal */}
-      <BusinessDetailModal 
-        open={showDetailModal}
-        selectedBusiness={selectedBusiness}
-        onClose={() => setShowDetailModal(false)}
-        onEdit={(b) => {
-          setShowDetailModal(false);
-          handleOpenEditModal(b);
-        }}
-        onDelete={(b) => setBusinessToDelete(b)}
-        onUpdateStatus={onUpdateStatus}
-        onUpdateBusinesses={onUpdateBusinesses}
-        residents={residents}
-        households={households}
-        onViewDoc={(doc) => setViewingDoc(doc)}
-        onOpenAddInspection={handleOpenAddInspection}
-        onOpenEditInspection={handleOpenEditInspection}
-        onDeleteInspection={(insp) => setInspectionToDelete(insp)}
-        onOpenAddChangeLog={handleOpenAddChangeLog}
-        onExportHostelResidents={handleExportHostelResidents}
-        showToast={showToast}
-        getBusinessInspections={getBusinessInspections}
-        isAccommodationBusiness={isAccommodationBusiness}
-      />
-
       {/* 2. Document Preview Modal */}
-      <BusinessDocumentModal 
+      <BusinessDocumentModal
         viewingDoc={viewingDoc}
         onClose={() => setViewingDoc(null)}
         onDownload={(file) => {
@@ -1563,7 +1629,7 @@ export default function BusinessManagement({
       />
 
       {/* 3. Add Business Modal */}
-      <BusinessAddModal 
+      <BusinessAddModal
         open={showAddModal}
         onClose={() => setShowAddModal(false)}
         onAdd={handleCreateBusiness}
@@ -1572,7 +1638,7 @@ export default function BusinessManagement({
       />
 
       {/* 4. Edit Business Modal */}
-      <BusinessEditModal 
+      <BusinessEditModal
         open={showEditModal}
         business={editingBusiness}
         onClose={() => {
@@ -1585,7 +1651,7 @@ export default function BusinessManagement({
       />
 
       {/* 5. Add Inspection Modal */}
-      <AddInspectionModal 
+      <AddInspectionModal
         open={showAddInspectionModal}
         business={selectedBusiness}
         onClose={() => setShowAddInspectionModal(false)}
@@ -1605,7 +1671,7 @@ export default function BusinessManagement({
       />
 
       {/* 6. Edit Inspection Modal */}
-      <EditInspectionModal 
+      <EditInspectionModal
         open={showEditInspectionModal}
         business={selectedBusiness}
         editingInspection={editingInspection}
@@ -1629,7 +1695,7 @@ export default function BusinessManagement({
       />
 
       {/* 7. Add Change Log Modal */}
-      <AddChangeLogModal 
+      <AddChangeLogModal
         open={showAddChangeLogModal}
         business={selectedBusiness}
         onClose={() => setShowAddChangeLogModal(false)}
@@ -1645,7 +1711,7 @@ export default function BusinessManagement({
       />
 
       {/* 8. Delete Inspection Confirmation */}
-      <DeleteConfirmationDialog 
+      <DeleteConfirmationDialog
         open={Boolean(inspectionToDelete)}
         title="Xác nhận xóa biên bản kiểm tra"
         description={
@@ -1660,7 +1726,7 @@ export default function BusinessManagement({
       />
 
       {/* 9. Delete Business Confirmation */}
-      <DeleteConfirmationDialog 
+      <DeleteConfirmationDialog
         open={Boolean(businessToDelete)}
         title="Xác nhận xóa cơ sở kinh doanh"
         description={
@@ -1678,13 +1744,13 @@ export default function BusinessManagement({
       {toast && (
         <div className="fixed top-4 right-4 z-[9999] animate-in fade-in slide-in-from-top-4 duration-300">
           <div className={`px-4 py-3 rounded-lg shadow-lg border text-xs font-semibold flex items-center gap-2 ${
-            toast.type === "success" 
-              ? "bg-emerald-50 border-emerald-200 text-emerald-800 dark:bg-emerald-950 dark:border-emerald-800 dark:text-emerald-200" 
+            toast.type === "success"
+              ? "bg-emerald-50 border-emerald-200 text-emerald-800"
               : toast.type === "warning"
-              ? "bg-amber-50 border-amber-200 text-amber-800 dark:bg-amber-950 dark:border-amber-800 dark:text-amber-200"
+              ? "bg-amber-50 border-amber-200 text-amber-800"
               : toast.type === "error"
-              ? "bg-rose-50 border-rose-200 text-rose-800 dark:bg-rose-950 dark:border-rose-800 dark:text-rose-200"
-              : "bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-950 dark:border-blue-800 dark:text-blue-200"
+              ? "bg-rose-50 border-rose-200 text-rose-800"
+              : "bg-blue-50 border-blue-200 text-blue-800"
           }`}>
             <span className={`w-2 h-2 rounded-full ${
               toast.type === "success" ? "bg-emerald-600" : toast.type === "warning" ? "bg-amber-600" : toast.type === "error" ? "bg-rose-600" : "bg-blue-600"

@@ -95,8 +95,8 @@ export default function BusinessDocumentModal({
             <span>Tờ BĐ: <strong className="font-mono text-primary">{viewingDoc.business.toBanDo || "272"}</strong></span>
             <span>Thửa đất: <strong className="font-mono text-primary">{viewingDoc.business.soThua || "55"}</strong></span>
             <span>Diện tích: <strong>{viewingDoc.business.dienTich ? `${viewingDoc.business.dienTich} m²` : "150 m²"}</strong></span>
-            <span>Loại đất: <strong className="text-emerald-600 dark:text-emerald-400">{viewingDoc.business.loaiDat || "ODT"}</strong></span>
-            <span>Số GCN: <strong className="font-mono text-rose-600 dark:text-rose-400">{viewingDoc.business.soGcn || "CH-098234"}</strong></span>
+            <span>Loại đất: <strong className="text-emerald-600">{viewingDoc.business.loaiDat || "ODT"}</strong></span>
+            <span>Số GCN: <strong className="font-mono text-rose-600">{viewingDoc.business.soGcn || "CH-098234"}</strong></span>
           </div>
           <div className="text-[11px] font-mono">
             {viewingDoc.file.name} ({viewingDoc.file.size || "520 KB"})
@@ -136,10 +136,10 @@ export default function BusinessDocumentModal({
                     <div className="text-xs font-bold uppercase tracking-wider text-foreground">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
                     <div className="font-medium text-xs text-muted-foreground underline decoration-1 underline-offset-4">Độc lập - Tự do - Hạnh phúc</div>
                     <div className="text-[10px] text-muted-foreground font-semibold tracking-widest pt-2 uppercase">BỘ TÀI NGUYÊN VÀ MÔI TRƯỜNG</div>
-                    <h2 className="text-lg font-bold text-rose-700 dark:text-rose-400 pt-1 tracking-tight uppercase">
+                    <h2 className="text-lg font-bold text-rose-700 pt-1 tracking-tight uppercase">
                       GIẤY CHỨNG NHẬN QUYỀN SỬ DỤNG ĐẤT
                     </h2>
-                    <h3 className="text-xs font-semibold text-rose-600 dark:text-rose-300 uppercase">
+                    <h3 className="text-xs font-semibold text-rose-600 uppercase">
                       QUYỀN SỞ HỮU NHÀ Ở VÀ TÀI SẢN KHÁC GẮN LIỀN VỚI ĐẤT
                     </h3>
                     <div className="text-[10px] text-muted-foreground font-mono pt-1">
@@ -172,7 +172,7 @@ export default function BusinessDocumentModal({
                         <p>5. Hình thức sử dụng: <strong className="text-foreground">Sử dụng riêng</strong></p>
                       </div>
                       <div className="grid grid-cols-2 gap-2">
-                        <p>6. Mục đích sử dụng: <strong className="text-emerald-600 dark:text-emerald-400">{viewingDoc.business.loaiDat || "Đất ở tại đô thị (ODT)"}</strong></p>
+                        <p>6. Mục đích sử dụng: <strong className="text-emerald-600">{viewingDoc.business.loaiDat || "Đất ở tại đô thị (ODT)"}</strong></p>
                         <p>7. Thời hạn sử dụng: <strong className="text-foreground">Lâu dài</strong></p>
                       </div>
                       <p>8. Nguồn gốc sử dụng: <strong className="text-foreground">Nhà nước công nhận quyền sử dụng đất có thu tiền sử dụng đất</strong></p>
@@ -181,7 +181,7 @@ export default function BusinessDocumentModal({
 
                   {isAccommodationBusiness(viewingDoc.business) && (
                     <div className="space-y-1 text-xs bg-amber-500/10 p-3 rounded-lg border border-amber-500/20">
-                      <h4 className="font-semibold text-amber-800 dark:text-amber-300 uppercase text-[10px]">
+                      <h4 className="font-semibold text-amber-800 uppercase text-[10px]">
                         III. Tài sản gắn liền với đất (Công trình Nhà trọ / Lưu trú):
                       </h4>
                       <p className="text-[11px] text-foreground pl-2">
@@ -194,7 +194,7 @@ export default function BusinessDocumentModal({
                     <div className="text-center space-y-1">
                       <span className="text-[10px] text-muted-foreground block">Trích lục số hóa bởi</span>
                       <span className="font-semibold text-foreground text-[11px]">Văn phòng Đăng ký Đất đai</span>
-                      <div className="text-emerald-600 dark:text-emerald-400 font-semibold text-[10px]">✓ ĐÃ XÁC THỰC CSDL ĐỊA CHÍNH</div>
+                      <div className="text-emerald-600 font-semibold text-[10px]">✓ ĐÃ XÁC THỰC CSDL ĐỊA CHÍNH</div>
                     </div>
 
                     <div className="text-center space-y-1">

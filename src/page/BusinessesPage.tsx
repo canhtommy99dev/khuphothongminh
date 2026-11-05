@@ -10,6 +10,8 @@ export interface BusinessesPageProps {
   onUpdateStatus: (id: string, status: any) => void;
   onUpdateBusinesses: React.Dispatch<React.SetStateAction<Business[]>>;
   onNavigateToGis: (item: TargetGisItem) => void;
+  params?: { id?: string; businessId?: string };
+  initialBusinessId?: string;
 }
 
 export default function BusinessesPage(props: BusinessesPageProps) {

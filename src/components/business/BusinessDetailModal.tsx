@@ -484,7 +484,7 @@ export default function BusinessDetailModal({
                     </div>
                     <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20">
                       <span className="text-[10px] text-muted-foreground block font-medium">Khách lưu trú thực tế</span>
-                      <strong className="text-emerald-600 dark:text-emerald-400 text-sm block mt-0.5">{actualCount} người</strong>
+                      <strong className="text-emerald-600 text-sm block mt-0.5">{actualCount} người</strong>
                     </div>
                     <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20">
                       <span className="text-[10px] text-muted-foreground block font-medium">Giá thuê tham khảo</span>
@@ -748,7 +748,7 @@ export default function BusinessDetailModal({
                           </div>
                           <p className="text-muted-foreground bg-muted/40 p-2 rounded text-[11px] leading-relaxed">{insp.note}</p>
                           {insp.recommendation && (
-                            <div className="text-[10px] text-amber-800 dark:text-amber-300 bg-amber-500/10 p-1.5 rounded">
+                            <div className="text-[10px] text-amber-800 bg-amber-500/10 p-1.5 rounded">
                               <strong>Yêu cầu khắc phục:</strong> {insp.recommendation}
                             </div>
                           )}

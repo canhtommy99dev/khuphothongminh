@@ -2,6 +2,8 @@
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -43,6 +45,7 @@
 
 /* 1. Base Document & Smooth Scrolling */
 html {
+  color-scheme: light;
   scroll-behavior: smooth;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -50,6 +53,7 @@ html {
 }
 
 body {
+  color-scheme: light;
   font-family: var(--font-sans);
   background-color: #f8fafc; /* Slate-50 */
   color: #0f172a;            /* Slate-900 */
