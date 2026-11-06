@@ -183,6 +183,8 @@ export interface Business {
   soDoFile?: BusinessFile;      // File PDF / Hình ảnh Sổ đỏ
   giayPhepFile?: BusinessFile;  // File PDF / Hình ảnh Giấy phép kinh doanh
   pcccFile?: BusinessFile;      // File PDF / Hình ảnh chứng nhận PCCC
+  pcccPassed?: boolean;         // Đạt chuẩn nghiệm thu PCCC
+  hasCamKetAnNinh?: boolean;    // Đã ký cam kết ANTT với Công an Phường
 
   // Nhật ký Kiểm tra định kỳ (Thanh tra PCCC, Vệ sinh ATTP, Trật tự đô thị...)
   inspections?: InspectionLog[];

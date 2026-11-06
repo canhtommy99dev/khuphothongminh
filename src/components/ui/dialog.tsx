@@ -33,7 +33,7 @@ function Dialog({ open, onOpenChange, children }: DialogProps) {
         className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity animate-in fade-in"
         onClick={() => onOpenChange(false)}
       />
-      <div className="relative z-50 w-full max-h-[92vh] flex flex-col pointer-events-auto">
+      <div className="relative z-50 w-full max-h-[92vh] flex flex-col items-center justify-center pointer-events-auto">
         {children}
       </div>
     </div>
@@ -48,7 +48,7 @@ const DialogContent = React.forwardRef<
     ref={ref}
     onClick={(e) => e.stopPropagation()}
     className={cn(
-      "relative flex flex-col w-full max-h-[90vh] overflow-hidden rounded-xl border border-border bg-background shadow-2xl transition-all animate-in zoom-in-95 duration-200",
+      "relative flex flex-col w-full mx-auto max-h-[90vh] overflow-hidden rounded-xl border border-border bg-background shadow-2xl transition-all animate-in zoom-in-95 duration-200",
       className
     )}
     {...props}

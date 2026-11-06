@@ -46,7 +46,7 @@ export default function AddShowPage({
   const [newIndustryGroup, setNewIndustryGroup] = useState("Dịch vụ ăn uống");
   const [newOwner, setNewOwner] = useState("");
   const [newPhone, setNewPhone] = useState("");
-  const [newAddress, setNewAddress] = useState("Khu phố 3, Phường An Phú, TP. Thủ Đức");
+  const [newAddress, setNewAddress] = useState("Khu phố 3, Phường An Phú, TP. Hồ Chí Minh");
   const [newTaxCode, setNewTaxCode] = useState("");
   const [newStatus, setNewStatus] = useState<"Đang hoạt động" | "Tạm ngưng" | "Chờ duyệt">("Đang hoạt động");
   const [newEmployeeCount, setNewEmployeeCount] = useState(2);

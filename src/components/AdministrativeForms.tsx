@@ -61,7 +61,7 @@ export default function AdministrativeForms({
   const [birthDate, setBirthDate] = useState("");
   const [cccd, setCccd] = useState("");
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("42/3 Lương Định Của, Khu phố 3, Phường An Phú, TP. Thủ Đức");
+  const [address, setAddress] = useState("42/3 Lương Định Của, Khu phố 3, Phường An Phú, TP. Hồ Chí Minh");
   const [customDetail, setCustomDetail] = useState("");
   
   const [copied, setCopied] = useState(false);
@@ -141,7 +141,7 @@ export default function AdministrativeForms({
     setPhone(currentUser?.role === "canbo" ? (currentUser.phone || "") : "");
     setBirthDate("");
     setCccd("");
-    setAddress("Số 42/ Lương Định Của, Khu phố 3, Phường An Phú, TP. Thủ Đức");
+    setAddress("Số 42/ Lương Định Của, Khu phố 3, Phường An Phú, TP. Hồ Chí Minh");
     setCustomDetail("");
   };
 
@@ -153,7 +153,7 @@ export default function AdministrativeForms({
     if (birthDate) content = content.replace(/\[01\/01\/1990\]/g, birthDate).replace(/\[01\/01\/1980\]/g, birthDate).replace(/\[15\/08\/1985\]/g, birthDate);
     if (cccd) content = content.replace(/\[079090001234\]/g, cccd).replace(/\[079080004567\]/g, cccd).replace(/\[079185002345\]/g, cccd);
     if (phone) content = content.replace(/\[0901234567\]/g, phone).replace(/\[0918765432\]/g, phone).replace(/\[0938987654\]/g, phone);
-    if (address) content = content.replace(/Số 42\/3 Lương Định Của, Khu phố 3, Phường An Phú, TP. Thủ Đức/g, address);
+    if (address) content = content.replace(/Số 42\/3 Lương Định Của, Khu phố 3, Phường An Phú, TP. Hồ Chí Minh/g, address);
     if (customDetail) content += `\n\nNỘI DUNG BỔ SUNG CỦA NGƯỜI LÀM ĐƠN:\n${customDetail}`;
     return content;
   };
@@ -199,7 +199,7 @@ export default function AdministrativeForms({
     setFormFileFormat("DOCX / PDF");
     setFormFileSize("45 KB");
     setAttachedFileName(null);
-    setFormTemplateContent(`CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM\nĐộc lập - Tự do - Hạnh phúc\n-----------------\n\nĐƠN ĐỀ NGHỊ\n\nKính gửi: UBND Phường An Phú, TP. Thủ Đức\n\n1. Tôi tên là: [HỌ VÀ TÊN]\n2. Sinh ngày: [01/01/1990]       Số CCCD: [079090001234]\n3. Địa chỉ thường trú: [Số ..., Khu phố 3, Phường An Phú, TP. Thủ Đức]\n4. Điện thoại: [0901234567]\n\nNỘI DUNG ĐỀ NGHỊ:\n[Kê khai nội dung đề nghị giải quyết tại đây...]\n\nTôi cam kết thông tin kê khai trên là hoàn toàn chính xác.\n\nNGƯỜI LÀM ĐƠN\n(Ký và ghi rõ họ tên)`);
+    setFormTemplateContent(`CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM\nĐộc lập - Tự do - Hạnh phúc\n-----------------\n\nĐƠN ĐỀ NGHỊ\n\nKính gửi: UBND Phường An Phú, TP. Thủ Đức\n\n1. Tôi tên là: [HỌ VÀ TÊN]\n2. Sinh ngày: [01/01/1990]       Số CCCD: [079090001234]\n3. Địa chỉ thường trú: [Số ..., Khu phố 3, Phường An Phú, TP. Hồ Chí Minh]\n4. Điện thoại: [0901234567]\n\nNỘI DUNG ĐỀ NGHỊ:\n[Kê khai nội dung đề nghị giải quyết tại đây...]\n\nTôi cam kết thông tin kê khai trên là hoàn toàn chính xác.\n\nNGƯỜI LÀM ĐƠN\n(Ký và ghi rõ họ tên)`);
     setIsFormModalOpen(true);
   };
 
@@ -253,7 +253,7 @@ export default function AdministrativeForms({
     } else {
       // For Word or PDF files, construct a standard template structure
       if (!formTemplateContent || formTemplateContent.includes("ĐƠN ĐỀ NGHỊ")) {
-        setFormTemplateContent(`CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM\nĐộc lập - Tự do - Hạnh phúc\n-----------------\n\n${cleanBaseName.toUpperCase()}\n(Đính kèm theo tệp số: ${file.name})\n\nKính gửi: UBND Phường An Phú, TP. Thủ Đức\n\n1. Người kê khai: [HỌ VÀ TÊN]\n2. Ngày sinh: [01/01/1990]       CCCD: [079090001234]\n3. Nơi cư trú: [Khu phố 3, Phường An Phú, TP. Thủ Đức]\n4. Điện thoại liên hệ: [0901234567]\n\nNỘI DUNG KÊ KHAI THEO BIỂU MẪU ĐÍNH KÈM:\n[Tệp gốc: ${file.name} - Kích thước: ${sizeInKB} KB]\n\nNGƯỜI KÊ KHAI\n(Ký và ghi rõ họ tên)`);
+        setFormTemplateContent(`CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM\nĐộc lập - Tự do - Hạnh phúc\n-----------------\n\n${cleanBaseName.toUpperCase()}\n(Đính kèm theo tệp số: ${file.name})\n\nKính gửi: UBND Phường An Phú, TP. Thủ Đức\n\n1. Người kê khai: [HỌ VÀ TÊN]\n2. Ngày sinh: [01/01/1990]       CCCD: [079090001234]\n3. Nơi cư trú: [Khu phố 3, Phường An Phú, TP. Hồ Chí Minh]\n4. Điện thoại liên hệ: [0901234567]\n\nNỘI DUNG KÊ KHAI THEO BIỂU MẪU ĐÍNH KÈM:\n[Tệp gốc: ${file.name} - Kích thước: ${sizeInKB} KB]\n\nNGƯỜI KÊ KHAI\n(Ký và ghi rõ họ tên)`);
       }
     }
 

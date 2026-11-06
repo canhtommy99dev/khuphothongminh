@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { 
-  LayoutDashboard, 
-  Users, 
-  Home, 
-  Briefcase, 
-  Map, 
-  Bot, 
-  MessageSquare, 
-  ShieldAlert, 
-  Menu, 
-  X, 
-  User, 
-  Settings, 
-  Heart, 
-  CalendarDays, 
-  Coins, 
-  FileText, 
-  LogOut, 
-  Building2, 
-  Store, 
-  CalendarCheck 
+import {
+  LayoutDashboard,
+  Users,
+  Home,
+  Briefcase,
+  Map,
+  Bot,
+  MessageSquare,
+  ShieldAlert,
+  Menu,
+  X,
+  User,
+  Settings,
+  Heart,
+  CalendarDays,
+  Coins,
+  FileText,
+  LogOut,
+  Building2,
+  Store,
+  CalendarCheck
 } from "lucide-react";
 import { ActiveTab } from "../types";
 import { Link, getDashboardExtensionPath, navigate } from "../routes";
@@ -36,13 +36,13 @@ interface SidebarProps {
   residentPermissions: Record<string, boolean>;
 }
 
-export default function Sidebar({ 
-  activeTab, 
-  setActiveTab, 
-  currentUser, 
-  onLogout, 
-  onSwitchRole, 
-  residentPermissions 
+export default function Sidebar({
+  activeTab,
+  setActiveTab,
+  currentUser,
+  onLogout,
+  onSwitchRole,
+  residentPermissions
 }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -84,13 +84,13 @@ export default function Sidebar({
   }, [isOpen]);
 
   const menuItems = [
-    { 
-      id: "dashboard", 
-      label: currentUser?.role === "canbo" ? "Tổng quan Cán bộ" : "Cổng Cư dân số", 
-      icon: LayoutDashboard 
+    {
+      id: "dashboard",
+      label: currentUser?.role === "canbo" ? "Tổng quan Cán bộ" : "Cổng Cư dân số",
+      icon: LayoutDashboard
     },
-    ...(currentUser?.role === "nguoidan" 
-      ? [{ id: "forms", label: "Biểu mẫu hành chính", icon: FileText }] 
+    ...(currentUser?.role === "nguoidan"
+      ? [{ id: "forms", label: "Biểu mẫu hành chính", icon: FileText }]
       : []
     ),
     { id: "residents", label: "Quản lý Dân cư", icon: Users },
@@ -112,7 +112,7 @@ export default function Sidebar({
   const visibleMenuItems = menuItems.filter(item => {
     if (!currentUser) return false;
     if (currentUser.role === "canbo") return true;
-    
+
     // For resident ("nguoidan"):
     // Check if the tab is allowed in residentPermissions
     return residentPermissions[item.id] ?? false;
@@ -121,7 +121,7 @@ export default function Sidebar({
   return (
     <>
       {/* Mobile Toggle Button */}
-      <button 
+      <button
         id="sidebar-toggle"
         onClick={() => setIsOpen(!isOpen)}
         className="fixed top-4 left-4 z-50 p-2 bg-emerald-600 text-white rounded-lg md:hidden hover:bg-emerald-700 transition-colors shadow-lg cursor-pointer"
@@ -132,7 +132,7 @@ export default function Sidebar({
 
       {/* Mobile Backdrop Overlay */}
       {isOpen && (
-        <div 
+        <div
           onClick={() => setIsOpen(false)}
           className="fixed inset-0 bg-slate-900/60 z-40 md:hidden backdrop-blur-xs transition-opacity duration-200"
           id="sidebar-backdrop"
@@ -140,10 +140,10 @@ export default function Sidebar({
       )}
 
       {/* Sidebar Container */}
-      <div 
+      <div
         id="sidebar-container"
         className={`fixed top-0 left-0 h-screen bg-slate-900 text-slate-100 flex flex-col z-50 transition-all duration-300 border-r border-slate-800
-          ${isOpen ? "w-64" : "w-20 md:w-20"} 
+          ${isOpen ? "w-64" : "w-20 md:w-20"}
           ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
         `}
       >
@@ -182,18 +182,18 @@ export default function Sidebar({
                   }
                 }}
                 className={`w-full flex items-center gap-3 px-3 py-2 lg:py-2.5 rounded-lg text-sm font-medium transition-all cursor-pointer group relative interactive-tap
-                  ${isActive 
-                    ? "bg-emerald-600/20 text-emerald-400 border-l-4 border-emerald-500 font-semibold shadow-inner" 
+                  ${isActive
+                    ? "bg-emerald-600/20 text-emerald-400 border-l-4 border-emerald-500 font-semibold shadow-inner"
                     : "text-slate-400 hover:bg-slate-800 hover:text-slate-100"
                   }
                 `}
                 title={`${item.label} (${itemPath})`}
               >
-                <IconComponent 
-                  size={20} 
-                  className={`shrink-0 transition-transform group-hover:scale-105 ${isActive ? "text-emerald-400" : "text-slate-400 group-hover:text-slate-100"}`} 
+                <IconComponent
+                  size={20}
+                  className={`shrink-0 transition-transform group-hover:scale-105 ${isActive ? "text-emerald-400" : "text-slate-400 group-hover:text-slate-100"}`}
                 />
-                
+
                 {isOpen && (
                   <span className="truncate">{item.label}</span>
                 )}
@@ -214,10 +214,10 @@ export default function Sidebar({
           <div className="flex items-center gap-3 justify-between">
             <div className="flex items-center gap-2.5 min-w-0">
               {currentUser?.role === "canbo" ? (
-                <img 
+                <img
                   id="sidebar-user-avatar"
                   src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150"
-                  alt="Avatar" 
+                  alt="Avatar"
                   className="w-9 h-9 rounded-full border border-slate-700 object-cover shrink-0"
                   referrerPolicy="no-referrer"
                 />
@@ -237,7 +237,7 @@ export default function Sidebar({
                 </div>
               )}
             </div>
-            
+
             {isOpen && (
               <button
                 onClick={onLogout}
@@ -259,7 +259,7 @@ export default function Sidebar({
               <span>{currentUser?.role === "nguoidan" ? "Đăng nhập Cán bộ" : "Về Cổng Cư dân"}</span>
             </Link>
           )}
-          
+
           {!isOpen && (
             <Link
               to={currentUser?.role === "canbo" ? "/" : "/dashboard"}

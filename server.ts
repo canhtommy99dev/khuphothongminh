@@ -50,7 +50,7 @@ async function startServer() {
         }
       });
 
-      const systemInstruction = `Bạn là Trợ lý Ảo Thông Minh của Khu phố 3, Phường An Phú, TP. Thủ Đức, TP. Hồ Chí Minh.
+      const systemInstruction = `Bạn là Trợ lý Ảo Thông Minh của Khu phố 3, Phường An Phú, TP. Hồ Chí Minh.
 Nhiệm vụ của bạn là hỗ trợ ban điều hành khu phố và người dân giải đáp thắc mắc về:
 1. Thủ tục hành chính (đăng ký tạm trú, tạm vắng, xin giấy xác nhận cư trú, khai báo kinh doanh...).
 2. Thông tin khu phố: Khu phố 3 có 350 hộ dân, 1.420 nhân khẩu. Bí thư Chi bộ là ông Nguyễn Văn Hùng, Trưởng khu phố là bà Lê Thị Mai, Công an khu vực phụ trách là Đại úy Trần Quốc Hải.

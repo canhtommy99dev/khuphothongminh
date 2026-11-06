@@ -229,7 +229,7 @@ def prepare_data():
         full_name = clean_text(row['HỌ VÀ TÊN'])
         owner_name = clean_text(row['HỌ TÊN CHỦ HỘ']) or full_name
         cccd = row['cccd_clean']
-        address = clean_text(row['ĐỊA CHỈ THƯỜNG TRÚ']) or "Khu phố 3, Phường An Phú, TP. Thủ Đức"
+        address = clean_text(row['ĐỊA CHỈ THƯỜNG TRÚ']) or "Khu phố 3, Phường An Phú, TP. Hồ Chí Minh"
         
         if code not in households_map:
             households_map[code] = {
@@ -275,7 +275,7 @@ def prepare_data():
         relation = "Chủ hộ" if full_name == owner_name else "Thành viên hộ"
         dob = row['dob_clean']
         
-        perm_addr = clean_text(row.get('ĐỊA CHỈ THƯỜNG TRÚ')) or "Khu phố 3, Phường An Phú, TP. Thủ Đức"
+        perm_addr = clean_text(row.get('ĐỊA CHỈ THƯỜNG TRÚ')) or "Khu phố 3, Phường An Phú, TP. Hồ Chí Minh"
         curr_addr = clean_text(row.get('CHỔ Ở HIỆN TẠI')) or perm_addr
 
         residents_list.append({
@@ -334,7 +334,7 @@ def prepare_data():
         owner_name = clean_text(row.get('HỌ TÊN CHỦ HỘ'))
         relation = "Người đứng tên tạm trú" if full_name == owner_name else "Thành viên tạm trú"
         dob = row['dob_clean']
-        dia_chi_tam_tru = clean_text(row['ĐỊA CHỈ TẠM TRÚ']) or "Khu phố 3, Phường An Phú, TP. Thủ Đức"
+        dia_chi_tam_tru = clean_text(row['ĐỊA CHỈ TẠM TRÚ']) or "Khu phố 3, Phường An Phú, TP. Hồ Chí Minh"
         dia_chi_goc = clean_text(row.get('ĐỊA CHỈ THƯỜNG TRÚ'))
         
         # Tách số điện thoại chủ trọ nếu có trong ngoặc đơn ví dụ (0985921995)

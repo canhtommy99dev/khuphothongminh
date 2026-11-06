@@ -20,8 +20,22 @@ export const ROUTES = {
 
   // Mở rộng link theo cú pháp: /dashboard/("sidebar content")
   DASHBOARD_RESIDENTS: "/dashboard/residents",
+  RESIDENT_DETAIL: "/resident_detail/:id",
+  DASHBOARD_RESIDENT_DETAIL: "/dashboard/residents/:id",
+  ADD_RESIDENT: "/add_resident",
+  DASHBOARD_ADD_RESIDENT: "/dashboard/residents/add",
+  ADD_FOREIGNER: "/add_foreigner",
+  DASHBOARD_ADD_FOREIGNER: "/dashboard/residents/add_foreigner",
+  IMPORT_RESIDENTS: "/import_residents",
+  DASHBOARD_IMPORT_RESIDENTS: "/dashboard/residents/import",
+  EDIT_RESIDENT: "/edit_resident/:id",
+  DASHBOARD_EDIT_RESIDENT: "/dashboard/residents/edit/:id",
   DASHBOARD_HOUSEHOLDS: "/dashboard/households",
+  ADD_HOUSEHOLD: "/add_household",
+  DASHBOARD_ADD_HOUSEHOLD: "/dashboard/households/add",
   DASHBOARD_ENTERPRISES: "/dashboard/enterprises",
+  ENTERPRISE_DETAIL: "/enterprise_detail/:id",
+  DASHBOARD_ENTERPRISE_DETAIL: "/dashboard/enterprises/:id",
   DASHBOARD_BUSINESSES: "/dashboard/businesses",
   ADD_SHOW: "/addshow",
   DASHBOARD_ADDSHOW: "/addshow",
@@ -32,6 +46,8 @@ export const ROUTES = {
   DASHBOARD_AI: "/dashboard/ai",
   DASHBOARD_REPORTS: "/dashboard/reports",
   DASHBOARD_PARTY: "/dashboard/party",
+  ADD_ASSOCIATION: "/add_association",
+  DASHBOARD_ADD_ASSOCIATION: "/dashboard/party/add",
   DASHBOARD_WELFARE: "/dashboard/welfare",
   DASHBOARD_CULTURAL: "/dashboard/cultural",
   DASHBOARD_FINANCE: "/dashboard/finance",
@@ -121,6 +137,33 @@ export function getTabFromDashboardPath(pathname: string): string | null {
   }
 
   if (
+    clean === "add_resident" ||
+    clean === "addresident" ||
+    clean === "dashboard/add_resident" ||
+    clean === "dashboard/residents/add" ||
+    clean === "add_foreigner" ||
+    clean === "dashboard/residents/add_foreigner" ||
+    clean === "import_residents" ||
+    clean === "importresidents" ||
+    clean === "dashboard/residents/import" ||
+    clean.startsWith("edit_resident") ||
+    clean.startsWith("dashboard/residents/edit") ||
+    clean.startsWith("resident_detail") ||
+    clean.startsWith("dashboard/residents/")
+  ) {
+    return "residents";
+  }
+
+  if (
+    clean === "add_household" ||
+    clean === "addhousehold" ||
+    clean === "dashboard/add_household" ||
+    clean === "dashboard/households/add"
+  ) {
+    return "households";
+  }
+
+  if (
     clean === "addshow" || 
     clean === "dashboard/addshow" ||
     clean.startsWith("edit_bussiness") ||
@@ -129,6 +172,23 @@ export function getTabFromDashboardPath(pathname: string): string | null {
     clean.startsWith("dashboard/edit_business")
   ) {
     return "businesses";
+  }
+
+  if (
+    clean.startsWith("enterprise_detail") ||
+    clean.startsWith("dashboard/enterprises/")
+  ) {
+    return "enterprises";
+  }
+
+  if (
+    clean === "add_association" ||
+    clean === "addassociation" ||
+    clean === "dashboard/add_association" ||
+    clean === "dashboard/party/add" ||
+    clean.startsWith("dashboard/party/")
+  ) {
+    return "party";
   }
 
   if (clean.startsWith("dashboard/")) {

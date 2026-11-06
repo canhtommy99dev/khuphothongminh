@@ -122,7 +122,7 @@ for _, row in df_tt.iterrows():
     dob = row['dob_clean']
 
     # Cột H: ĐỊA CHỈ THƯỜNG TRÚ
-    perm_addr = clean_text(row.get('ĐỊA CHỈ THƯỜNG TRÚ')) or "Khu phố 3, Phường An Phú, TP. Thủ Đức"
+    perm_addr = clean_text(row.get('ĐỊA CHỈ THƯỜNG TRÚ')) or "Khu phố 3, Phường An Phú, TP. Hồ Chí Minh"
     # Cột J: CHỔ Ở HIỆN TẠI
     curr_addr = clean_text(row.get('CHỔ Ở HIỆN TẠI')) or perm_addr
 
@@ -170,7 +170,7 @@ for _, row in df_tam_sorted.iterrows():
     dob = row['dob_clean']
 
     # Cột G: ĐỊA CHỈ TẠM TRÚ (nơi ở hiện tại / tạm trú KP3)
-    tam_addr = clean_text(row.get('ĐỊA CHỈ TẠM TRÚ')) or "Khu phố 3, Phường An Phú, TP. Thủ Đức"
+    tam_addr = clean_text(row.get('ĐỊA CHỈ TẠM TRÚ')) or "Khu phố 3, Phường An Phú, TP. Hồ Chí Minh"
     # Cột J: ĐỊA CHỈ THƯỜNG TRÚ (địa chỉ quê quán / thường trú gốc)
     perm_addr = clean_text(row.get('ĐỊA CHỈ THƯỜNG TRÚ')) or "Chưa cập nhật"
 

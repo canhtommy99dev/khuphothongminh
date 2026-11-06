@@ -211,7 +211,7 @@ def main():
             relation = "Chủ hộ" if full_name == owner_name else "Thành viên hộ"
             dob = row['dob_clean']
 
-            perm_addr = clean_text(row.get('ĐỊA CHỈ THƯỜNG TRÚ')) or "Khu phố 3, Phường An Phú, TP. Thủ Đức"
+            perm_addr = clean_text(row.get('ĐỊA CHỈ THƯỜNG TRÚ')) or "Khu phố 3, Phường An Phú, TP. Hồ Chí Minh"
             curr_addr = clean_text(row.get('CHỔ Ở HIỆN TẠI')) or perm_addr
 
             residents_list.append({
@@ -260,7 +260,7 @@ def main():
             relation = "Người đứng tên tạm trú" if full_name == owner_name else "Thành viên tạm trú"
             dob = row['dob_clean']
 
-            tam_addr = clean_text(row.get('ĐỊA CHỈ TẠM TRÚ')) or "Khu phố 3, Phường An Phú, TP. Thủ Đức"
+            tam_addr = clean_text(row.get('ĐỊA CHỈ TẠM TRÚ')) or "Khu phố 3, Phường An Phú, TP. Hồ Chí Minh"
             perm_addr = clean_text(row.get('ĐỊA CHỈ THƯỜNG TRÚ')) or "Chưa cập nhật"
 
             phone = None

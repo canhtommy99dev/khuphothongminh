@@ -6,7 +6,7 @@
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green?logo=supabase)](https://supabase.com/)
 [![Vite](https://img.shields.io/badge/Vite-6-646cff?logo=vite)](https://vite.dev/)
 
-**Cổng Dịch vụ Cư dân số & Hệ thống Quản lý Thông minh** cho Khu phố 3, Phường An Phú, TP. Thủ Đức, TP. Hồ Chí Minh.
+**Cổng Dịch vụ Cư dân số & Hệ thống Quản lý Thông minh** cho Khu phố 3, Phường An Phú, TP. Hồ Chí Minh.
 
 ---
 
@@ -152,4 +152,4 @@ npx vercel --prod --yes --token <VERCEL_TOKEN>
 
 ---
 
-*Ban Điều hành Khu phố 3, Phường An Phú, TP. Thủ Đức — 2026*
+*Ban Điều hành Khu phố 3, Phường An Phú, TP. Hồ Chí Minh — 2026*

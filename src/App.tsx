@@ -1,21 +1,21 @@
 import React, { useState, useEffect, Component, type ReactNode, type ErrorInfo } from "react";
-import { 
-  initialResidents, 
-  initialHouseholds, 
-  initialBusinesses, 
-  initialReports, 
+import {
+  initialResidents,
+  initialHouseholds,
+  initialBusinesses,
+  initialReports,
   initialPartyMembers,
   initialWelfareRecipients,
   initialCommunityEvents,
   initialFundContributions,
   initialNewsList
 } from "./mockData";
-import { 
-  Resident, 
-  Household, 
-  Business, 
-  FieldReport, 
-  PartyMember, 
+import {
+  Resident,
+  Household,
+  Business,
+  FieldReport,
+  PartyMember,
   ActiveTab,
   WelfareRecipient,
   CommunityEvent,
@@ -29,6 +29,7 @@ import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
 import CitizenManagement from "./components/CitizenManagement";
 import ResidentsPage from "./page/ResidentsPage";
+import HouseholdsPage from "./page/HouseholdsPage";
 import HouseholdManagement from "./components/HouseholdManagement";
 import BusinessManagement from "./components/BusinessManagement";
 import EnterpriseManagement from "./components/EnterpriseManagement";
@@ -46,19 +47,19 @@ import SettingsAndPermissions, { PendingRegistration } from "./components/Settin
 import AdministrativeForms from "./components/AdministrativeForms";
 import { inferRelationToOwner, extractBirthYear, autoExtractHostelBusinesses } from "./utils/householdRecognitionUtils";
 import CitizenLandingPage from "./components/CitizenLandingPage";
-import { 
-  ROUTES, 
-  navigate, 
-  getDashboardExtensionPath, 
-  getTabFromDashboardPath, 
-  Link 
+import {
+  ROUTES,
+  navigate,
+  getDashboardExtensionPath,
+  getTabFromDashboardPath,
+  Link
 } from "./routes";
 import { supabase, isSupabaseConfigured } from "./lib/supabase";
-import { 
-  Bell, 
-  Search, 
-  Menu, 
-  User, 
+import {
+  Bell,
+  Search,
+  Menu,
+  User,
   Users,
   ShieldAlert,
   ChevronDown,
@@ -296,7 +297,7 @@ export default function App() {
             phone: r.phone || "",
             status: (r.status as "Thường trú" | "Tạm trú" | "Tạm vắng") || "Thường trú",
             occupation: r.occupation || "",
-            address: r.address || r.current_address || r.permanent_address || "Khu phố 3, Phường An Phú, TP. Thủ Đức",
+            address: r.address || r.current_address || r.permanent_address || "Khu phố 3, Phường An Phú, TP. Hồ Chí Minh",
             permanentAddress: r.permanent_address || undefined,
             temporaryAddress: r.current_address || r.address || undefined,
             currentAddress: r.current_address || r.address || undefined,
@@ -308,8 +309,8 @@ export default function App() {
             householdId: r.household_code || (r.status === "Tạm trú" ? "Tạm trú" : "Chưa cập nhật"),
             relationToOwner: r.relation_to_owner || "Thành viên",
             workplace: r.workplace || undefined,
-            avatar: r.gender === "Nữ" 
-              ? "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" 
+            avatar: r.gender === "Nữ"
+              ? "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150"
               : "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150"
           }));
           setResidents(mappedResidents);
@@ -365,7 +366,7 @@ export default function App() {
         if (dbBusinesses && dbBusinesses.length > 0) {
           const loadedBusinesses: Business[] = dbBusinesses.map((b: any) => {
             // Đối chiếu với initialBusinesses để kế thừa thông tin giàu chi tiết (hình ảnh, nhật ký kiểm tra, sổ đỏ...)
-            const matchedMock = initialBusinesses.find(ib => 
+            const matchedMock = initialBusinesses.find(ib =>
               (ib.internalCode && ib.internalCode === b.internal_code) ||
               ib.name.trim().toLowerCase() === b.name.trim().toLowerCase() ||
               ib.id === b.id
@@ -477,7 +478,7 @@ export default function App() {
 
     fetchSupabaseData();
   }, []);
-  
+
   // New State variables for the 3 additional views
   const [welfareRecipients, setWelfareRecipients] = useState<WelfareRecipient[]>(initialWelfareRecipients);
   const [communityEvents, setCommunityEvents] = useState<CommunityEvent[]>(initialCommunityEvents);
@@ -598,7 +599,7 @@ export default function App() {
   // Handlers for State Management
   const handleAddResident = (newResident: Resident) => {
     setResidents([newResident, ...residents]);
-    
+
     // Auto-update household members if matched
     const hhId = newResident.householdId;
     setHouseholds(households.map(hh => {
@@ -641,7 +642,7 @@ export default function App() {
 
   const handleAddHousehold = (newH: Household) => {
     setHouseholds([newH, ...households]);
-    
+
     // Add owner to residents roster
     const ownerRes: Resident = {
       id: "R" + (residents.length + 1).toString().padStart(3, "0"),
@@ -706,16 +707,16 @@ export default function App() {
   };
 
   const handleUpdateReportStatus = async (
-    id: string, 
-    status: "Đã tiếp nhận" | "Đang xử lý" | "Đã giải quyết", 
+    id: string,
+    status: "Đã tiếp nhận" | "Đang xử lý" | "Đã giải quyết",
     actorName: string = "Cán bộ quản lý",
     actionDetail: string = "Cập nhật tiến độ xử lý phản ánh."
   ) => {
     setReports(prev => prev.map(r => {
       if (r.id === id) {
         const timeStr = new Date().toLocaleDateString("vi-VN") + " " + new Date().toLocaleTimeString("vi-VN", { hour12: false });
-        const afterImg = status === "Đã giải quyết" 
-          ? "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=300" 
+        const afterImg = status === "Đã giải quyết"
+          ? "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=300"
           : r.afterImage;
 
         return {
@@ -847,10 +848,18 @@ export default function App() {
   const getTabTitle = () => {
     switch (activeTab) {
       case "dashboard": return "Bảng Điều Hành Tổng Quan";
-      case "residents": return "Quản lý Nhân Khẩu & Dân cư";
+      case "residents":
+        if (typeof window !== "undefined") {
+          if (window.location.pathname.includes("/add_resident") || window.location.pathname.includes("/addresident")) return "Thêm Hồ Sơ Nhân Khẩu Mới";
+          if (window.location.pathname.includes("/add_foreigner")) return "Khai Báo Cư Dân Nước Ngoài";
+          if (window.location.pathname.includes("/import_residents") || window.location.pathname.includes("/importresidents")) return "Nạp Dữ Liệu Cư Dân";
+          if (/edit_resident/i.test(window.location.pathname)) return "Chỉnh Sửa Hồ Sơ Cư Dân";
+          if (/resident_detail/i.test(window.location.pathname)) return "Hồ Sơ Cư Dân Chi Tiết";
+        }
+        return "Quản lý Nhân Khẩu & Dân cư";
       case "households": return "Hệ thống Quản lý Sổ Hộ khẩu";
       case "enterprises": return "Quản lý Doanh nghiệp Vừa & Nhỏ (DNNVV)";
-      case "businesses": 
+      case "businesses":
         if (typeof window !== "undefined") {
           if (window.location.pathname.includes("/addshow")) return "Đăng ký Cơ sở Kinh doanh Mới (/addshow)";
           if (/edit_buss?iness/i.test(window.location.pathname)) return "Chỉnh sửa Thông tin Cơ sở Kinh doanh";
@@ -971,7 +980,7 @@ export default function App() {
         <main className="flex-1 p-3.5 sm:p-5 lg:p-6 overflow-y-auto max-w-7xl w-full mx-auto min-w-0">
           <AppErrorBoundary fallbackTab={citizenSubView} onReset={() => setActiveTab(citizenSubView)}>
             {citizenSubView === "gis" && (
-              <GisMap 
+              <GisMap
                 households={households}
                 onUpdateHouseholds={setHouseholds}
                 residents={residents}
@@ -986,7 +995,7 @@ export default function App() {
               <AiAssistant />
             )}
             {citizenSubView === "finance" && (
-              <NeighborhoodFunds 
+              <NeighborhoodFunds
                 contributions={fundContributions}
                 onAddContribution={handleAddFundContribution}
                 onUpdateContributionStatus={handleUpdateContributionStatus}
@@ -994,31 +1003,31 @@ export default function App() {
               />
             )}
             {citizenSubView === "forms" && (
-              <AdministrativeForms 
+              <AdministrativeForms
                 forms={administrativeForms}
                 onAddForm={handleAddForm}
                 onUpdateForm={handleUpdateForm}
                 onDeleteForm={handleDeleteForm}
-                currentUser={currentUser} 
+                currentUser={currentUser}
               />
             )}
             {citizenSubView === "reports" && (
-              <FieldReflections 
-                reports={reports} 
-                onAddReport={handleAddReport} 
-                onUpdateReportStatus={handleUpdateReportStatus} 
+              <FieldReflections
+                reports={reports}
+                onAddReport={handleAddReport}
+                onUpdateReportStatus={handleUpdateReportStatus}
                 onUpdateReports={setReports}
                 currentUser={currentUser}
               />
             )}
             {citizenSubView === "party" && (
-              <PartyBranch 
-                partyMembers={partyMembers} 
+              <PartyBranch
+                partyMembers={partyMembers}
                 residents={residents}
               />
             )}
             {citizenSubView === "welfare" && (
-              <SocialWelfare 
+              <SocialWelfare
                 recipients={welfareRecipients}
                 onUpdateStatus={handleUpdateWelfareStatus}
                 onAddRecipient={handleAddWelfareRecipient}
@@ -1027,7 +1036,7 @@ export default function App() {
               />
             )}
             {citizenSubView === "cultural" && (
-              <CommunityEvents 
+              <CommunityEvents
                 events={communityEvents}
                 onAddEvent={handleAddCommunityEvent}
                 onUpdateEventStatus={handleUpdateEventStatus}
@@ -1050,12 +1059,12 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 flex font-sans">
       {/* Sidebar Navigation */}
-      <Sidebar 
-        activeTab={activeTab} 
+      <Sidebar
+        activeTab={activeTab}
         setActiveTab={(tab) => {
           setActiveTab(tab);
           navigate(getDashboardExtensionPath(tab));
-        }} 
+        }}
         currentUser={currentUser}
         onLogout={() => {
           setCurrentUser(PUBLIC_CITIZEN_USER);
@@ -1077,7 +1086,7 @@ export default function App() {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col md:pl-20 lg:pl-64 min-w-0 transition-all duration-300">
-        
+
         {/* Top Header Bar */}
         <header className="h-16 border-b border-slate-200/80 bg-white/95 backdrop-blur-md flex items-center justify-between px-3 sm:px-6 sticky top-0 z-30 shrink-0 shadow-2xs transition-all">
           <div className="flex items-center gap-2 sm:gap-3 pl-12 md:pl-0 flex-1 min-w-0 mr-2 sm:mr-4">
@@ -1086,13 +1095,13 @@ export default function App() {
             </h2>
             <span className="hidden xl:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-slate-100 text-slate-600 border border-slate-200/60 shrink-0 select-none">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-              KP3 • P. An Phú • TP. Thủ Đức
+              KP3 • P. An Phú • TP. Hồ Chí Minh
             </span>
           </div>
 
           {/* Right Header items */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            
+
             {/* Info button for Plan & Database design */}
             <Link
               to={getDashboardExtensionPath("plan")}
@@ -1102,8 +1111,8 @@ export default function App() {
                 navigate(getDashboardExtensionPath("plan"));
               }}
               className={`p-1.5 rounded-lg transition-all duration-200 cursor-pointer relative group ${
-                activeTab === "plan" 
-                  ? "bg-emerald-100 text-emerald-800" 
+                activeTab === "plan"
+                  ? "bg-emerald-100 text-emerald-800"
                   : "text-slate-500 hover:text-slate-800 hover:bg-slate-100"
               }`}
               title="Đề án & Thiết kế Kiến trúc Cơ sở dữ liệu (/dashboard/plan)"
@@ -1117,7 +1126,7 @@ export default function App() {
 
             {/* Notifications panel toggle button */}
             <div className="relative group">
-              <button 
+              <button
                 id="header-notifications"
                 className="p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer relative"
               >
@@ -1131,7 +1140,7 @@ export default function App() {
               <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-slate-100 p-2 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-200 z-50">
                 <div className="px-3 py-2 border-b border-slate-50 flex justify-between items-center bg-slate-50/50 rounded-t-lg">
                   <span className="font-bold text-xs text-slate-700">Thông báo mới nhận</span>
-                  <button 
+                  <button
                     onClick={() => setNotifications(notifications.map(n => ({ ...n, unread: false })))}
                     className="text-[10px] text-emerald-600 hover:text-emerald-700 font-bold"
                   >
@@ -1213,7 +1222,7 @@ export default function App() {
                     <span className="text-xs font-bold text-slate-800 block">{currentUser.fullName}</span>
                     <span className="text-[10px] text-slate-400 font-mono uppercase tracking-wider block">Bí thư Chi bộ KP3</span>
                   </div>
-                  <img 
+                  <img
                     src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150"
                     alt={currentUser.fullName}
                     className="w-8 h-8 rounded-full border border-slate-200 object-cover shadow-xs shrink-0"
@@ -1240,13 +1249,13 @@ export default function App() {
         <main className="flex-1 p-3.5 sm:p-5 lg:p-6 overflow-y-auto max-w-7xl w-full mx-auto min-w-0">
           <AppErrorBoundary fallbackTab={activeTab} onReset={() => setActiveTab(activeTab)}>
           {activeTab === "dashboard" && (
-            <Dashboard 
-              residents={residents} 
-              households={households} 
-              businesses={businesses} 
-              reports={reports} 
+            <Dashboard
+              residents={residents}
+              households={households}
+              businesses={businesses}
+              reports={reports}
               forms={administrativeForms}
-              setActiveTab={setActiveTab} 
+              setActiveTab={setActiveTab}
               currentUser={currentUser}
             />
           )}
@@ -1267,60 +1276,45 @@ export default function App() {
           )}
 
           {activeTab === "households" && (
-            currentUser?.role === "nguoidan" && !residentPermissions.households ? (
-              <div className="bg-white rounded-3xl p-8 border border-slate-200 text-center space-y-4 max-w-lg mx-auto my-12 shadow-sm">
-                <div className="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto">
-                  <ShieldAlert size={32} />
-                </div>
-                <h3 className="text-lg font-bold text-slate-900">Không có quyền tra cứu Sổ Hộ Khẩu</h3>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Theo quy định bảo vệ thông tin cá nhân và an ninh dữ liệu, vai trò Cư dân không được phép tra cứu Sổ hộ khẩu điện tử & thông tin nhân khẩu của các hộ gia đình. Chức năng này chỉ dành riêng cho Cán bộ Quản lý.
-                </p>
-                <button
-                  onClick={() => setActiveTab("dashboard")}
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
-                >
-                  Quay về Cổng cư dân
-                </button>
-              </div>
-            ) : (
-              <HouseholdManagement 
-                households={households} 
-                onAddHousehold={handleAddHousehold} 
-                residents={residents}
-                onUpdateHouseholds={setHouseholds}
-                onUpdateResidents={setResidents}
-                onNavigateToGis={handleNavigateToGis}
-              />
-            )
+            <HouseholdsPage
+              households={households}
+              residents={residents}
+              currentUser={currentUser}
+              residentPermissions={residentPermissions}
+              onAddHousehold={handleAddHousehold}
+              onUpdateHouseholds={setHouseholds}
+              onUpdateResidents={setResidents}
+              onNavigateToGis={handleNavigateToGis}
+              setActiveTab={setActiveTab}
+            />
           )}
 
           {activeTab === "enterprises" && (
-            <EnterpriseManagement 
-              businesses={businesses} 
+            <EnterpriseManagement
+              businesses={businesses}
               residents={residents}
               households={households}
-              onToggleCertification={handleToggleBusinessCertification} 
-              onUpdateStatus={handleUpdateBusinessStatus} 
+              onToggleCertification={handleToggleBusinessCertification}
+              onUpdateStatus={handleUpdateBusinessStatus}
               onUpdateBusinesses={setBusinesses}
               onNavigateToGis={handleNavigateToGis}
             />
           )}
 
           {activeTab === "businesses" && (
-            <BusinessManagement 
-              businesses={businesses} 
+            <BusinessManagement
+              businesses={businesses}
               residents={residents}
               households={households}
-              onToggleCertification={handleToggleBusinessCertification} 
-              onUpdateStatus={handleUpdateBusinessStatus} 
+              onToggleCertification={handleToggleBusinessCertification}
+              onUpdateStatus={handleUpdateBusinessStatus}
               onUpdateBusinesses={setBusinesses}
               onNavigateToGis={handleNavigateToGis}
             />
           )}
 
           {activeTab === "gis" && (
-            <GisMap 
+            <GisMap
               households={households}
               onUpdateHouseholds={setHouseholds}
               residents={residents}
@@ -1341,10 +1335,10 @@ export default function App() {
           )}
 
           {activeTab === "reports" && (
-            <FieldReflections 
-              reports={reports} 
-              onAddReport={handleAddReport} 
-              onUpdateReportStatus={handleUpdateReportStatus} 
+            <FieldReflections
+              reports={reports}
+              onAddReport={handleAddReport}
+              onUpdateReportStatus={handleUpdateReportStatus}
               onUpdateReports={setReports}
               currentUser={currentUser}
             />
@@ -1375,25 +1369,25 @@ export default function App() {
                 currentUser={currentUser}
               />
             ) : (
-              <AdministrativeForms 
+              <AdministrativeForms
                 forms={administrativeForms}
                 onAddForm={handleAddForm}
                 onUpdateForm={handleUpdateForm}
                 onDeleteForm={handleDeleteForm}
-                currentUser={currentUser} 
+                currentUser={currentUser}
               />
             )
           )}
 
           {activeTab === "party" && (
-            <PartyBranch 
-              partyMembers={partyMembers} 
+            <PartyBranch
+              partyMembers={partyMembers}
               residents={residents}
             />
           )}
 
           {activeTab === "welfare" && (
-            <SocialWelfare 
+            <SocialWelfare
               recipients={welfareRecipients}
               onUpdateStatus={handleUpdateWelfareStatus}
               onAddRecipient={handleAddWelfareRecipient}
@@ -1403,7 +1397,7 @@ export default function App() {
           )}
 
           {activeTab === "cultural" && (
-            <CommunityEvents 
+            <CommunityEvents
               events={communityEvents}
               onAddEvent={handleAddCommunityEvent}
               onUpdateEventStatus={handleUpdateEventStatus}
@@ -1415,7 +1409,7 @@ export default function App() {
           )}
 
           {activeTab === "finance" && (
-            <NeighborhoodFunds 
+            <NeighborhoodFunds
               contributions={fundContributions}
               onAddContribution={handleAddFundContribution}
               onUpdateContributionStatus={handleUpdateContributionStatus}

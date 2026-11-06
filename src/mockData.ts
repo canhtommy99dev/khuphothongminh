@@ -1613,7 +1613,7 @@ export const initialBusinesses: Business[] = [
     industryGroup: "Lưu trú & Cho thuê",
     owner: "Phạm Văn Bình",
     phone: "0913137155",
-    address: "17/A3 Khu phố 3, Phường An Phú, TP. Thủ Đức, TP. Hồ Chí Minh",
+    address: "17/A3 Khu phố 3, Phường An Phú, TP. Hồ Chí Minh",
     licenseNumber: "GP-NT-2022/KP3",
     status: "Đang hoạt động",
     startDate: "15/06/2021",

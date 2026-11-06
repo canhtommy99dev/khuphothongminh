@@ -32,15 +32,15 @@ Kính gửi: Công an Phường An Phú, TP. Thủ Đức, TP. Hồ Chí Minh
 2. Ngày, tháng, năm sinh: [01/01/1990]       3. Giới tính: [Nam/Nữ]
 4. Số định danh cá nhân/Số CCCD: [079090001234]
 5. Số điện thoại liên hệ: [0901234567]      6. Email: [cudan@anphu.vn]
-7. Nơi thường trú: [Số 42/3 Lương Định Của, Khu phố 3, Phường An Phú, TP. Thủ Đức]
+7. Nơi thường trú: [Số 42/3 Lương Định Của, Khu phố 3, Phường An Phú, TP. Hồ Chí Minh]
 8. Nơi tạm trú: [...........................................................................]
-9. Nơi ở hiện tại: [Số 42/3 Lương Định Của, Khu phố 3, Phường An Phú, TP. Thủ Đức]
+9. Nơi ở hiện tại: [Số 42/3 Lương Định Của, Khu phố 3, Phường An Phú, TP. Hồ Chí Minh]
 10. Nghề nghiệp, nơi làm việc: [Kỹ sư phần mềm]
 11. Họ, chữ đệm và tên chủ hộ: [NGUYỄN VĂN A]
 12. Quan hệ với chủ hộ: [Chủ hộ]
 
 13. NỘI DUNG ĐỀ NGHỊ:
-Đăng ký thường trú / Nhập khẩu thành viên gia đình vào Sổ hộ khẩu số HK-301 tại địa chỉ số 42/3 Lương Định Của, Khu phố 3, Phường An Phú, TP. Thủ Đức.
+Đăng ký thường trú / Nhập khẩu thành viên gia đình vào Sổ hộ khẩu số HK-301 tại địa chỉ số 42/3 Lương Định Của, Khu phố 3, Phường An Phú, TP. Hồ Chí Minh.
 
 14. Những thành viên trong hộ gia đình cùng thay đổi:
 - Người thứ 1: [Họ tên, ngày sinh, CCCD, quan hệ]
@@ -81,12 +81,12 @@ Kính gửi:
 
 Tôi tên là: [NGUYỄN VĂN A]
 Sinh ngày: [01/01/1980]           Số CCCD: [079080004567]
-Địa chỉ thường trú: [Khu phố 3, Phường An Phú, TP. Thủ Đức, TP.HCM]
+Địa chỉ thường trú: [Khu phố 3, Phường An Phú, TP. Hồ Chí Minh]
 Số điện thoại liên hệ: [0918765432]
 
 Là chủ sở hữu căn nhà tọa lạc tại:
 Thửa đất số: [..................] Tờ bản đồ số: [..................]
-Tuyến hẻm: [Hẻm 42 Lương Định Của], Khu phố 3, Phường An Phú, TP. Thủ Đức.
+Tuyến hẻm: [Hẻm 42 Lương Định Của], Khu phố 3, Phường An Phú, TP. Hồ Chí Minh.
 
 Hiện trạng căn nhà:
 - Nhà cấp [......], kết cấu: [Bê tông cốt thép / Tường gạch mái tôn], số tầng: [......]
@@ -132,12 +132,12 @@ Tôi là: [LÊ THỊ B]
 Giới tính: [Nữ]               Sinh ngày: [15/08/1985]
 Dân tộc: [Kinh]               Quốc tịch: [Việt Nam]
 Số CCCD: [079185002345] cấp ngày: [10/05/2021] nơi cấp: [Cục Cảnh sát QLHC về TTXH]
-Địa chỉ thường trú: [56 Lương Định Của, Khu phố 3, Phường An Phú, TP. Thủ Đức]
+Địa chỉ thường trú: [56 Lương Định Của, Khu phố 3, Phường An Phú, TP. Hồ Chí Minh]
 Điện thoại: [0938987654]      Email: [tiemgiat.anphu@gmail.com]
 
 ĐĂNG KÝ HỘ KINH DOANH VỚI CÁC NỘI DUNG SAU:
 1. Tên hộ kinh doanh: [HỘ KINH DOANH TIỆM GIẶT ỦI AN PHÚ]
-2. Địa điểm kinh doanh: [Số 42/12 Lương Định Của, Khu phố 3, Phường An Phú, TP. Thủ Đức]
+2. Địa điểm kinh doanh: [Số 42/12 Lương Định Của, Khu phố 3, Phường An Phú, TP. Hồ Chí Minh]
 3. Ngành, nghề kinh doanh chính: [Dịch vụ giặt ủi, sấy khô quần áo đồ gia dụng]
 4. Vốn kinh doanh: [100.000.000 VNĐ] (Bằng chữ: Một trăm triệu đồng)
 5. Số lượng lao động: [02 người]
@@ -180,7 +180,7 @@ Họ, chữ đệm và tên: [..................................................
 Ngày, tháng, năm sinh: [..../..../........]         Giới tính: [Nam/Nữ]
 Số định danh cá nhân/CCCD: [................................................]
 Số điện thoại: [................................] Email: [........................................]
-Nơi thường trú: [Khu phố 3, Phường An Phú, TP. Thủ Đức, TP.HCM]
+Nơi thường trú: [Khu phố 3, Phường An Phú, TP. Hồ Chí Minh]
 
 2. Nội dung đề nghị xác nhận:
 Xác nhận thời gian thường trú thực tế của tôi và các thành viên gia đình từ năm [............] đến nay phục vụ thủ tục: [Làm hồ sơ chuyển quyền sở hữu nhà đất / Làm hồ sơ vay vốn ngân hàng].
@@ -298,7 +298,7 @@ TỜ KHAI CẤP GIẤY XÁC NHẬN TÌNH TRẠNG HÔN NHÂN
 Kính gửi: Ủy ban nhân dân Phường An Phú, TP. Thủ Đức, TP. Hồ Chí Minh
 
 Họ, chữ đệm, tên người yêu cầu: [...........................................................................]
-Nơi cư trú: [Số 42 Lương Định Của, Khu phố 3, Phường An Phú, TP. Thủ Đức]
+Nơi cư trú: [Số 42 Lương Định Của, Khu phố 3, Phường An Phú, TP. Hồ Chí Minh]
 Số CCCD: [................................] Cấp ngày: [..../..../........]
 Trong thời gian cư trú tại Phường An Phú từ ngày [..../..../........] đến nay:
 Tình trạng hôn nhân: [Chưa đăng ký kết hôn với ai / Đã ly hôn theo Bản án số ......]
@@ -379,7 +379,7 @@ Kính gửi: Hội đồng xét duyệt chính sách xã hội Phường An Phú
 Họ và tên: [...........................................................................]
 Ngày tháng năm sinh: [..../..../........]         Giới tính: [Nam/Nữ]
 Số CCCD: [................................................]
-Nơi ở hiện nay: [Khu phố 3, Phường An Phú, TP. Thủ Đức]
+Nơi ở hiện nay: [Khu phố 3, Phường An Phú, TP. Hồ Chí Minh]
 
 2. Thuộc diện đối tượng:
 [ ] Người từ đủ 80 tuổi trở lên không có lương hưu, trợ cấp BHXH hằng tháng.
@@ -472,7 +472,7 @@ Kính gửi (To): Công an Phường An Phú, TP. Thủ Đức, TP. Hồ Chí Mi
    Số hiệu / Number: [................................................]
    Có giá trị từ / Valid from: [..../..../........] đến / to: [..../..../........]
 8. Địa chỉ cơ sở lưu trú tại Việt Nam / Temporary address in Vietnam:
-   Số [......] đường Lương Định Của, Khu phố 3, Phường An Phú, TP. Thủ Đức, TP. Hồ Chí Minh
+   Số [......] đường Lương Định Của, Khu phố 3, Phường An Phú, TP. Hồ Chí Minh
 9. Mã số khai báo tạm trú trực tuyến (Cổng DVC): [KBTT-AP-2024-ONLINE]
 10. Chủ cơ sở lưu trú / Người bảo lãnh (Host / Landlord):
     Họ tên & SĐT liên hệ: [...........................................................................]

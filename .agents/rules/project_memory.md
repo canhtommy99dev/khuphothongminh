@@ -2,7 +2,7 @@
 
 AI Assistant (Antigravity) cần luôn ghi nhớ các thông số kỹ thuật sau trong mọi phiên làm việc:
 
-1. **Địa bàn:** Khu phố 3, Phường An Phú, TP. Thủ Đức, TP. Hồ Chí Minh.
+1. **Địa bàn:** Khu phố 3, Phường An Phú, TP. Hồ Chí Minh.
 2. **Database:** Supabase project `wjdgaobhipkgzveidtra` (URL: `https://wjdgaobhipkgzveidtra.supabase.co`).
 3. **Deployment:** Vercel project `bdhkp3` thuộc team `khupho3-s-projects`.
    - Domain: `https://bdhkp3.vercel.app`

@@ -94,7 +94,7 @@ const roadmapPhases: RoadmapPhase[] = [
       "Tài liệu BRD được kiểm duyệt bởi Tổ công tác chuyển đổi số Khu phố 3",
       "Bao quát đầy đủ 10 phân hệ cốt lõi, không bỏ sót bất kỳ quy trình nghiệp vụ thực tế nào"
     ],
-    prompt: "Bạn là Business Analyst và Solution Architect. Hãy phân tích nghiệp vụ hệ thống 'Khu phố thông minh' cho Khu phố 3, Phường An Phú, TP. Thủ Đức. Cung cấp tài liệu BRD hoàn chỉnh bao gồm User Story, Use Case, User Flow, chức năng và phi chức năng cho quản lý dân cư, nhà trọ, kinh doanh cá thể, chi bộ đảng, phản ánh hiện trường."
+    prompt: "Bạn là Business Analyst và Solution Architect. Hãy phân tích nghiệp vụ hệ thống 'Khu phố thông minh' cho Khu phố 3, Phường An Phú, TP. Hồ Chí Minh. Cung cấp tài liệu BRD hoàn chỉnh bao gồm User Story, Use Case, User Flow, chức năng và phi chức năng cho quản lý dân cư, nhà trọ, kinh doanh cá thể, chi bộ đảng, phản ánh hiện trường."
   },
   {
     id: 2,
@@ -1473,7 +1473,7 @@ Sau khi các **Tổ nhân dân tự quản kết thúc hoạt động** theo ch�
               Đề án & Kiến trúc Kỹ thuật "Khu phố thông minh"
             </h1>
             <p className="text-xs text-slate-300 mt-1 max-w-2xl">
-              Hồ sơ kế hoạch chuyển đổi số cấp cơ sở và mô hình thiết kế cơ sở dữ liệu Postgres/PostGIS, phân quyền RBAC phục vụ thực tế cho Khu phố 3, Phường An Phú, TP. Thủ Đức.
+              Hồ sơ kế hoạch chuyển đổi số cấp cơ sở và mô hình thiết kế cơ sở dữ liệu Postgres/PostGIS, phân quyền RBAC phục vụ thực tế cho Khu phố 3, Phường An Phú, TP. Hồ Chí Minh.
             </p>
           </div>
           

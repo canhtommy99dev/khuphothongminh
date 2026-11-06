@@ -6,7 +6,7 @@ Tài liệu này đóng vai trò là **Bộ nhớ làm việc (Agent Memory)** v
 
 ## 1. TỔNG QUAN DỰ ÁN & ĐỊA BÀN
 - **Tên dự án:** Remix Khu phố 3 An Phú - Quản lý thông minh & Cổng Dịch vụ Cư dân số.
-- **Địa bàn hành chính:** Khu phố 3, Phường An Phú, TP. Thủ Đức, TP. Hồ Chí Minh.
+- **Địa bàn hành chính:** Khu phố 3, Phường An Phú, TP. Hồ Chí Minh.
 - **Quy mô dân cư thực tế trong Database:** 
   - **488 hộ gia đình**
   - **11.632 nhân khẩu** (2.076 Thường trú + 9.556 Tạm trú đã khử trùng CCCD)

@@ -78,7 +78,7 @@ export default function HouseholdAutoRecognition({
     residents.forEach(res => {
       const isTamTru = res.status === "Tạm trú";
       const hId = (res.householdId || "").trim();
-      const addr = res.address || res.currentAddress || res.permanentAddress || "Khu phố 3, Phường An Phú, TP. Thủ Đức";
+      const addr = res.address || res.currentAddress || res.permanentAddress || "Khu phố 3, Phường An Phú, TP. Hồ Chí Minh";
       
       let key: string;
       let code: string;

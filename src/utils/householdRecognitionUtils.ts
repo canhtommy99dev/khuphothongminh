@@ -159,7 +159,7 @@ export function autoRecognizeHouseholds(residents: Resident[]): AutoRecognizedHo
     const isTamTru = res.status === "Tạm trú";
     let key: string;
     let code: string;
-    const address = res.address || res.currentAddress || res.permanentAddress || "Khu phố 3, Phường An Phú, TP. Thủ Đức";
+    const address = res.address || res.currentAddress || res.permanentAddress || "Khu phố 3, Phường An Phú, TP. Hồ Chí Minh";
 
     if (isTamTru) {
       // Đối với Tạm trú: Nhóm theo (Địa chỉ tạm trú chuẩn hóa + Họ tên người đăng ký/chủ hộ)
@@ -546,7 +546,7 @@ export function autoExtractHostelBusinesses(
     const ownerName = h.owner || `Chủ hộ trọ ${h.key}`;
     const cleanAddr = h.address.includes("Khu phố 3")
       ? h.address 
-      : `${h.key} Khu phố 3, Phường An Phú, TP. Thủ Đức, TP. Hồ Chí Minh`;
+      : `${h.key} Khu phố 3, Phường An Phú, TP. Hồ Chí Minh`;
 
     const internalId = `HKD-KP3-NT${String(nextIndex).padStart(3, "0")}`;
     const autoBusiness: Business = {

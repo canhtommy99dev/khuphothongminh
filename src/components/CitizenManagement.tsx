@@ -551,7 +551,7 @@ Kính gửi (To): Công an Phường An Phú, TP. Thủ Đức, TP. Hồ Chí Mi
    - Số hiệu / Number: ${res.visaOrCardNumber || "TRC-KR-2023-0941"}
    - Thời hạn cư trú / Validity: Từ ${res.visaValidFrom || "01/01/2023"} đến ${res.visaValidUntil || "31/12/2026"}
 8. Địa chỉ tạm trú tại Việt Nam / Temporary residential address:
-   - Địa chỉ: ${res.temporaryAddress || res.address || "42 Lương Định Của, Khu phố 3, Phường An Phú, TP. Thủ Đức, TP.HCM"}
+   - Địa chỉ: ${res.temporaryAddress || res.address || "42 Lương Định Của, Khu phố 3, Phường An Phú, TP. Hồ Chí Minh"}
    - Mã hộ liên kết: ${res.householdId || "HK-301"}
 9. Mã số khai báo tạm trú trực tuyến (Cổng Dịch vụ công BCA):
    - Mã hồ sơ: ${res.temporaryRegistrationCode || "KBTT-AP-2024-ONLINE"}
@@ -857,7 +857,7 @@ NGƯỜI NƯỚC NGOÀI KHAI BÁO       CHỦ CƠ SỞ LƯU TRÚ       XÁC NH�
             gender: row.gender === "Nữ" ? "Nữ" : "Nam",
             birth_date: birthDateIso,
             phone: row.phone && row.phone !== "N/A" ? row.phone.trim() : null,
-            address: (row.address || row.temporaryAddress || row.permanentAddress || "Khu phố 3, Phường An Phú, TP. Thủ Đức").trim(),
+            address: (row.address || row.temporaryAddress || row.permanentAddress || "Khu phố 3, Phường An Phú, TP. Hồ Chí Minh").trim(),
             permanent_address: row.permanentAddress?.trim() || null,
             current_address: (row.currentAddress || row.temporaryAddress || row.address)?.trim() || null,
             father_name: row.fatherName?.trim() || null,
@@ -4091,7 +4091,7 @@ NGƯỜI NƯỚC NGOÀI KHAI BÁO       CHỦ CƠ SỞ LƯU TRÚ       XÁC NH�
                 <div className="space-y-1 pt-1">
                   <p>
                     <strong>8. Địa chỉ cơ sở lưu trú tại Việt Nam / Temporary residential address:</strong>{" "}
-                    <span className="text-slate-900">{residentForNA17.temporaryAddress || residentForNA17.address || "42 Lương Định Của, Khu phố 3, Phường An Phú, TP. Thủ Đức, TP. Hồ Chí Minh"}</span>
+                    <span className="text-slate-900">{residentForNA17.temporaryAddress || residentForNA17.address || "42 Lương Định Của, Khu phố 3, Phường An Phú, TP. Hồ Chí Minh"}</span>
                   </p>
                   <p className="text-[11px] text-slate-500">
                     Mã hộ gia đình liên kết: <span className="font-mono font-semibold text-slate-700">{residentForNA17.householdId || "HK-301"}</span> ({residentForNA17.relationToOwner || "Người thuê trọ"})

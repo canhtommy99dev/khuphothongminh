@@ -53,6 +53,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/ui/tabs";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../components/ui/table";
 import { Separator } from "../components/ui/separator";
+import { navigate, useCurrentPath, ROUTES } from "../routes";
+import AddResidentPage from "./AddResidentPage";
+import EditResidentPage from "./EditResidentPage";
+import ImportResidentsPage from "./ImportResidentsPage";
+import ResidentDetailPage from "./ResidentDetailPage";
 
 export interface ResidentsPageProps {
   residents: Resident[];
@@ -100,7 +105,7 @@ const initialFormResident: Omit<Resident, "id"> & { id?: string } = {
   phone: "",
   status: "Thường trú",
   occupation: "Kinh doanh tự do",
-  address: "Khu phố 3, Phường An Phú, TP. Thủ Đức, TP. Hồ Chí Minh",
+  address: "Khu phố 3, Phường An Phú, TP. Hồ Chí Minh",
   householdId: "HK-001",
   relationToOwner: "Chủ hộ",
   ethnicity: "Kinh",
@@ -152,6 +157,54 @@ export default function ResidentsPage({
   onNavigateToGis,
   setActiveTab
 }: ResidentsPageProps) {
+  // Routing Detection for Subpages
+  const currentPath = useCurrentPath();
+
+  const isAddResident =
+    currentPath === "/add_resident" ||
+    currentPath === "/addresident" ||
+    currentPath === "/dashboard/residents/add" ||
+    currentPath.endsWith("/add_resident") ||
+    currentPath.endsWith("/addresident");
+
+  const isAddForeigner =
+    currentPath === "/add_foreigner" ||
+    currentPath === "/dashboard/residents/add_foreigner" ||
+    currentPath.endsWith("/add_foreigner");
+
+  const isImportResidents =
+    currentPath === "/import_residents" ||
+    currentPath === "/importresidents" ||
+    currentPath === "/dashboard/residents/import" ||
+    currentPath.endsWith("/import_residents") ||
+    currentPath.endsWith("/importresidents");
+
+  const editMatch = currentPath.match(/^\/(?:dashboard\/residents\/edit|edit_resident)\/([^/?#]+)/i);
+  const editingResidentId = editMatch ? decodeURIComponent(editMatch[1]) : null;
+  const isEditResident = Boolean(editingResidentId);
+
+  const residentToEdit = useMemo(() => {
+    if (editingResidentId) {
+      return residents.find((r) => r.id === editingResidentId || r.cccd === editingResidentId) || null;
+    }
+    return null;
+  }, [editingResidentId, residents]);
+
+  // Extract detail resident ID if on detail route (/resident_detail/:id or /dashboard/residents/:id)
+  const detailMatch = currentPath.match(/^\/(?:dashboard\/residents\/|resident_detail\/)([^/?#]+)/i);
+  const detailPathId =
+    detailMatch && !["add", "import", "add_foreigner"].includes(detailMatch[1])
+      ? decodeURIComponent(detailMatch[1])
+      : null;
+  const isDetailResident = Boolean(detailPathId);
+
+  const residentForDetail = useMemo(() => {
+    if (detailPathId) {
+      return residents.find((r) => r.id === detailPathId || r.cccd === detailPathId) || null;
+    }
+    return null;
+  }, [detailPathId, residents]);
+
   // Toast Notification state
   const [toastMessage, setToastMessage] = useState<{ text: string; type: "success" | "error" | "info" } | null>(null);
 
@@ -381,11 +434,10 @@ export default function ResidentsPage({
     setShowCT07Dialog(true);
   };
 
-  // Open Detail
+  // Open Detail Page
   const handleOpenDetail = (res: Resident) => {
     setSelectedResident(res);
-    setDetailActiveTab("identity");
-    setShowDetailDialog(true);
+    navigate(`/resident_detail/${encodeURIComponent(res.id)}`);
   };
 
   // Open Add Modal
@@ -401,59 +453,9 @@ export default function ResidentsPage({
     setShowFormDialog(true);
   };
 
-  // Open Edit Modal
+  // Open Edit Modal / Page
   const handleOpenEditModal = (res: Resident) => {
-    setIsEditing(true);
-    setFormData({
-      id: res.id,
-      fullName: res.fullName || "",
-      gender: res.gender || "Nam",
-      birthDate: res.birthDate || "01/01/1990",
-      cccd: res.cccd || "",
-      phone: res.phone || "",
-      status: res.status || "Thường trú",
-      occupation: res.occupation || "",
-      address: res.address || "",
-      householdId: res.householdId || "",
-      relationToOwner: res.relationToOwner || "Thành viên",
-      ethnicity: res.ethnicity || "Kinh",
-      religion: res.religion || "Không",
-      nationality: res.nationality || "Việt Nam",
-      hometown: res.hometown || "",
-      permanentAddress: res.permanentAddress || "",
-      temporaryAddress: res.temporaryAddress || "",
-      currentAddress: res.currentAddress || "",
-      education: res.education || "12/12",
-      fatherName: res.fatherName || "",
-      motherName: res.motherName || "",
-      temporaryRegDate: res.temporaryRegDate || "",
-      temporaryExpDate: res.temporaryExpDate || "",
-      managementStatus: res.managementStatus || "Bình thường",
-      maritalStatus: res.maritalStatus || "Đã kết hôn",
-      workplace: res.workplace || "",
-      idIssueDate: res.idIssueDate || "",
-      idIssuePlace: res.idIssuePlace || "",
-      healthInsuranceNumber: res.healthInsuranceNumber || "",
-      militaryServiceStatus: res.militaryServiceStatus || "Đã hoàn thành",
-      policyGroup: res.policyGroup || "Bình thường",
-      emergencyContact: res.emergencyContact || "",
-      notes: res.notes || "",
-      isForeigner: isForeignResident(res),
-      passportNumber: res.passportNumber || "",
-      passportExpiryDate: res.passportExpiryDate || "",
-      visaOrCardType: res.visaOrCardType || "Thẻ tạm trú (TRC)",
-      visaOrCardNumber: res.visaOrCardNumber || "",
-      visaValidFrom: res.visaValidFrom || "",
-      visaValidUntil: res.visaValidUntil || "",
-      temporaryRegistrationCode: res.temporaryRegistrationCode || "",
-      temporaryRegistrationDate: res.temporaryRegistrationDate || "",
-      temporaryRegistrationStatus: res.temporaryRegistrationStatus || "Đã khai báo",
-      workPermitNumber: res.workPermitNumber || "",
-      sponsoringOrganization: res.sponsoringOrganization || "",
-      landlordContact: res.landlordContact || ""
-    });
-    setFormActiveTab("basic");
-    setShowFormDialog(true);
+    navigate(`/edit_resident/${encodeURIComponent(res.id)}`);
   };
 
   // Submit Add / Edit Form
@@ -704,7 +706,7 @@ export default function ResidentsPage({
           const cccd = parts[1]?.trim() || `0790${Math.floor(10000000 + Math.random() * 90000000)}`;
           const birthDate = parts[2]?.trim() || "01/01/1990";
           const gender = parts[3]?.trim().toLowerCase().includes("nữ") ? "Nữ" : "Nam";
-          const address = parts[4]?.trim() || "Khu phố 3, Phường An Phú, TP. Thủ Đức";
+          const address = parts[4]?.trim() || "Khu phố 3, Phường An Phú, TP. Hồ Chí Minh";
           const status = parts[5]?.trim().toLowerCase().includes("tạm") ? "Tạm trú" : "Thường trú";
 
           parsed.push({
@@ -816,6 +818,91 @@ export default function ResidentsPage({
     );
   }
 
+  // Subpage Route Rendering: Resident Detail Page
+  if (isDetailResident) {
+    return (
+      <ResidentDetailPage
+        id={detailPathId || undefined}
+        resident={residentForDetail}
+        residents={residents}
+        households={households}
+        onBack={() => {
+          navigate(ROUTES.DASHBOARD_RESIDENTS);
+        }}
+        onEdit={(r) => {
+          navigate(`/edit_resident/${encodeURIComponent(r.id)}`);
+        }}
+        onNavigateToGis={onNavigateToGis}
+        showToast={showToast}
+      />
+    );
+  }
+
+  // Subpage Route Rendering: Edit Resident Page
+  if (isEditResident) {
+    return (
+      <EditResidentPage
+        id={editingResidentId || undefined}
+        resident={residentToEdit}
+        residents={residents}
+        households={households}
+        onSave={(updated) => {
+          if (onUpdateResidents) {
+            onUpdateResidents((prev) => prev.map((r) => (r.id === updated.id ? updated : r)));
+          }
+          navigate(ROUTES.DASHBOARD_RESIDENTS);
+        }}
+        onBack={() => {
+          navigate(ROUTES.DASHBOARD_RESIDENTS);
+        }}
+        showToast={showToast}
+      />
+    );
+  }
+
+  // Subpage Route Rendering: Add Resident / Foreigner Page
+  if (isAddResident || isAddForeigner) {
+    return (
+      <AddResidentPage
+        residents={residents}
+        households={households}
+        initialIsForeigner={isAddForeigner}
+        onAdd={(newResident) => {
+          if (onAddResident) {
+            onAddResident(newResident);
+          } else if (onUpdateResidents) {
+            onUpdateResidents((prev) => [newResident, ...prev]);
+          }
+          navigate(ROUTES.DASHBOARD_RESIDENTS);
+        }}
+        onBack={() => {
+          navigate(ROUTES.DASHBOARD_RESIDENTS);
+        }}
+        showToast={showToast}
+      />
+    );
+  }
+
+  // Subpage Route Rendering: Import Residents Page
+  if (isImportResidents) {
+    return (
+      <ImportResidentsPage
+        residents={residents}
+        households={households}
+        onImport={(imported) => {
+          if (onUpdateResidents) {
+            onUpdateResidents((prev) => [...imported, ...prev]);
+          }
+          navigate(ROUTES.DASHBOARD_RESIDENTS);
+        }}
+        onBack={() => {
+          navigate(ROUTES.DASHBOARD_RESIDENTS);
+        }}
+        showToast={showToast}
+      />
+    );
+  }
+
   return (
     <div className="space-y-6 pb-12 animate-in fade-in duration-300">
       {/* Toast Feedback */}
@@ -846,7 +933,7 @@ export default function ResidentsPage({
                 Chuẩn CSDL Quốc Gia 06
               </Badge>
               <Badge variant="outline" className="text-xs text-muted-foreground border-slate-200">
-                Khu phố 3, Phường An Phú, TP. Thủ Đức
+                Khu phố 3, Phường An Phú, TP. Hồ Chí Minh
               </Badge>
               <Badge variant="secondary" className="text-xs font-mono">
                 {residents.length.toLocaleString("vi-VN")} nhân khẩu
@@ -877,12 +964,9 @@ export default function ResidentsPage({
             <Button
               variant="outline"
               size="sm"
-              onClick={() => {
-                setShowImportDialog(true);
-                setImportText("");
-                setImportParsedPreview([]);
-              }}
+              onClick={() => navigate(ROUTES.IMPORT_RESIDENTS)}
               className="gap-2 font-medium text-emerald-700 border-emerald-200 hover:bg-emerald-50/60 shadow-2xs cursor-pointer"
+              title="Chuyển sang trang nạp dữ liệu cư dân (/import_residents)"
             >
               <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
               <span>Nhập Dữ Liệu</span>
@@ -891,8 +975,9 @@ export default function ResidentsPage({
             <Button
               variant="outline"
               size="sm"
-              onClick={() => handleOpenAddModal(true)}
+              onClick={() => navigate(ROUTES.ADD_FOREIGNER)}
               className="gap-2 font-medium text-blue-700 border-blue-200 hover:bg-blue-50/60 shadow-2xs cursor-pointer"
+              title="Chuyển sang trang khai báo người nước ngoài (/add_foreigner)"
             >
               <Globe className="w-4 h-4 text-blue-600" />
               <span>+ Người Nước Ngoài</span>
@@ -901,8 +986,9 @@ export default function ResidentsPage({
             <Button
               variant="default"
               size="sm"
-              onClick={() => handleOpenAddModal(false)}
+              onClick={() => navigate(ROUTES.ADD_RESIDENT)}
               className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-sm cursor-pointer"
+              title="Chuyển sang trang thêm nhân khẩu mới (/add_resident)"
             >
               <Plus className="w-4 h-4" />
               <span>+ Thêm Nhân Khẩu</span>
@@ -1667,7 +1753,7 @@ export default function ResidentsPage({
          ========================================================================= */}
       <Dialog open={showDetailDialog} onOpenChange={setShowDetailDialog}>
         <DialogContent
-          className="max-w-3xl max-h-[92vh] overflow-y-auto p-0 rounded-2xl"
+          className="max-w-3xl mx-auto max-h-[92vh] overflow-y-auto p-0 rounded-2xl"
           onClose={() => setShowDetailDialog(false)}
         >
           {selectedResident && (
@@ -1991,7 +2077,7 @@ export default function ResidentsPage({
          ========================================================================= */}
       <Dialog open={showFormDialog} onOpenChange={setShowFormDialog}>
         <DialogContent
-          className="max-w-2xl max-h-[90vh] overflow-y-auto p-0 rounded-2xl"
+          className="max-w-2xl mx-auto max-h-[90vh] overflow-y-auto p-0 rounded-2xl"
           onClose={() => setShowFormDialog(false)}
         >
           <form onSubmit={handleSaveResident}>
@@ -2321,7 +2407,7 @@ export default function ResidentsPage({
          ========================================================================= */}
       <Dialog open={showCT07Dialog} onOpenChange={setShowCT07Dialog}>
         <DialogContent
-          className="max-w-2xl max-h-[92vh] overflow-y-auto p-0 rounded-2xl"
+          className="max-w-2xl mx-auto max-h-[92vh] overflow-y-auto p-0 rounded-2xl"
           onClose={() => setShowCT07Dialog(false)}
         >
           {residentForCT07 && (
@@ -2462,7 +2548,7 @@ export default function ResidentsPage({
          ========================================================================= */}
       <Dialog open={showImportDialog} onOpenChange={setShowImportDialog}>
         <DialogContent
-          className="max-w-3xl max-h-[90vh] overflow-y-auto p-0 rounded-2xl"
+          className="max-w-3xl mx-auto max-h-[90vh] overflow-y-auto p-0 rounded-2xl"
           onClose={() => setShowImportDialog(false)}
         >
           <DialogHeader className="p-6 pb-4 border-b border-slate-200">
@@ -2568,7 +2654,7 @@ export default function ResidentsPage({
          ========================================================================= */}
       <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <DialogContent
-          className="max-w-md p-6 rounded-2xl"
+          className="max-w-md mx-auto p-6 rounded-2xl"
           onClose={() => setShowDeleteDialog(false)}
         >
           <div className="space-y-4">
