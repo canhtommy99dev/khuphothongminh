@@ -23,6 +23,10 @@ export const ROUTES = {
   DASHBOARD_HOUSEHOLDS: "/dashboard/households",
   DASHBOARD_ENTERPRISES: "/dashboard/enterprises",
   DASHBOARD_BUSINESSES: "/dashboard/businesses",
+  ADD_SHOW: "/addshow",
+  DASHBOARD_ADDSHOW: "/addshow",
+  EDIT_BUSSINESS: "/edit_bussiness/:id",
+  EDIT_BUSINESS: "/edit_business/:id",
   DASHBOARD_GIS: "/dashboard/gis",
   DASHBOARD_TASKS: "/dashboard/tasks",
   DASHBOARD_AI: "/dashboard/ai",
@@ -114,6 +118,17 @@ export function getTabFromDashboardPath(pathname: string): string | null {
   
   if (clean === "dashboard" || clean === "canbo") {
     return "dashboard";
+  }
+
+  if (
+    clean === "addshow" || 
+    clean === "dashboard/addshow" ||
+    clean.startsWith("edit_bussiness") ||
+    clean.startsWith("edit_business") ||
+    clean.startsWith("dashboard/edit_bussiness") ||
+    clean.startsWith("dashboard/edit_business")
+  ) {
+    return "businesses";
   }
 
   if (clean.startsWith("dashboard/")) {

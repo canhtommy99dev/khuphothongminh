@@ -53,8 +53,9 @@ import {
   IndustrySectorDef
 } from "./business/businessConstants";
 import BusinessDetailPage from "../page/BusinessDetailPage";
-import BusinessAddModal from "./business/BusinessAddModal";
-import BusinessEditModal from "./business/BusinessEditModal";
+import AddShowPage from "../page/AddShowPage";
+import EditBusinessPage from "../page/EditBusinessPage";
+import { navigate, useCurrentPath } from "../routes";
 import BusinessDocumentModal, { ViewingDocState } from "./business/BusinessDocumentModal";
 import {
   AddInspectionModal,
@@ -104,12 +105,26 @@ export default function BusinessManagement({
   // Collapsible Industry Statistics
   const [showIndustryStats, setShowIndustryStats] = useState(false);
 
+  const currentPath = useCurrentPath();
+  const isAddShow = currentPath === "/addshow" || currentPath === "/dashboard/addshow" || currentPath.endsWith("/addshow");
+
+  // Extract edit business ID if on edit route (/edit_bussiness/:params)
+  const editMatch = currentPath.match(/^\/(?:dashboard\/)?edit_buss?iness\/([^/?#]+)/i);
+  const editingBusinessId = editMatch ? decodeURIComponent(editMatch[1]) : null;
+  const isEditBusiness = Boolean(editingBusinessId);
+
   // Modal States
   const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [editingBusiness, setEditingBusiness] = useState<Business | null>(null);
+
+  // Resolve business being edited
+  const businessToEdit = useMemo(() => {
+    if (editingBusinessId) {
+      return businesses.find(b => b.id === editingBusinessId || b.internalCode === editingBusinessId) || editingBusiness;
+    }
+    return editingBusiness;
+  }, [editingBusinessId, businesses, editingBusiness]);
   const [viewingDoc, setViewingDoc] = useState<ViewingDocState | null>(null);
   const [businessToDelete, setBusinessToDelete] = useState<Business | null>(null);
 
@@ -642,7 +657,7 @@ export default function BusinessManagement({
 
   const handleOpenEditModal = (b: Business) => {
     setEditingBusiness(b);
-    setShowEditModal(true);
+    navigate(`/edit_bussiness/${encodeURIComponent(b.id)}`);
   };
 
   const handleSaveEditBusiness = (updated: Business) => {
@@ -696,7 +711,32 @@ export default function BusinessManagement({
         </div>
       )}
 
-      {currentSelectedBusiness ? (
+      {isEditBusiness ? (
+        <EditBusinessPage
+          id={editingBusinessId || undefined}
+          business={businessToEdit}
+          businesses={businesses}
+          households={households}
+          onSave={(updated) => {
+            handleSaveEditBusiness(updated);
+            navigate("/dashboard/businesses");
+          }}
+          onBack={() => {
+            navigate("/dashboard/businesses");
+          }}
+          showToast={showToast}
+        />
+      ) : isAddShow ? (
+        <AddShowPage
+          households={households}
+          businesses={businesses}
+          onAdd={handleCreateBusiness}
+          onBack={() => {
+            navigate("/dashboard/businesses");
+          }}
+          showToast={showToast}
+        />
+      ) : currentSelectedBusiness ? (
         <BusinessDetailPage
           business={currentSelectedBusiness}
           onBack={() => {
@@ -791,9 +831,9 @@ export default function BusinessManagement({
             <Button
               type="button"
               size="sm"
-              onClick={() => setShowAddModal(true)}
+              onClick={() => navigate("/addshow")}
               className="w-full sm:w-auto gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-sm hover:shadow-md border border-emerald-500 cursor-pointer transition-all active:scale-[0.98]"
-              title="Đăng ký cơ sở kinh doanh, hộ cá thể hoặc nhà trọ mới"
+              title="Đăng ký cơ sở kinh doanh, hộ cá thể hoặc nhà trọ mới (chuyển sang trang /addshow)"
             >
               <Plus size={15} className="text-white stroke-[3]" />
               <span className="font-bold text-white tracking-wide">Đăng ký Cơ sở Mới</span>
@@ -1626,28 +1666,6 @@ export default function BusinessManagement({
           showToast(`Đang tải xuống ${file.name}`, "info");
         }}
         isAccommodationBusiness={isAccommodationBusiness}
-      />
-
-      {/* 3. Add Business Modal */}
-      <BusinessAddModal
-        open={showAddModal}
-        onClose={() => setShowAddModal(false)}
-        onAdd={handleCreateBusiness}
-        households={households}
-        showToast={showToast}
-      />
-
-      {/* 4. Edit Business Modal */}
-      <BusinessEditModal
-        open={showEditModal}
-        business={editingBusiness}
-        onClose={() => {
-          setShowEditModal(false);
-          setEditingBusiness(null);
-        }}
-        onSave={handleSaveEditBusiness}
-        households={households}
-        showToast={showToast}
       />
 
       {/* 5. Add Inspection Modal */}

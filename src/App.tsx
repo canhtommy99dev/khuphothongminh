@@ -28,6 +28,7 @@ import { initialAdministrativeForms } from "./mockForms";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
 import CitizenManagement from "./components/CitizenManagement";
+import ResidentsPage from "./page/ResidentsPage";
 import HouseholdManagement from "./components/HouseholdManagement";
 import BusinessManagement from "./components/BusinessManagement";
 import EnterpriseManagement from "./components/EnterpriseManagement";
@@ -849,7 +850,12 @@ export default function App() {
       case "residents": return "Quản lý Nhân Khẩu & Dân cư";
       case "households": return "Hệ thống Quản lý Sổ Hộ khẩu";
       case "enterprises": return "Quản lý Doanh nghiệp Vừa & Nhỏ (DNNVV)";
-      case "businesses": return "Quản lý Cơ sở Kinh doanh KP3";
+      case "businesses": 
+        if (typeof window !== "undefined") {
+          if (window.location.pathname.includes("/addshow")) return "Đăng ký Cơ sở Kinh doanh Mới (/addshow)";
+          if (/edit_buss?iness/i.test(window.location.pathname)) return "Chỉnh sửa Thông tin Cơ sở Kinh doanh";
+        }
+        return "Quản lý Cơ sở Kinh doanh KP3";
       case "gis": return "Bản đồ số không gian GIS";
       case "ai": return "Hỏi đáp tự động Trợ lý AI";
       case "reports": return "Tiếp nhận Phản ánh Hiện trường 1022";
@@ -1246,33 +1252,18 @@ export default function App() {
           )}
 
           {activeTab === "residents" && (
-            currentUser?.role === "nguoidan" && !residentPermissions.residents ? (
-              <div className="bg-white rounded-3xl p-8 border border-slate-200 text-center space-y-4 max-w-lg mx-auto my-12 shadow-sm">
-                <div className="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto">
-                  <ShieldAlert size={32} />
-                </div>
-                <h3 className="text-lg font-bold text-slate-900">Không có quyền truy cập Nhân khẩu</h3>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Theo quy định bảo vệ dữ liệu cư dân, vai trò Cư dân không được phép tra cứu danh bạ nhân khẩu. Quyền này chỉ dành riêng cho Cán bộ Quản lý địa bàn.
-                </p>
-                <button
-                  onClick={() => setActiveTab("dashboard")}
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
-                >
-                  Quay về Cổng cư dân
-                </button>
-              </div>
-            ) : (
-              <CitizenManagement 
-                residents={residents} 
-                onAddResident={handleAddResident} 
-                onDeleteResident={handleDeleteResident} 
-                onUpdateResidents={setResidents}
-                onUpdateHouseholds={setHouseholds}
-                households={households}
-                onNavigateToGis={handleNavigateToGis}
-              />
-            )
+            <ResidentsPage
+              residents={residents}
+              households={households}
+              currentUser={currentUser}
+              residentPermissions={residentPermissions}
+              onAddResident={handleAddResident}
+              onDeleteResident={handleDeleteResident}
+              onUpdateResidents={setResidents}
+              onUpdateHouseholds={setHouseholds}
+              onNavigateToGis={handleNavigateToGis}
+              setActiveTab={setActiveTab}
+            />
           )}
 
           {activeTab === "households" && (
