@@ -34,6 +34,8 @@ export const ROUTES = {
   ADD_HOUSEHOLD: "/add_household",
   DASHBOARD_ADD_HOUSEHOLD: "/dashboard/households/add",
   DASHBOARD_ENTERPRISES: "/dashboard/enterprises",
+  ADD_ENTERPRISE: "/add_enterprise",
+  DASHBOARD_ADD_ENTERPRISE: "/dashboard/enterprises/add",
   ENTERPRISE_DETAIL: "/enterprise_detail/:id",
   DASHBOARD_ENTERPRISE_DETAIL: "/dashboard/enterprises/:id",
   DASHBOARD_BUSINESSES: "/dashboard/businesses",
@@ -175,8 +177,12 @@ export function getTabFromDashboardPath(pathname: string): string | null {
   }
 
   if (
+    clean === "add_enterprise" ||
+    clean === "addenterprise" ||
+    clean === "dashboard/add_enterprise" ||
+    clean === "dashboard/enterprises/add" ||
     clean.startsWith("enterprise_detail") ||
-    clean.startsWith("dashboard/enterprises/")
+    clean.startsWith("dashboard/enterprises")
   ) {
     return "enterprises";
   }

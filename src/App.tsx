@@ -858,7 +858,19 @@ export default function App() {
         }
         return "Quản lý Nhân Khẩu & Dân cư";
       case "households": return "Hệ thống Quản lý Sổ Hộ khẩu";
-      case "enterprises": return "Quản lý Doanh nghiệp Vừa & Nhỏ (DNNVV)";
+      case "enterprises":
+        if (typeof window !== "undefined") {
+          if (
+            window.location.pathname.includes("/enterprises/add") ||
+            window.location.pathname.includes("/add_enterprise")
+          ) {
+            return "Đăng Ký Doanh Nghiệp Mới (DNNVV)";
+          }
+          if (/enterprise_detail/i.test(window.location.pathname) || /enterprises\/[^/?#]+/i.test(window.location.pathname)) {
+            return "Hồ Sơ Doanh Nghiệp Chi Tiết";
+          }
+        }
+        return "Quản lý Doanh nghiệp Vừa & Nhỏ (DNNVV)";
       case "businesses":
         if (typeof window !== "undefined") {
           if (window.location.pathname.includes("/addshow")) return "Đăng ký Cơ sở Kinh doanh Mới (/addshow)";

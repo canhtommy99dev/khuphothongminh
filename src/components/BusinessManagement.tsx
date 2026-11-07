@@ -55,7 +55,8 @@ import {
 import BusinessDetailPage from "../page/BusinessDetailPage";
 import AddShowPage from "../page/AddShowPage";
 import EditBusinessPage from "../page/EditBusinessPage";
-import { navigate, useCurrentPath } from "../routes";
+import { navigate, useCurrentPath, ROUTES } from "../routes";
+import { isEnterpriseEntity } from "./EnterpriseManagement";
 import BusinessDocumentModal, { ViewingDocState } from "./business/BusinessDocumentModal";
 import {
   AddInspectionModal,
@@ -719,10 +720,18 @@ export default function BusinessManagement({
           households={households}
           onSave={(updated) => {
             handleSaveEditBusiness(updated);
-            navigate("/dashboard/businesses");
+            if (isEnterpriseEntity(updated)) {
+              navigate(`/dashboard/enterprises/${encodeURIComponent(updated.id)}`);
+            } else {
+              navigate("/dashboard/businesses");
+            }
           }}
           onBack={() => {
-            navigate("/dashboard/businesses");
+            if (businessToEdit && isEnterpriseEntity(businessToEdit)) {
+              navigate(`/dashboard/enterprises/${encodeURIComponent(businessToEdit.id)}`);
+            } else {
+              navigate("/dashboard/businesses");
+            }
           }}
           showToast={showToast}
         />
@@ -730,9 +739,20 @@ export default function BusinessManagement({
         <AddShowPage
           households={households}
           businesses={businesses}
-          onAdd={handleCreateBusiness}
+          onAdd={(newBusiness) => {
+            handleCreateBusiness(newBusiness);
+            if (isEnterpriseEntity(newBusiness) || (typeof window !== "undefined" && window.location.search.includes("enterprises"))) {
+              navigate(ROUTES.DASHBOARD_ENTERPRISES);
+            } else {
+              navigate("/dashboard/businesses");
+            }
+          }}
           onBack={() => {
-            navigate("/dashboard/businesses");
+            if (typeof window !== "undefined" && window.location.search.includes("enterprises")) {
+              navigate(ROUTES.DASHBOARD_ENTERPRISES);
+            } else {
+              navigate("/dashboard/businesses");
+            }
           }}
           showToast={showToast}
         />

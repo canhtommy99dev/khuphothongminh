@@ -54,8 +54,15 @@ export default function AddShowPage({
   const [newImage, setNewImage] = useState("");
   const [newCoordinates, setNewCoordinates] = useState("10.7935, 106.7445");
 
+  const isFromEnterprises =
+    typeof window !== "undefined" &&
+    (window.location.pathname.includes("enterprises") ||
+      window.location.search.includes("enterprises"));
+
   // SME Fields
-  const [newBusinessType, setNewBusinessType] = useState<"Hộ kinh doanh" | "Cơ sở kinh doanh khác" | "Doanh nghiệp tư nhân">("Hộ kinh doanh");
+  const [newBusinessType, setNewBusinessType] = useState<
+    "Hộ kinh doanh" | "Cơ sở kinh doanh khác" | "Doanh nghiệp tư nhân" | "Công ty TNHH" | "Công ty Cổ phần"
+  >(isFromEnterprises ? "Công ty TNHH" : "Hộ kinh doanh");
   const [newEnterpriseScale, setNewEnterpriseScale] = useState<"Siêu nhỏ (< 5 LĐ)" | "Nhỏ (5 - 20 LĐ)" | "Vừa (20 - 50 LĐ)" | "Lớn (> 50 LĐ)">("Siêu nhỏ (< 5 LĐ)");
   const [newStartDate, setNewStartDate] = useState("01/01/2024");
   const [newStreetArea, setNewStreetArea] = useState("Mặt tiền Lương Định Của");
@@ -101,6 +108,8 @@ export default function AddShowPage({
   const handleBack = () => {
     if (onBack) {
       onBack();
+    } else if (isFromEnterprises) {
+      navigate(ROUTES.DASHBOARD_ENTERPRISES);
     } else {
       navigate("/dashboard/businesses");
     }
@@ -235,12 +244,12 @@ export default function AddShowPage({
               onClick={handleBack} 
               className="hover:text-primary transition-colors cursor-pointer"
             >
-              Cơ sở Kinh doanh
+              {isFromEnterprises ? "Hồ sơ Doanh nghiệp" : "Cơ sở Kinh doanh"}
             </button>
             <span>/</span>
             <span className="text-foreground font-semibold">Đăng ký mới</span>
             <Badge variant="outline" className="font-mono text-[10px] py-0 px-1.5 border-emerald-500/40 text-emerald-700 bg-emerald-50/50">
-              /addshow
+              {isFromEnterprises ? "/dashboard/enterprises/add" : "/addshow"}
             </Badge>
           </div>
           <div className="flex items-center gap-3">
@@ -250,20 +259,22 @@ export default function AddShowPage({
               size="sm"
               onClick={handleBack}
               className="gap-1.5 text-xs font-semibold hover:bg-slate-100 cursor-pointer"
-              title="Quay lại danh sách cơ sở"
+              title={isFromEnterprises ? "Quay lại danh mục doanh nghiệp" : "Quay lại danh sách cơ sở"}
             >
               <ArrowLeft size={14} />
               <span>Quay lại</span>
             </Button>
             <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
               <span className="p-1.5 bg-emerald-100 text-emerald-800 rounded-lg inline-flex">
-                <Store size={20} />
+                {isFromEnterprises ? <Building size={20} /> : <Store size={20} />}
               </span>
-              Đăng ký Cơ sở Kinh doanh Mới
+              {isFromEnterprises ? "Đăng ký Doanh nghiệp Mới (DNNVV)" : "Đăng ký Cơ sở Kinh doanh Mới"}
             </h1>
           </div>
           <p className="text-xs text-muted-foreground">
-            Trang tạo lập hồ sơ cơ sở kinh doanh, hộ cá thể, nhà trọ và cập nhật hồ sơ địa chính trên địa bàn KP3
+            {isFromEnterprises
+              ? "Trang tạo lập hồ sơ doanh nghiệp vừa và nhỏ (DNNVV), chi nhánh và cơ sở pháp lý trên địa bàn KP3"
+              : "Trang tạo lập hồ sơ cơ sở kinh doanh, hộ cá thể, nhà trọ và cập nhật hồ sơ địa chính trên địa bàn KP3"}
           </p>
         </div>
 
@@ -363,6 +374,8 @@ export default function AddShowPage({
                   <option value="Hộ kinh doanh">Hộ kinh doanh cá thể</option>
                   <option value="Cơ sở kinh doanh khác">Cơ sở kinh doanh tại chỗ</option>
                   <option value="Doanh nghiệp tư nhân">Cơ sở tư nhân dịch vụ</option>
+                  <option value="Công ty TNHH">Công ty TNHH</option>
+                  <option value="Công ty Cổ phần">Công ty Cổ phần</option>
                 </select>
               </div>
 

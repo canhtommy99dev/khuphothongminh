@@ -370,40 +370,14 @@ export default function EnterpriseDetailPage({
   const [editPcccPassed, setEditPcccPassed] = useState(true);
   const [editHasCamKet, setEditHasCamKet] = useState(true);
 
-  // Mở modal Sửa
+  // Điều hướng sang trang Chỉnh sửa hồ sơ tại src/page (EditBusinessPage)
   const handleOpenEditModal = () => {
     if (!enterprise) return;
-    setEditName(enterprise.name);
-    setEditInternalCode(enterprise.internalCode || `DN-KP3-${enterprise.id}`);
-    setEditTaxCode(enterprise.taxCode || "");
-    setEditBusinessType(enterprise.businessType || "Công ty TNHH");
-    setEditEnterpriseScale(getEnterpriseScaleLabel(enterprise));
-    setEditType(enterprise.type || "Thương mại dịch vụ");
-    setEditStartDate(enterprise.startDate || "01/01/2024");
-    setEditAddress(enterprise.address);
-    setEditStreetArea(enterprise.streetArea || "Mặt tiền Lương Định Của");
-    setEditPremisesType(enterprise.premisesType || "Văn phòng");
-    setEditPremisesOwner(enterprise.premisesOwner || "");
-    setEditPremisesOwnerPhone(enterprise.premisesOwnerPhone || "");
-    setEditLinkedHouseholdCode(enterprise.linkedHouseholdCode || "");
-    setEditLegalRep(enterprise.legalRepresentative || enterprise.owner);
-    setEditLegalRepPhone(enterprise.legalRepPhone || enterprise.phone);
-    setEditLegalRepEmail(enterprise.legalRepEmail || "");
-    setEditSiteManager(enterprise.siteManager || enterprise.owner);
-    setEditSiteManagerPhone(enterprise.siteManagerPhone || enterprise.phone);
-    setEditFocalPointName(enterprise.focalPointName || enterprise.owner);
-    setEditFocalPointPhone(enterprise.focalPointPhone || enterprise.phone);
-    setEditFocalPointRole(enterprise.focalPointRole || "Đại diện phối hợp");
-    setEditEmployeeCount(enterprise.employeeCount || 5);
-    setEditLocalWorkers(enterprise.localWorkersCount ?? Math.floor((enterprise.employeeCount || 5) / 2));
-    setEditTemporaryWorkers(enterprise.temporaryWorkersCount ?? Math.ceil((enterprise.employeeCount || 5) / 2));
-    setEditForeignWorkers(enterprise.foreignWorkersCount || (enterprise.foreignWorkers?.length || 0));
-    setEditSupportNotes(enterprise.supportNotes || "");
-    setEditSupportNeeds(enterprise.supportNeeds || []);
-    setEditStatus(enterprise.status);
-    setEditPcccPassed(enterprise.pcccPassed ?? true);
-    setEditHasCamKet(enterprise.hasCamKetAnNinh ?? true);
-    setShowEditModal(true);
+    if (onEdit) {
+      onEdit(enterprise);
+    } else {
+      navigate(`/edit_bussiness/${encodeURIComponent(enterprise.id)}`);
+    }
   };
 
   // Lưu chỉnh sửa
@@ -1003,15 +977,15 @@ export default function EnterpriseDetailPage({
 
       {/* MAIN CONTAINER */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-        {/* HERO IDENTITY BANNER (Navy Gradient) */}
-        <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-indigo-900/60 relative overflow-hidden print:border print:text-black print:bg-none print:p-4">
-          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-1/3 -mb-20 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+        {/* HERO IDENTITY BANNER (White Card) */}
+        <div className="bg-white rounded-3xl p-6 sm:p-8 text-slate-900 shadow-sm border border-slate-200/80 relative overflow-hidden print:border print:text-black print:bg-none print:p-4">
+          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-1/3 -mb-20 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left">
             {/* Avatar & Upload Camera */}
             <div className="relative group shrink-0">
-              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl ring-4 ring-indigo-500/40 shadow-xl overflow-hidden border-2 border-indigo-400/80 bg-slate-800">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl ring-4 ring-indigo-100 shadow-md overflow-hidden border-2 border-indigo-200 bg-slate-100">
                 <img
                   src={enterprise.image || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400"}
                   alt={enterprise.name}
@@ -1019,10 +993,10 @@ export default function EnterpriseDetailPage({
                 />
               </div>
               <label
-                className="absolute inset-0 bg-slate-950/70 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex flex-col items-center justify-center text-white cursor-pointer print:hidden"
+                className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex flex-col items-center justify-center text-white cursor-pointer print:hidden"
                 title="Thay đổi ảnh đại diện"
               >
-                <Camera size={20} className="text-indigo-300 mb-1" />
+                <Camera size={20} className="text-white mb-1" />
                 <span className="text-[10px] font-bold">Đổi ảnh</span>
                 <input type="file" accept="image/*" className="hidden" onChange={handleChangeAvatarPhoto} />
               </label>
@@ -1034,7 +1008,7 @@ export default function EnterpriseDetailPage({
                 <Badge
                   variant="outline"
                   onClick={() => handleCopy(enterprise.internalCode || `DN-KP3-${enterprise.id}`, "Mã nội bộ")}
-                  className="font-mono text-xs font-bold border-indigo-400/60 text-indigo-200 bg-indigo-950/90 hover:bg-indigo-900 cursor-pointer transition-colors"
+                  className="font-mono text-xs font-bold border-indigo-200 text-indigo-700 bg-indigo-50 hover:bg-indigo-100 cursor-pointer transition-colors"
                   title="Nhấp để sao chép mã"
                 >
                   {copiedField === "Mã nội bộ" ? "✓ Đã chép" : enterprise.internalCode || `DN-KP3-${enterprise.id}`}
@@ -1044,15 +1018,15 @@ export default function EnterpriseDetailPage({
                   <Badge
                     variant="outline"
                     onClick={() => handleCopy(enterprise.taxCode || "", "Mã số thuế")}
-                    className="font-mono text-xs font-bold border-amber-400/60 text-amber-300 bg-amber-950/80 hover:bg-amber-900 cursor-pointer transition-colors"
+                    className="font-mono text-xs font-bold border-amber-200 text-amber-800 bg-amber-50 hover:bg-amber-100 cursor-pointer transition-colors"
                     title="Nhấp để sao chép MST"
                   >
                     {copiedField === "Mã số thuế" ? "✓ Đã chép MST" : `MST: ${enterprise.taxCode}`}
                   </Badge>
                 )}
 
-                <Badge variant="outline" className="text-xs font-bold border-slate-600 text-slate-300 bg-slate-900/90">
-                  <Briefcase size={12} className="mr-1 text-indigo-400" />
+                <Badge variant="outline" className="text-xs font-bold border-slate-200 text-slate-700 bg-slate-50">
+                  <Briefcase size={12} className="mr-1 text-indigo-600" />
                   {enterprise.businessType || "Công ty TNHH"}
                 </Badge>
 
@@ -1075,28 +1049,28 @@ export default function EnterpriseDetailPage({
                 </Badge>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-snug print:text-black">
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-snug print:text-black">
                 {enterprise.name}
               </h1>
 
               {/* Address & Hot Actions */}
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-y-2 gap-x-4 text-xs text-slate-300">
-                <div className="flex items-center gap-1.5 text-indigo-200">
-                  <MapPin size={14} className="shrink-0 text-indigo-400" />
-                  <span className="font-medium">{enterprise.address}</span>
-                  <span className="text-slate-400">({enterprise.streetArea || "Lương Định Của"})</span>
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-y-2 gap-x-4 text-xs text-slate-600">
+                <div className="flex items-center gap-1.5 text-slate-700">
+                  <MapPin size={14} className="shrink-0 text-indigo-600" />
+                  <span className="font-medium text-slate-900">{enterprise.address}</span>
+                  <span className="text-slate-500">({enterprise.streetArea || "Lương Định Của"})</span>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-slate-300">
-                  <User size={14} className="shrink-0 text-indigo-400" />
+                <div className="flex items-center gap-1.5 text-slate-600">
+                  <User size={14} className="shrink-0 text-indigo-600" />
                   <span>ĐDPL: </span>
-                  <strong className="text-white print:text-black">{enterprise.legalRepresentative || enterprise.owner}</strong>
+                  <strong className="text-slate-900 print:text-black">{enterprise.legalRepresentative || enterprise.owner}</strong>
                 </div>
 
                 {enterprise.phone && (
                   <div className="flex items-center gap-1.5">
-                    <Phone size={13} className="shrink-0 text-emerald-400" />
-                    <a href={`tel:${enterprise.phone}`} className="font-mono text-emerald-300 hover:underline">
+                    <Phone size={13} className="shrink-0 text-emerald-600" />
+                    <a href={`tel:${enterprise.phone}`} className="font-mono text-emerald-700 font-semibold hover:underline">
                       {enterprise.phone}
                     </a>
                   </div>
@@ -1105,14 +1079,14 @@ export default function EnterpriseDetailPage({
             </div>
 
             {/* GIS Pin Box */}
-            <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-700/80 text-center space-y-2 shrink-0 w-full sm:w-auto print:border-black">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+            <div className="bg-slate-50/80 p-4 rounded-2xl border border-slate-200 text-center space-y-2 shrink-0 w-full sm:w-auto print:border-black">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 block">
                 Định vị WGS-84 GIS
               </span>
-              <div className="font-mono text-xs font-bold text-indigo-300">
+              <div className="font-mono text-xs font-bold text-indigo-600">
                 {coords.lat.toFixed(5)}, {coords.lng.toFixed(5)}
               </div>
-              <p className="text-[10px] text-slate-400 font-mono">
+              <p className="text-[10px] text-slate-500 font-mono">
                 {dmsString}
               </p>
               <div className="flex items-center justify-center gap-1.5 pt-1 print:hidden">
@@ -1120,17 +1094,17 @@ export default function EnterpriseDetailPage({
                   variant="outline"
                   size="xs"
                   onClick={handleOpenPinModal}
-                  className="bg-indigo-950/60 border-indigo-500/40 text-indigo-200 hover:bg-indigo-900 font-semibold cursor-pointer"
+                  className="bg-white border-slate-300 text-indigo-700 hover:bg-slate-100 font-semibold cursor-pointer shadow-2xs"
                 >
-                  <MapPin size={12} className="mr-1" /> Ghim lại
+                  <MapPin size={12} className="mr-1 text-indigo-600" /> Ghim lại
                 </Button>
                 <a
                   href={getGoogleMapsDirectionUrl(coords.lat, coords.lng, enterprise.address)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-blue-300 border border-slate-700 rounded-md font-semibold text-xs flex items-center gap-1 cursor-pointer"
+                  className="px-2 py-1 bg-white hover:bg-slate-100 text-blue-700 border border-slate-300 rounded-md font-semibold text-xs flex items-center gap-1 cursor-pointer shadow-2xs"
                 >
-                  <ExternalLink size={11} /> Bản đồ
+                  <ExternalLink size={11} className="text-blue-600" /> Bản đồ
                 </a>
               </div>
             </div>
@@ -1985,13 +1959,13 @@ export default function EnterpriseDetailPage({
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-3 py-2 text-xs">
+          <div className="space-y-3 py-2 text-xs ml-6 mr-6">
             <div>
               <label className="font-bold block mb-1">Loại biến động:</label>
               <select
                 value={changeType}
                 onChange={(e) => setChangeType(e.target.value as any)}
-                className="w-full border border-input rounded-md px-2.5 py-1.5 text-xs bg-white"
+                className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1.5 text-xs shadow-2xs font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
               >
                 <option value="Thay đổi ngành nghề">Thay đổi ngành nghề</option>
                 <option value="Thay đổi người đại diện">Thay đổi người đại diện</option>
@@ -2004,7 +1978,12 @@ export default function EnterpriseDetailPage({
 
             <div>
               <label className="font-bold block mb-1">Ngày ghi nhận:</label>
-              <Input type="date" value={changeDate} onChange={(e) => setChangeDate(e.target.value)} />
+              <Input
+                type="date"
+                value={changeDate}
+                onChange={(e) => setChangeDate(e.target.value)}
+                className="px-3 text-xs"
+              />
             </div>
 
             <div>
@@ -2014,13 +1993,18 @@ export default function EnterpriseDetailPage({
                 value={changeDesc}
                 onChange={(e) => setChangeDesc(e.target.value)}
                 placeholder="Nhập nội dung biến động hoặc biên bản kiểm tra..."
-                className="w-full border border-input rounded-md p-2 text-xs bg-white"
+                className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-xs shadow-2xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 leading-relaxed"
               />
             </div>
 
             <div>
               <label className="font-bold block mb-1">Cán bộ / Tổ công tác ghi nhận:</label>
-              <Input value={changeRecordedBy} onChange={(e) => setChangeRecordedBy(e.target.value)} />
+              <Input
+                value={changeRecordedBy}
+                onChange={(e) => setChangeRecordedBy(e.target.value)}
+                placeholder="Nhập tên cán bộ / tổ công tác ghi nhận..."
+                className="px-3 text-xs"
+              />
             </div>
           </div>
 

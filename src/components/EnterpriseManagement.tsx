@@ -64,6 +64,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "./ui/table";
 import { Separator } from "./ui/separator";
 import EnterpriseDetailPage from "../page/EnterpriseDetailPage";
+import AddShowPage from "../page/AddShowPage";
 import { navigate, useCurrentPath, ROUTES } from "../routes";
 
 export interface EnterpriseManagementProps {
@@ -124,10 +125,21 @@ export default function EnterpriseManagement({
   const currentPath = useCurrentPath();
   const [viewingEnterpriseDetailId, setViewingEnterpriseDetailId] = useState<string | null>(null);
 
+  const isAddEnterpriseRoute = useMemo(() => {
+    const clean = currentPath.replace(/^\/+|\/+$/g, "");
+    return (
+      clean === "dashboard/enterprises/add" ||
+      clean === "add_enterprise" ||
+      clean === "addenterprise" ||
+      (clean.startsWith("addshow") && clean.includes("enterprises"))
+    );
+  }, [currentPath]);
+
   const isEnterpriseDetailRoute = useMemo(() => {
     const clean = currentPath.replace(/^\/+|\/+$/g, "");
+    if (isAddEnterpriseRoute || clean === "dashboard/enterprises/add") return false;
     return clean.startsWith("dashboard/enterprises/") || clean.startsWith("enterprise_detail");
-  }, [currentPath]);
+  }, [currentPath, isAddEnterpriseRoute]);
 
   const detailPathId = useMemo(() => {
     if (!isEnterpriseDetailRoute) return null;
@@ -405,39 +417,10 @@ export default function EnterpriseManagement({
     navigate(`/dashboard/enterprises/${encodeURIComponent(ent.id)}`);
   };
 
-  // Open Edit Modal
+  // Điều hướng sang trang Chỉnh sửa hồ sơ tại src/page (EditBusinessPage)
   const handleOpenEditModal = (ent: Business) => {
     setSelectedEnterprise(ent);
-    setEditName(ent.name);
-    setEditInternalCode(ent.internalCode || `DN-KP3-${ent.id}`);
-    setEditTaxCode(ent.taxCode || "");
-    setEditBusinessType((ent.businessType as any) || "Công ty TNHH");
-    setEditEnterpriseScale(getEnterpriseScaleLabel(ent));
-    setEditType(ent.type || "Thương mại dịch vụ");
-    setEditStartDate(ent.startDate || "01/01/2024");
-    setEditAddress(ent.address);
-    setEditStreetArea(ent.streetArea || (ent.address.includes("42") ? "Hẻm 42 Lương Định Của" : "Mặt tiền Lương Định Của"));
-    setEditPremisesType((ent.premisesType as any) || "Văn phòng");
-    setEditPremisesOwner(ent.premisesOwner || "");
-    setEditPremisesOwnerPhone(ent.premisesOwnerPhone || "");
-    setEditLinkedHouseholdCode(ent.linkedHouseholdCode || "");
-    setEditLegalRep(ent.legalRepresentative || ent.owner);
-    setEditLegalRepPhone(ent.legalRepPhone || ent.phone);
-    setEditLegalRepEmail(ent.legalRepEmail || "");
-    setEditSiteManager(ent.siteManager || ent.owner);
-    setEditSiteManagerPhone(ent.siteManagerPhone || ent.phone);
-    setEditFocalPointName(ent.focalPointName || ent.owner);
-    setEditFocalPointPhone(ent.focalPointPhone || ent.phone);
-    setEditFocalPointRole(ent.focalPointRole || "Đại diện phối hợp");
-    setEditEmployeeCount(ent.employeeCount || 5);
-    setEditLocalWorkers(ent.localWorkersCount ?? Math.floor((ent.employeeCount || 5) / 2));
-    setEditTemporaryWorkers(ent.temporaryWorkersCount ?? Math.ceil((ent.employeeCount || 5) / 2));
-    setEditForeignWorkersCount(ent.foreignWorkersCount || (ent.foreignWorkers?.length || 0));
-    setEditSupportNeeds(ent.supportNeeds || []);
-    setEditSupportNotes(ent.supportNotes || "");
-    setEditImage(ent.image || "");
-    setEditImages(ent.images || (ent.image ? [ent.image] : []));
-    setShowEditModal(true);
+    navigate(`/edit_bussiness/${encodeURIComponent(ent.id)}`);
   };
 
   // Handle Update Business Status
@@ -763,6 +746,25 @@ export default function EnterpriseManagement({
     showToast("Đã xuất file báo cáo doanh nghiệp KP3 thành công!", "success");
   };
 
+  // SUBPAGE ROUTE RENDERING: ADD ENTERPRISE PAGE (src/page/AddShowPage)
+  if (isAddEnterpriseRoute) {
+    return (
+      <AddShowPage
+        households={households}
+        businesses={businesses}
+        onAdd={(newBusiness) => {
+          updateBusinessesList([newBusiness, ...businesses]);
+          showToast(`Đã thêm mới doanh nghiệp "${newBusiness.name}" thành công!`, "success");
+          navigate(ROUTES.DASHBOARD_ENTERPRISES);
+        }}
+        onBack={() => {
+          navigate(ROUTES.DASHBOARD_ENTERPRISES);
+        }}
+        showToast={showToast}
+      />
+    );
+  }
+
   // SUBPAGE ROUTE RENDERING: ENTERPRISE DETAIL PAGE
   if (isEnterpriseDetailRoute || viewingEnterpriseDetailId) {
     const targetId = detailPathId || viewingEnterpriseDetailId;
@@ -866,8 +868,9 @@ export default function EnterpriseManagement({
             <Button
               variant="default"
               size="sm"
-              onClick={() => setShowAddModal(true)}
+              onClick={() => navigate(ROUTES.DASHBOARD_ADD_ENTERPRISE)}
               className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm cursor-pointer"
+              title="Chuyển sang trang tạo lập hồ sơ doanh nghiệp mới (/dashboard/enterprises/add)"
             >
               <Plus size={14} />
               <span>+ Thêm Doanh Nghiệp</span>
